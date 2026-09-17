@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHSAT Parent Page</title>
+<style>
+  :root{--ink:#1A2B4A;--accent:#7A4A1F;--soft:#F3F0EA;--bg:#FBFAF7;--good:#1E7A4A;--bad:#A32B2B;--warn:#8a6d00;--line:#DDD6C9}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Georgia,serif}
+  .wrap{max-width:640px;margin:0 auto;padding:24px 18px 60px}
+  h1{font-size:26px;margin:0 0 4px}
+  .sub{color:var(--accent);font-size:14px;margin-bottom:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0}
+  input{font:20px ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;padding:10px 12px;border:1px solid var(--line);border-radius:8px;width:100%}
+  button{font-family:inherit;font-size:15px;cursor:pointer;border-radius:6px;border:1px solid var(--ink);background:var(--ink);color:#fff;padding:9px 16px;margin-top:10px}
+  button.secondary{background:#fff;color:var(--ink)}
+  .result{margin-top:14px;padding:12px 14px;border-radius:8px;display:none}
+  .result.show{display:block}
+  .valid{background:#EEF7F1;border:1px solid var(--good)}
+  .invalid{background:#FBEFEF;border:1px solid var(--bad)}
+  .redeemed{background:#FFF8E1;border:1px solid var(--warn)}
+  .big{font-size:22px;font-weight:bold}
+  .meta{font:13px system-ui,sans-serif;color:#6B6355}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:6px 4px;border-top:1px solid var(--line)}
+  th{font:12px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#6B6355}
+  code{font:700 15px ui-monospace,Menlo,monospace;letter-spacing:.06em}
+  .stats{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:8px}
+  .stats b{display:block;font-size:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SHSAT Parent Page</h1>
+  <div class="sub">Check a screen-time voucher earned in the SHSAT Practice or SHSAT Grammar app</div>
+  <div class="card">
+    <label class="meta" for="code">Voucher code (10 characters)</label>
+    <input id="code" placeholder="ABCD123456" autocomplete="off" oninput="verify()">
+    <div id="result" class="result"></div>
+  </div>
+  <div class="card">
+    <h3 style="margin:0 0 8px">Redeemed</h3>
+    <div class="stats" id="stats"></div>
+    <div id="history"></div>
+  </div>
+  <p class="meta">Codes are signed, so a made-up code fails. Redeeming marks the code used on this device only; a redeemed code is still flagged if it is entered here again.</p>
+</div>
+<script src="voucher-crypto.js"></script>
+<script>
+var KEY = 'shsat_parent_redeemed';
+function list(){ try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; } }
+function saveList(l){ localStorage.setItem(KEY, JSON.stringify(l)); }
+var current = null;
+
+function verify(){
+  var code = document.getElementById('code').value.trim().toUpperCase().replace(/[\s-]/g, '');
+  var box = document.getElementById('result'); current = null;
+  box.className = 'result';
+  if (code.length < 10) return;
+  var item = verifyVoucherCode(code);
+  if (!item) { box.className = 'result show invalid'; box.innerHTML = '<div class="big">Not a valid code</div><div class="meta">Mistyped, or not issued by the app.</div>'; return; }
+  var used = list().find(function(v){ return v.code === code; });
+  if (used) {
+    box.className = 'result show redeemed';
+    box.innerHTML = '<div class="big">Already redeemed</div>' + item.icon + ' ' + item.name + '<div class="meta">Used ' + new Date(used.date).toLocaleString() + '</div>';
+    return;
+  }
+  current = { code: code, item: item };
+  box.className = 'result show valid';
+  box.innerHTML = '<div class="big">Valid: ' + item.icon + ' ' + item.name + '</div><div class="meta">' + item.minutes + ' minutes' + (item.note ? ' · ' + item.note : '') + '</div>' +
+    '<button onclick="redeem()">Mark as used</button>';
+}
+function redeem(){
+  if (!current) return;
+  var l = list(); l.push({ code: current.code, itemId: current.item.id, minutes: current.item.minutes, date: new Date().toISOString() }); saveList(l);
+  verify(); history();
+}
+function history(){
+  var l = list(), week = Date.now() - 7 * 864e5, total = 0, thisWeek = 0;
+  l.forEach(function(v){ total += v.minutes; if (new Date(v.date).getTime() > week) thisWeek += v.minutes; });
+  document.getElementById('stats').innerHTML = '<div class="meta"><b>' + l.length + '</b>vouchers</div><div class="meta"><b>' + thisWeek + '</b>min this week</div><div class="meta"><b>' + total + '</b>min all time</div>';
+  var h = document.getElementById('history');
+  if (!l.length) { h.innerHTML = '<div class="meta">Nothing redeemed yet.</div>'; return; }
+  h.innerHTML = '<table><tr><th>Code</th><th>For</th><th>When</th></tr>' + l.slice().reverse().map(function(v){
+    var it = storeItem(v.itemId) || { name: v.itemId };
+    return '<tr><td><code>' + v.code + '</code></td><td>' + it.name + '</td><td>' + new Date(v.date).toLocaleDateString() + '</td></tr>';
+  }).join('') + '</table>';
+}
+history();
+</script>
+</body>
+</html>

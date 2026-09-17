@@ -105,6 +105,8 @@
 <div id="app"></div>
 </div>
 
+<script src="voucher-crypto.js"></script>
+<script src="rewards.js"></script>
 <script src="bank.js"></script>
 <script>
 /* ============================ DATA ============================ */
@@ -207,6 +209,7 @@ function home(){
       <div><p class="meta" style="margin:0">One Revising/Editing piece, one grid-in set, and one reading passage or math chunk, about 30 minutes. New material every day until all 12 forms are used.</p>
       <div class="meta" style="margin-top:6px">${daily.streak ? '<b>' + daily.streak + '-day streak</b> &middot; ' : ''}${doneToday ? 'Done today: ' + daily.lastScore : 'not done yet today'}</div></div>
       <button class="primary" onclick="startDaily()">${doneToday ? 'Do another' : 'Start today'}</button></div></div>
+    <div class="card" id="store"></div>
     <h2>Start here: what the ISEE did not cover</h2>
     <div class="card">
       <p class="meta" style="margin:0 0 10px">The ISEE has no grammar section and no fill-in math. The SHSAT has both: 9 to 20 Revising/Editing questions at the start of ELA, and 5 grid-in questions at the start of Math. Each button below mixes pieces from a few forms you have not done yet. Reading and multiple-choice math overlap with the ISEE, so they are further down.</p>
@@ -242,7 +245,7 @@ function home(){
     h += `</details>`;
   });
   h += `<p class="note" style="margin-top:26px">Read the explanation on every one you miss, not just the score.</p>`;
-  app.innerHTML = h;
+  app.innerHTML = h; renderStore();
 }
 function drillRow(b, s){
   const tag = b.kind in NEW_TO_ISEE ? '<span class="tag">not on ISEE</span>' : '';
@@ -390,6 +393,8 @@ window.finish = function(){
   missed.forEach(m=>log.push({...m, setScore:c+' / '+all.length, setTime:time}));
   save('misslog', log.slice(-300));
 
+  const answered = all.filter(({q}) => { const v = RUN.answers[q.id]; return v !== undefined && v !== ''; }).length;
+  addXP(answered * XP_PER_QUESTION + (RUN.daily ? 50 : RUN.test ? 100 : 0), RUN.daily ? 'daily session done' : RUN.test ? 'full section done' : answered + ' answered');
   if(RUN.daily){
     const d = load('daily',{}), today = new Date().toISOString().slice(0,10);
     const yday = new Date(Date.now()-864e5).toISOString().slice(0,10);
