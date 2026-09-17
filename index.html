@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHSAT Practice</title>
+<style>
+  :root{
+    --ink:#1A2B4A; --accent:#7A4A1F; --soft:#F3F0EA; --bg:#FBFAF7;
+    --good:#1E7A4A; --bad:#A32B2B; --line:#DDD6C9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.65 Georgia,'Iowan Old Style',serif;}
+  .wrap{max-width:820px;margin:0 auto;padding:24px 18px 80px}
+  header{border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:22px}
+  h1{font-size:26px;margin:0 0 4px}
+  .sub{color:var(--accent);font-size:14px}
+  h2{font-size:21px;margin:26px 0 6px}
+  h3{font-size:18px;margin:0 0 4px}
+  button{font-family:inherit;font-size:15px;cursor:pointer;border-radius:6px;
+    border:1px solid var(--ink);background:#fff;color:var(--ink);padding:9px 16px}
+  button:hover{background:var(--soft)}
+  button.primary{background:var(--ink);color:#fff}
+  button.primary:hover{opacity:.88}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  button.small{font-size:13px;padding:4px 10px;font-family:system-ui,sans-serif}
+  select,input[type=text]{font:inherit;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:#fff}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0}
+  .meta{font-size:13px;color:#6B6355;font-family:system-ui,sans-serif}
+  .tag{display:inline-block;font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+    background:var(--soft);border:1px solid var(--line);border-radius:20px;
+    padding:2px 9px;margin-right:6px;color:var(--accent);font-family:system-ui,sans-serif}
+  .passage{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin:10px 0 18px}
+  .passage h3{margin:0 0 10px;font-size:19px}
+  .passage p{margin:0 0 12px}
+  .passage .intro{font-style:italic;color:#4a4a4a;border-bottom:1px solid var(--line);margin-bottom:12px;padding-bottom:4px}
+  .passage img{max-width:100%;display:block;margin:12px auto;border:1px solid var(--line)}
+  .ln{font:11px/1 system-ui,sans-serif;color:#9A9284;margin-right:6px;vertical-align:top}
+  .q{border-top:1px solid var(--line);padding:16px 0}
+  .q:first-child{border-top:none}
+  .qtext{font-weight:bold;margin-bottom:9px}
+  .qtext p{margin:0 0 8px}
+  .qtext blockquote{font-weight:normal;margin:8px 0 10px;padding:10px 14px;border:1px solid var(--line);border-radius:6px;background:#fff}
+  .qimg{max-width:100%;display:block;border:1px solid var(--line);border-radius:6px;margin-bottom:10px}
+  label.opt{display:block;padding:8px 11px;margin:5px 0;border:1px solid var(--line);
+    border-radius:7px;cursor:pointer;background:#fff}
+  label.opt:hover{background:var(--soft)}
+  label.opt input{margin-right:9px}
+  label.opt b{font-family:system-ui,sans-serif;margin-right:6px}
+  label.opt.correct{border-color:var(--good);background:#EEF7F1}
+  label.opt.chosen-wrong{border-color:var(--bad);background:#FBEFEF}
+  .letters label.opt{display:inline-block;margin-right:8px;min-width:64px;text-align:center}
+  .gridin{margin:6px 0}
+  .gridin input{width:160px;font-size:17px}
+  .gridin.correct input{border-color:var(--good);background:#EEF7F1}
+  .gridin.chosen-wrong input{border-color:var(--bad);background:#FBEFEF}
+  .exp{font-size:14.5px;background:var(--soft);border-left:3px solid var(--accent);
+    padding:10px 13px;margin-top:9px;border-radius:0 6px 6px 0}
+  .exp p{margin:0 0 7px}
+  .exp img{max-width:100%;display:block;background:#fff;border:1px solid var(--line)}
+  .exp .ok{color:var(--good)}
+  .bar{position:sticky;top:0;background:var(--bg);padding:9px 0;z-index:9;
+    border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;
+    font:14px system-ui,sans-serif;flex-wrap:wrap}
+  .timer{font-variant-numeric:tabular-nums;font-weight:bold}
+  .over{color:var(--bad)}
+  .score{font-size:30px;font-weight:bold}
+  .hide{display:none}
+  .note{font-size:14px;color:#6B6355;font-style:italic}
+  .linkish{background:none;border:none;padding:0;color:var(--accent);text-decoration:underline;font:inherit;font-size:14px;cursor:pointer}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .drill{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:15px}
+  .drill:first-child{border-top:none}
+  .drill .meta{white-space:nowrap}
+  details summary{cursor:pointer;font-size:17px;font-weight:bold;padding:6px 0}
+  .rpt-head{border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:16px}
+  .rpt-sec{font:bold 13px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;margin:22px 0 6px;color:var(--accent)}
+  .rpt-item{border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:10px 0;background:#fff;break-inside:avoid}
+  .rpt-q{font-weight:bold;margin-bottom:7px}
+  .rpt-q p{margin:0 0 6px}
+  .rpt-q blockquote{font-weight:normal;margin:6px 0;padding:8px 12px;border:1px solid var(--line);border-radius:6px}
+  .rpt-q img{max-width:100%;display:block;border:1px solid var(--line)}
+  .rpt-row{font-size:14.5px;margin:3px 0}
+  .rpt-row .lab{display:inline-block;min-width:104px;color:#6B6355;font:12px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.04em}
+  .rpt-wrong{color:var(--bad)}
+  .rpt-right{color:var(--good)}
+  .scorebar{display:flex;flex-wrap:wrap;gap:8px 18px;margin:8px 0 14px;font:14px system-ui,sans-serif}
+  .scorebar b{display:block;font-size:18px}
+  .scorebar .meta{display:block;font-size:12px}
+  @media print{
+    .noprint,.bar{display:none!important}
+    body{background:#fff;font-size:12.5px}
+    .wrap{max-width:none;padding:0}
+    .rpt-item{border-color:#999}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>SHSAT Practice</h1>
+  <div class="sub">Official NYC DOE sample tests, 2018&ndash;2025 &middot; ELA and Math, timed, with a review sheet</div>
+</header>
+<div id="app"></div>
+</div>
+
+<script src="bank.js"></script>
+<script>
+/* ============================ DATA ============================ */
+const SECTION_MIN = 90;                 // suggested time per section on the paper test
+const FORM_LABEL = f => f.id.slice(0,4) + ' Form ' + f.id.slice(4);
+
+/* A "block" is one runnable unit: a passage (or none) plus its questions.
+   Every question carries the fields the runner needs: id, kind, html/img,
+   opts, letters, a (index or grid-in string), exp (html or img). */
+function elaBlocks(f){
+  const out = [];
+  f.ela.parts.forEach((p, pi) => p.groups.forEach((g, gi) => {
+    const title = g.passage && g.passage.title ? g.passage.title
+                : (p.name.startsWith('Reading') ? 'Reading passage ' + (gi+1) : p.name);
+    out.push({
+      id: f.id + ':e' + pi + '.' + gi, form: f.id, section: 'ela', kind: pi===0 ? 'rea' : pi===1 ? 'reb' : 'rc',
+      title: p.name === title ? title : p.name.replace('Revising/Editing ', 'R/E ') + ' — ' + title,
+      passage: g.passage,
+      questions: g.questions.map(q => ({ ...q, kind: 'text', id: f.id + ':' + q.n }))
+    });
+  }));
+  return out;
+}
+function mathBlocks(f){
+  const out = [{ id: f.id + ':g', form: f.id, section: 'math', kind: 'grid', title: 'Grid-in (58–62)', passage: null,
+    questions: f.math.grid.map(q => ({ ...q, kind: 'grid', id: f.id + ':' + q.n })) }];
+  const mc = f.math.mc.map(q => ({ ...q, kind: 'img', id: f.id + ':' + q.n }));
+  for (let i = 0; i < mc.length; i += 13){
+    const chunk = mc.slice(i, i + 13);
+    out.push({ id: f.id + ':m' + i, form: f.id, section: 'math', kind: 'mc', passage: null,
+      title: 'Multiple choice ' + chunk[0].n + '–' + chunk[chunk.length-1].n, questions: chunk });
+  }
+  return out;
+}
+const FORMS = BANK.map(f => ({ ...f, label: FORM_LABEL(f), ela: elaBlocks(f), math: mathBlocks(f) }));
+const BLOCKS = {};
+FORMS.forEach(f => f.ela.concat(f.math).forEach(b => { b.formLabel = f.label; BLOCKS[b.id] = b; }));
+const NEW_TO_ISEE = { rea: 'Revising/Editing: single sentences and short paragraphs',
+                      reb: 'Revising/Editing: a whole passage',
+                      grid: 'Grid-in math: no choices, you produce the number' };
+const MIX_N = { rea: 3, reb: 2, grid: 3 };        // forms per mixed set
+
+/* ============================ STATE ============================ */
+const app = document.getElementById('app');
+let timerId = null, elapsed = 0;
+let RUN = null;     // {blocks, title, target, test, oneAtATime, idx, answers:{qid:value}}
+
+function save(k,v){ try{ localStorage.setItem('shsat:'+k, JSON.stringify(v)); }catch(e){} }
+function load(k,d){ try{ const v=localStorage.getItem('shsat:'+k); return v?JSON.parse(v):d; }catch(e){ return d; } }
+function fmt(s){ const m=Math.floor(s/60), r=s%60; return m+":"+String(r).padStart(2,"0"); }
+function startTimer(target){
+  elapsed=0; clearInterval(timerId);
+  timerId=setInterval(()=>{ elapsed++; const el=document.getElementById('timer');
+    if(el){ el.textContent=fmt(elapsed); el.className='timer'+(elapsed>target?' over':''); } },1000);
+}
+function stopTimer(){ clearInterval(timerId); timerId=null; }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+/* grid-in answers: "-0.4", "19.2", "3/4", ".5" all compare numerically */
+function num(s){
+  s = String(s==null?'':s).trim().replace(/[,\s]/g,'').replace(/[–−]/g,'-');
+  if(!s) return NaN;
+  const m = s.match(/^(-?)(\d+)\/(\d+)$/);
+  if(m) return (m[1]?-1:1) * (+m[2]) / (+m[3]);
+  return Number(s);
+}
+function gridOK(given, key){ const a=num(given), b=num(key); return !isNaN(a) && !isNaN(b) && Math.abs(a-b) < 1e-6; }
+
+function isRight(q, v){
+  if(q.kind==='grid') return gridOK(v, q.a);
+  return v !== undefined && v !== null && v !== '' && +v === q.a;
+}
+function shown(q, v){          // what the student chose, for the report
+  if(v===undefined||v===null||v==='') return 'left blank';
+  if(q.kind==='grid') return esc(v);
+  return q.kind==='text' ? q.letters[v] + '. ' + esc(q.opts[v]) : q.letters[v];
+}
+function keyText(q){
+  if(q.kind==='grid') return esc(q.a);
+  return q.kind==='text' ? q.letters[q.a] + '. ' + esc(q.opts[q.a]) : q.letters[q.a];
+}
+function expHTML(q){
+  if(!q.exp) return '<i>No explanation is published for this form.</i>';
+  return q.kind==='text' ? q.exp : '<img src="'+q.exp+'" alt="explanation">';
+}
+
+/* ============================ HOME ============================ */
+function home(){
+  stopTimer(); RUN = null;
+  const scores = load('scores',{});
+  const nMiss = load('misslog',[]).length;
+  const sel = load('form', FORMS[FORMS.length-1].id);
+  const one = load('one', false);
+  const undone = k => FORMS.map(f => f.ela.concat(f.math).find(b => b.kind===k)).filter(b => !scores[b.id]).length;
+  const today = new Date().toISOString().slice(0,10);
+  const daily = load('daily', {});
+  const doneToday = daily.last === today;
+  let h = `<h2>Today&rsquo;s 30 minutes</h2>
+    <div class="card"><div class="row" style="justify-content:space-between">
+      <div><p class="meta" style="margin:0">One Revising/Editing piece, one grid-in set, and one reading passage or math chunk, about 30 minutes. New material every day until all 12 forms are used.</p>
+      <div class="meta" style="margin-top:6px">${daily.streak ? '<b>' + daily.streak + '-day streak</b> &middot; ' : ''}${doneToday ? 'Done today: ' + daily.lastScore : 'not done yet today'}</div></div>
+      <button class="primary" onclick="startDaily()">${doneToday ? 'Do another' : 'Start today'}</button></div></div>
+    <h2>Start here: what the ISEE did not cover</h2>
+    <div class="card">
+      <p class="meta" style="margin:0 0 10px">The ISEE has no grammar section and no fill-in math. The SHSAT has both: 9 to 20 Revising/Editing questions at the start of ELA, and 5 grid-in questions at the start of Math. Each button below mixes pieces from a few forms you have not done yet. Reading and multiple-choice math overlap with the ISEE, so they are further down.</p>
+      ${Object.keys(NEW_TO_ISEE).map(k => `<div class="drill"><span>${NEW_TO_ISEE[k]} <span class="meta">${undone(k)} of ${FORMS.length} forms left</span></span>
+        <button class="small primary" onclick="startMix('${k}')">Start</button></div>`).join('')}
+    </div>
+    <h2>Run a full section</h2>
+    <div class="card">
+      <p class="meta" style="margin:0 0 10px">A whole ELA or Math section from one form, ${SECTION_MIN} minutes suggested, no answers shown until the end. Every miss goes onto the review sheet.</p>
+      <div class="row">
+        <select id="formsel" onchange="save('form',this.value)">${FORMS.map(f=>`<option value="${f.id}" ${f.id===sel?'selected':''}>${f.label}</option>`).join('')}</select>
+        <button class="primary" onclick="startSection('ela')">ELA &mdash; 57 questions</button>
+        <button class="primary" onclick="startSection('math')">Math &mdash; 57 questions</button>
+      </div>
+      <label class="meta" style="display:block;margin-top:12px"><input type="checkbox" id="onecb" ${one?'checked':''} onchange="save('one',this.checked)">
+        One question at a time, no going back &mdash; the way the computer-adaptive test works from fall 2026.</label>
+    </div>
+    <div class="card">
+      <h3>Review sheet</h3>
+      <div class="meta">${nMiss? nMiss+' question'+(nMiss===1?'':'s')+' logged' : 'nothing logged yet'}</div>
+      <button class="primary" style="margin-top:10px" onclick="go('report')">Open &amp; print</button>
+    </div>
+    <p class="note">The real test is 3 hours for both sections, no calculator. From fall 2026 it is a computer-adaptive test with 50 ELA and 50 Math items; the content is the same as these paper forms, and the grid-in questions are typed into an equation editor rather than bubbled.</p>
+    <h2>Practice one piece at a time</h2>
+    <p class="meta">Answers and explanations are shown as soon as you submit. Scores are remembered on this device.</p>`;
+  FORMS.forEach(f=>{
+    const done = f.ela.concat(f.math).filter(b=>scores[b.id]).length;
+    h += `<details class="card" ${f.id===sel?'open':''}><summary>${f.label} <span class="meta">${done? done+' of '+(f.ela.length+f.math.length)+' pieces done' : ''}</span></summary>`;
+    h += `<div class="meta" style="margin:8px 0 2px"><span class="tag">ELA</span></div>`;
+    f.ela.forEach(b=>h+=drillRow(b, scores[b.id]));
+    h += `<div class="meta" style="margin:14px 0 2px"><span class="tag">Math</span></div>`;
+    f.math.forEach(b=>h+=drillRow(b, scores[b.id]));
+    h += `</details>`;
+  });
+  h += `<p class="note" style="margin-top:26px">Read the explanation on every one you miss, not just the score.</p>`;
+  app.innerHTML = h;
+}
+function drillRow(b, s){
+  const tag = b.kind in NEW_TO_ISEE ? '<span class="tag">not on ISEE</span>' : '';
+  return `<div class="drill"><span>${tag}${esc(b.title)} <span class="meta">${b.questions.length} q</span></span>
+    <span class="row"><span class="meta">${s? s.c+' / '+s.t+' in '+fmt(s.time) : ''}</span>
+    <button class="small ${s?'':'primary'}" onclick="startDrill('${b.id}')">${s?'Again':'Start'}</button></span></div>`;
+}
+
+/* ============================ RUNNER ============================ */
+window.startMix = function(kind){
+  const scores = load('scores',{});
+  const pool = FORMS.map(f => f.ela.concat(f.math).filter(b => b.kind===kind)).filter(a => a.length);
+  const fresh = pool.filter(a => !a.some(b => scores[b.id])), done = pool.filter(a => a.some(b => scores[b.id]));
+  const shuffle = a => a.sort(() => Math.random() - .5);
+  const picks = shuffle(fresh).concat(shuffle(done)).slice(0, MIX_N[kind]).flat();
+  const n = picks.reduce((s,b) => s + b.questions.length, 0);
+  RUN = { blocks: picks, title: NEW_TO_ISEE[kind].split(':')[0], mix: true, target: Math.round(SECTION_MIN*60*n/57),
+          test:false, one: load('one',false), idx:0, answers:{} };
+  runView();
+};
+/* Daily: R/E (A and B alternate), grid-ins, then reading and math MC on alternate days. Undone blocks first. */
+window.startDaily = function(){
+  const scores = load('scores',{}), daily = load('daily',{});
+  const day = daily.count || 0;
+  const pick = kind => { const all = FORMS.flatMap(f => f.ela.concat(f.math).filter(b => b.kind===kind));
+    const fresh = all.filter(b => !scores[b.id]); const pool = fresh.length ? fresh : all; return pool[Math.floor(Math.random()*pool.length)]; };
+  const blocks = [pick(day % 2 ? 'reb' : 'rea'), pick('grid'), pick(day % 2 ? 'mc' : 'rc')];
+  const n = blocks.reduce((s,b) => s + b.questions.length, 0);
+  RUN = { blocks, title: 'Today\u2019s 30 minutes', mix: true, daily: true, target: Math.round(SECTION_MIN*60*n/57),
+          test:false, one: load('one',false), idx:0, answers:{} };
+  runView();
+};
+window.startDrill = function(id){
+  const b = BLOCKS[id];
+  const n = b.questions.length;
+  RUN = { blocks:[b], title:b.title, target:Math.round(SECTION_MIN*60*n/57), test:false,
+          one: load('one',false), idx:0, answers:{}, form:b.form };
+  runView();
+};
+window.startSection = function(section){
+  const fid = document.getElementById('formsel').value;
+  const f = FORMS.find(x=>x.id===fid);
+  RUN = { blocks: f[section], title: f.label + ' — ' + (section==='ela'?'English Language Arts':'Mathematics'),
+          target: SECTION_MIN*60, test:true, one: load('one',false), idx:0, answers:{}, form:fid };
+  save('misslog', []);            // a fresh full section starts a fresh review sheet
+  runView();
+};
+
+function qHTML(q, i){
+  const stem = q.kind==='text' ? (q.html.startsWith('<p>') ? q.html.replace('<p>', `<p>${q.n}. `) : `<p>${q.n}.</p>` + q.html) : `<p>${q.n}.</p>`;
+  let h = `<div class="q" id="q_${i}"><div class="qtext">${stem}</div>`;
+  if(q.kind!=='text') h += `<img class="qimg" src="${q.img}" alt="question ${q.n}">`;
+  if(q.kind==='grid'){
+    h += `<div class="gridin" id="g_${i}"><input type="text" inputmode="decimal" placeholder="your answer" data-q="${i}" value="${esc(RUN.answers[q.id]||'')}" oninput="RUN.answers['${q.id}']=this.value"></div>`;
+  } else {
+    h += `<div class="${q.kind==='img'?'letters':''}">`;
+    q.letters.forEach((L,j)=>{
+      const on = RUN.answers[q.id]===j ? 'checked' : '';
+      h += `<label class="opt" id="o_${i}_${j}"><input type="radio" name="q${i}" value="${j}" ${on} onchange="RUN.answers['${q.id}']=${j}"><b>${L}.</b>${q.kind==='text'? esc(q.opts[j]) : ''}</label>`;
+    });
+    h += `</div>`;
+  }
+  h += `<div class="exp hide" id="e_${i}"></div></div>`;
+  return h;
+}
+function passageHTML(p){
+  if(!p) return '';
+  return `<div class="passage">${p.title?'<h3>'+esc(p.title)+'</h3>':''}${p.html}${(p.figs||[]).map(f=>`<img src="${f}" alt="figure">`).join('')}</div>`;
+}
+
+/* flat list of questions with their block, so one-at-a-time mode can step through */
+function flat(){ const out=[]; RUN.blocks.forEach(b=>b.questions.forEach(q=>out.push({b,q}))); return out; }
+
+function runView(){
+  const all = flat();
+  let h = `<div class="bar"><button onclick="confirmHome()">&larr; Back</button>
+     <span>${esc(RUN.title)}</span><span>Target ${fmt(RUN.target)}</span><span class="timer" id="timer">0:00</span>
+     ${RUN.one? `<span id="prog" class="meta">1 / ${all.length}</span>`:''}</div>`;
+  if(RUN.one){
+    h += `<div id="one"></div>`;
+    app.innerHTML = h; startTimer(RUN.target); RUN.idx = 0; renderOne();
+    return;
+  }
+  let i = 0;
+  RUN.blocks.forEach(b=>{
+    h += `<h2>${esc((RUN.mix ? b.formLabel + ' — ' : '') + b.title)}</h2>` + passageHTML(b.passage) + `<div class="card">`;
+    b.questions.forEach(q=>{ h += qHTML(q, i++); });
+    h += `</div>`;
+  });
+  h += `<button class="primary" style="margin-top:14px" onclick="finish()">Submit answers</button>`;
+  app.innerHTML = h;
+  startTimer(RUN.target);
+}
+function renderOne(){
+  const all = flat(); const {b,q} = all[RUN.idx];
+  const prev = RUN.idx>0 ? all[RUN.idx-1].b : null;
+  let h = '';
+  if(b.passage && b !== prev) h += passageHTML(b.passage);
+  else if(b.passage) h += `<details class="passage" style="padding:10px 18px"><summary class="meta">Show the passage again</summary>${b.passage.html}${(b.passage.figs||[]).map(f=>`<img src="${f}">`).join('')}</details>`;
+  h += `<div class="card">` + qHTML(q, RUN.idx) + `</div>
+    <div class="row"><button class="primary" onclick="nextOne()">${RUN.idx===all.length-1?'Submit answers':'Next →'}</button>
+    <span class="note">You cannot come back to this question.</span></div>`;
+  document.getElementById('one').innerHTML = h;
+  document.getElementById('prog').textContent = (RUN.idx+1) + ' / ' + all.length;
+  window.scrollTo(0,0);
+}
+window.nextOne = function(){
+  const all = flat(); const {q} = all[RUN.idx];
+  const v = RUN.answers[q.id];
+  if(v===undefined || v===''){ if(!confirm('No answer chosen. Leave it blank and move on?')) return; }
+  if(RUN.idx === all.length-1){ finish(); return; }
+  RUN.idx++; renderOne();
+};
+window.confirmHome = function(){
+  if(RUN && Object.keys(RUN.answers).length && !confirm('Leave this set? Answers so far will be lost.')) return;
+  go('home');
+};
+
+window.finish = function(){
+  stopTimer();
+  const all = flat();
+  const time = elapsed;
+  let c = 0;
+  const missed = [];
+  const perBlock = {};
+  all.forEach(({b,q})=>{
+    const v = RUN.answers[q.id];
+    const ok = isRight(q, v);
+    if(ok) c++;
+    const pb = perBlock[b.id] = perBlock[b.id] || {c:0,t:0};
+    pb.t++; if(ok) pb.c++;
+    if(!ok) missed.push({
+      setTitle: RUN.mix ? esc(b.formLabel + ' — ' + b.title) : RUN.blocks.length>1 ? esc(RUN.title) + ' — ' + esc(b.title) : esc(b.title),
+      form: b.form,
+      qhtml: q.kind==='text' ? q.n+'. '+q.html : `<img src="${q.img}" alt="question ${q.n}">`,
+      qplain: q.kind==='text' ? q.n+'. '+plainText(q.html).slice(0,90) : 'Question '+q.n,
+      chosen: shown(q, v), correct: keyText(q), exp: expHTML(q)
+    });
+  });
+  // per-block scores (drills) and a section score
+  const scores = load('scores',{});
+  RUN.blocks.forEach(b=>{ const pb=perBlock[b.id]; scores[b.id]={c:pb.c,t:pb.t,time:RUN.blocks.length>1? Math.round(time*pb.t/all.length) : time}; });
+  save('scores', scores);
+  const log = load('misslog', []);
+  missed.forEach(m=>log.push({...m, setScore:c+' / '+all.length, setTime:time}));
+  save('misslog', log.slice(-300));
+
+  if(RUN.daily){
+    const d = load('daily',{}), today = new Date().toISOString().slice(0,10);
+    const yday = new Date(Date.now()-864e5).toISOString().slice(0,10);
+    if(d.last !== today){ d.streak = (d.last === yday ? (d.streak||0) : 0) + 1; d.count = (d.count||0) + 1; }
+    d.last = today; d.lastScore = c + ' / ' + all.length; save('daily', d);
+  }
+  if(RUN.test){ go('report'); return; }
+
+  // drill: mark answers inline, show explanations
+  if(RUN.one){
+    // rebuild the whole set as a scrolling page so every question can be reviewed
+    let h = `<div class="bar"><button onclick="go('home')">&larr; Back</button><span>${esc(RUN.title)}</span></div>`;
+    let i = 0;
+    RUN.blocks.forEach(b=>{ h += `<h2>${esc((RUN.mix ? b.formLabel + ' — ' : '') + b.title)}</h2>` + passageHTML(b.passage) + `<div class="card">`; b.questions.forEach(q=>{ h += qHTML(q, i++); }); h += `</div>`; });
+    app.innerHTML = h;
+  }
+  all.forEach(({q}, i)=>{
+    const v = RUN.answers[q.id];
+    if(q.kind==='grid'){
+      const g = document.getElementById('g_'+i);
+      g.classList.add(isRight(q,v)?'correct':'chosen-wrong');
+      g.querySelector('input').disabled = true;
+      g.insertAdjacentHTML('beforeend', `<span class="meta" style="margin-left:10px">Answer: <b>${esc(q.a)}</b></span>`);
+    } else {
+      document.getElementById(`o_${i}_${q.a}`).classList.add('correct');
+      if(v!==undefined && v!=='' && +v!==q.a) document.getElementById(`o_${i}_${v}`).classList.add('chosen-wrong');
+      document.querySelectorAll(`input[name="q${i}"]`).forEach(r=>r.disabled=true);
+    }
+    const e = document.getElementById('e_'+i); e.innerHTML = expHTML(q); e.classList.remove('hide');
+  });
+  const banner = document.createElement('div'); banner.className='card';
+  banner.innerHTML = `<div class="score">${c} / ${all.length}</div>
+    <div class="meta">Time ${fmt(time)} (target ${fmt(RUN.target)})</div>
+    <div class="exp" style="margin-top:12px">${missed.length? 'Read the explanation on each one you missed, then say out loud what you would do differently.' : 'Clean sweep. Try a harder piece, or a full timed section.'}</div>
+    <button class="primary" style="margin-top:12px" onclick="go('home')">Back to list</button>`;
+  const first = app.querySelector('.card'); first.parentNode.insertBefore(banner, first);
+  banner.scrollIntoView({behavior:'smooth'});
+  document.querySelector('button.primary[onclick="finish()"]')?.remove();
+};
+
+/* ============================ REPORT ============================ */
+function plainText(html){ const d=document.createElement('div'); d.innerHTML=String(html==null?'':html); return (d.textContent||'').replace(/\s+/g,' ').trim(); }
+
+function reportView(){
+  stopTimer();
+  const log = load('misslog', []);
+  const bySet = {};
+  log.forEach(e=>{ (bySet[e.setTitle] = bySet[e.setTitle] || []).push(e); });
+  let h = `<div class="bar noprint">
+      <button onclick="go('home')">&larr; Back</button>
+      <button class="primary" onclick="window.print()">Print / Save as PDF</button>
+      <button onclick="emailReport()">Email results</button>
+      <button onclick="clearReport()">Clear</button>
+    </div>
+    <div class="rpt-head"><h2 style="margin:0">Review sheet</h2>
+    <div class="meta">Generated ${new Date().toLocaleDateString(undefined,{weekday:'long', day:'numeric', month:'long', year:'numeric'})}</div></div>`;
+  if(!log.length){
+    h += `<div class="card"><p>Nothing logged yet. Work through a piece, or run a full section, and every question you miss lands here.</p></div>`;
+    app.innerHTML = h; return;
+  }
+  h += `<div class="scorebar">`;
+  Object.keys(bySet).forEach(k=>{
+    const rows = bySet[k], last = rows[rows.length-1];
+    h += `<div>${k}<b>${rows.length} missed</b><span class="meta">${last.setScore} correct &middot; ${fmt(last.setTime)}</span></div>`;
+  });
+  h += `</div>`;
+  h += `<p class="note noprint">On iPhone: <b>Print / Save as PDF</b>, then the share icon, then Mail. <b>Email results</b> sends the scores and the list of misses as plain text. <button class="linkish" onclick="changeMail()">Change email address</button></p>
+        <p class="note">One card per question missed. Read the explanation, then say out loud what you would do differently. That sentence is the part that sticks.</p>`;
+  Object.keys(bySet).forEach(setTitle=>{
+    h += `<div class="rpt-sec">${setTitle}</div>`;
+    bySet[setTitle].forEach(e=>{
+      h += `<div class="rpt-item">
+        <div class="rpt-q">${e.qhtml}</div>
+        <div class="rpt-row"><span class="lab">You chose</span><span class="rpt-wrong">${e.chosen}</span></div>
+        <div class="rpt-row"><span class="lab">Answer</span><span class="rpt-right">${e.correct}</span></div>
+        <div class="exp">${e.exp}</div>
+        <div class="rpt-row" style="margin-top:9px"><span class="lab">What I'd do differently</span>
+          <span style="display:inline-block;border-bottom:1px solid var(--line);min-width:58%">&nbsp;</span></div>
+      </div>`;
+    });
+  });
+  app.innerHTML = h;
+}
+function recipient(force){
+  let to = load('mailto', '');
+  if(force || !to){ to = (prompt('Email results to which address?', to || '') || '').trim(); if(!to) return ''; save('mailto', to); }
+  return to;
+}
+window.changeMail = function(){ if(recipient(true)) emailReport(); };
+window.emailReport = function(){
+  const log = load('misslog', []);
+  if(!log.length){ alert('Nothing logged yet — work through a piece first.'); return; }
+  const to = recipient(false); if(!to) return;
+  const bySet = {}; log.forEach(e => { (bySet[e.setTitle] = bySet[e.setTitle] || []).push(e); });
+  const when = new Date().toLocaleDateString(undefined, {day:'numeric', month:'long', year:'numeric'});
+  const L = ['SHSAT practice — ' + when, ''];
+  Object.keys(bySet).forEach(k => { const rows=bySet[k], last=rows[rows.length-1]; L.push(plainText(k) + ' — ' + last.setScore + ' correct, ' + fmt(last.setTime) + ', ' + rows.length + ' missed'); });
+  Object.keys(bySet).forEach(k => { L.push('', plainText(k) + ':'); bySet[k].forEach(e => L.push('', '  ' + e.qplain, '      chose:   ' + plainText(e.chosen), '      correct: ' + plainText(e.correct))); });
+  L.push('', 'Explanations are in the PDF.');
+  let body = L.join('\n'); if(body.length > 4000) body = body.slice(0,4000) + '\n\n[…truncated — see the PDF]';
+  location.href = 'mailto:' + encodeURIComponent(to) + '?subject=' + encodeURIComponent('SHSAT practice — ' + when + ' — ' + log.length + ' missed') + '&body=' + encodeURIComponent(body);
+};
+window.clearReport = function(){ if(confirm('Clear the review sheet?')){ save('misslog', []); go('report'); } };
+
+window.go = function(name){
+  window.scrollTo(0,0);
+  if(name==='home') home();
+  else if(name==='report') reportView();
+};
+home();
+</script>
+</body>
+</html>
