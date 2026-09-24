@@ -72,7 +72,7 @@
   .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
   .drill{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:15px}
   .drill:first-child{border-top:none}
-  .drill .meta{white-space:nowrap}
+  .drill .meta{white-space:normal}
   details summary{cursor:pointer;font-size:17px;font-weight:bold;padding:6px 0}
   .rpt-head{border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:16px}
   .rpt-sec{font:bold 13px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;margin:22px 0 6px;color:var(--accent)}
@@ -105,8 +105,8 @@
 <div id="app"></div>
 </div>
 
-<script src="voucher-crypto.js"></script>
-<script src="rewards.js"></script>
+<script src="config.js"></script>
+<script src="log.js"></script>
 <script src="bank.js"></script>
 <script>
 /* ============================ DATA ============================ */
@@ -204,15 +204,19 @@ function home(){
   const today = new Date().toISOString().slice(0,10);
   const daily = load('daily', {});
   const doneToday = daily.last === today;
+  const grammarToday = load('dailyGrammar', '') === today;
   let h = `<h2>Today&rsquo;s 30 minutes</h2>
-    <div class="card"><div class="row" style="justify-content:space-between">
-      <div><p class="meta" style="margin:0">One Revising/Editing piece, one grid-in set, and one reading passage or math chunk, about 30 minutes. New material every day until all 12 forms are used.</p>
-      <div class="meta" style="margin-top:6px">${daily.streak ? '<b>' + daily.streak + '-day streak</b> &middot; ' : ''}${doneToday ? 'Done today: ' + daily.lastScore : 'not done yet today'}</div></div>
-      <button class="primary" onclick="startDaily()">${doneToday ? 'Do another' : 'Start today'}</button></div></div>
-    <div class="card" id="store"></div>
+    <div class="card">
+      <div class="meta" style="margin:0 0 10px">${daily.streak ? '<b>' + daily.streak + '-day streak.</b> ' : ''}Two steps. New material every day until all 12 forms are used.</div>
+      <div class="drill"><span><b>1. Grammar lesson</b> <span class="meta">one Revising/Editing concept with real questions, about 8 minutes &middot; ${grammarToday ? 'done today' : 'not yet today'}</span></span>
+        <a href="grammar.html?daily=1"><button class="small ${grammarToday ? '' : 'primary'}">${grammarToday ? 'Another' : 'Start'}</button></a></div>
+      <div class="drill"><span><b>2. Practice set</b> <span class="meta">a Revising/Editing piece, a grid-in set, and a reading passage or math chunk, about 25 minutes &middot; ${doneToday ? 'done today: ' + daily.lastScore : 'not yet today'}</span></span>
+        <button class="small ${doneToday ? '' : 'primary'}" onclick="startDaily()">${doneToday ? 'Another' : 'Start'}</button></div>
+    </div>
     <h2>Start here: what the ISEE did not cover</h2>
     <div class="card">
       <p class="meta" style="margin:0 0 10px">The ISEE has no grammar section and no fill-in math. The SHSAT has both: 9 to 20 Revising/Editing questions at the start of ELA, and 5 grid-in questions at the start of Math. Each button below mixes pieces from a few forms you have not done yet. Reading and multiple-choice math overlap with the ISEE, so they are further down.</p>
+      <div class="drill"><span>Grammar lessons: the 13 concepts behind Revising/Editing, taught by example <span class="meta">then the real questions</span></span><a href="grammar.html"><button class="small primary">Open</button></a></div>
       ${Object.keys(NEW_TO_ISEE).map(k => `<div class="drill"><span>${NEW_TO_ISEE[k]} <span class="meta">${undone(k)} of ${FORMS.length} forms left</span></span>
         <button class="small primary" onclick="startMix('${k}')">Start</button></div>`).join('')}
     </div>
@@ -245,7 +249,7 @@ function home(){
     h += `</details>`;
   });
   h += `<p class="note" style="margin-top:26px">Read the explanation on every one you miss, not just the score.</p>`;
-  app.innerHTML = h; renderStore();
+  app.innerHTML = h;
 }
 function drillRow(b, s){
   const tag = b.kind in NEW_TO_ISEE ? '<span class="tag">not on ISEE</span>' : '';
@@ -320,6 +324,7 @@ function passageHTML(p){
 function flat(){ const out=[]; RUN.blocks.forEach(b=>b.questions.forEach(q=>out.push({b,q}))); return out; }
 
 function runView(){
+  RUN.sid = newSessionId(); RUN.secs = {};
   const all = flat();
   let h = `<div class="bar"><button onclick="confirmHome()">&larr; Back</button>
      <span>${esc(RUN.title)}</span><span>Target ${fmt(RUN.target)}</span><span class="timer" id="timer">0:00</span>
@@ -349,6 +354,7 @@ function renderOne(){
     <div class="row"><button class="primary" onclick="nextOne()">${RUN.idx===all.length-1?'Submit answers':'Next →'}</button>
     <span class="note">You cannot come back to this question.</span></div>`;
   document.getElementById('one').innerHTML = h;
+  RUN.qStart = Date.now();
   document.getElementById('prog').textContent = (RUN.idx+1) + ' / ' + all.length;
   window.scrollTo(0,0);
 }
@@ -356,6 +362,7 @@ window.nextOne = function(){
   const all = flat(); const {q} = all[RUN.idx];
   const v = RUN.answers[q.id];
   if(v===undefined || v===''){ if(!confirm('No answer chosen. Leave it blank and move on?')) return; }
+  RUN.secs[q.id] = Math.round((Date.now() - RUN.qStart)/1000);
   if(RUN.idx === all.length-1){ finish(); return; }
   RUN.idx++; renderOne();
 };
@@ -393,8 +400,9 @@ window.finish = function(){
   missed.forEach(m=>log.push({...m, setScore:c+' / '+all.length, setTime:time}));
   save('misslog', log.slice(-300));
 
-  const answered = all.filter(({q}) => { const v = RUN.answers[q.id]; return v !== undefined && v !== ''; }).length;
-  addXP(answered * XP_PER_QUESTION + (RUN.daily ? 50 : RUN.test ? 100 : 0), RUN.daily ? 'daily session done' : RUN.test ? 'full section done' : answered + ' answered');
+  logEvents(all.map(({b,q}) => { const v = RUN.answers[q.id]; return { app:'practice', session:RUN.sid, kind:'answer', form:b.formLabel, block:b.title, n:q.n, tag:b.kind,
+      chosen:plainText(shown(q,v)), correct:plainText(keyText(q)), ok:isRight(q,v)?1:0, secs:(RUN.secs||{})[q.id]||'' }; })
+    .concat([{ app:'practice', session:RUN.sid, kind:'session', title:RUN.title, score:c+'/'+all.length, secs:time, tag:RUN.daily?'daily':RUN.test?'section':RUN.mix?'mix':'drill' }]));
   if(RUN.daily){
     const d = load('daily',{}), today = new Date().toISOString().slice(0,10);
     const yday = new Date(Date.now()-864e5).toISOString().slice(0,10);

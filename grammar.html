@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHSAT Grammar</title>
+<style>
+  :root{--primary:#1A2B4A;--primary-light:#2b4270;--primary-dark:#101c33;--accent:#7A4A1F;--accent-light:#F3F0EA;
+    --bg-main:#FBFAF7;--bg-card:#fff;--text:#1A2B4A;--text2:#6B6355;--border:#DDD6C9;--success:#1E7A4A;--error:#A32B2B;
+    --shadow:rgba(26,43,74,.06)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Georgia,'Iowan Old Style',serif;background:var(--bg-main);color:var(--text);min-height:100vh;line-height:1.6}
+  .container{max-width:860px;margin:0 auto;padding:24px 18px 80px}
+  header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:3px solid var(--primary);padding-bottom:10px;margin-bottom:20px}
+  h1{font-family:Georgia,serif;font-size:30px;color:var(--primary)}
+  h2{font-family:Georgia,serif;font-size:24px;color:var(--primary);margin:22px 0 8px}
+  h3{font-family:Georgia,serif;font-size:20px;color:var(--primary-dark);margin:0 0 6px}
+  .sub{color:var(--text2);font-size:14px}
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:12px 0}
+  button{font-family:inherit;font-size:15px;cursor:pointer;border-radius:8px;border:1px solid var(--primary);background:#fff;color:var(--primary);padding:9px 16px;font-weight:500}
+  button:hover{background:#eef4ef}
+  button.primary{background:var(--primary);color:#fff}
+  button.primary:hover{background:var(--primary-light)}
+  button.gold{background:var(--accent);border-color:var(--accent);color:#fff}
+  button.small{font-size:13px;padding:5px 11px}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .group{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text2);margin:18px 0 4px}
+  .concept{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--border)}
+  .concept:first-of-type{border-top:none}
+  .concept .name{font-weight:500}
+  .bar{height:6px;background:var(--border);border-radius:3px;width:120px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--primary-light)}
+  .mastery{font-size:12px;color:var(--text2);white-space:nowrap}
+  .rule{font-size:16.5px;line-height:1.7;margin-bottom:14px}
+  .pair{border-left:3px solid var(--accent);padding:8px 14px;margin:10px 0;background:#faf7f1;border-radius:0 8px 8px 0}
+  .pair .wrong{color:var(--error)}
+  .pair .right{color:var(--primary-dark);margin-top:4px}
+  s{color:var(--error);text-decoration-color:var(--error)}
+  .note{background:var(--accent-light);border-radius:8px;padding:10px 14px;margin:14px 0;font-size:14.5px}
+  .note b:first-child{color:var(--primary)}
+  .stem{font-family:Georgia,serif;font-size:19px;line-height:1.55;margin-bottom:12px}
+  .stem p{margin:0 0 8px}
+  blockquote{font-family:Georgia,serif;font-size:18px;margin:10px 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:#fff}
+  .opt{display:block;width:100%;text-align:left;padding:10px 12px;margin:6px 0;border:1px solid var(--border);border-radius:8px;background:#fff;font-family:Georgia,serif;font-size:17px;color:var(--text);font-weight:400}
+  .opt b{font-family:system-ui,sans-serif;font-size:13px;margin-right:8px;color:var(--primary)}
+  .opt:hover{background:#f6f3ec}
+  .opt.correct{border-color:var(--success);background:#e8f5e9}
+  .opt.wrong{border-color:var(--error);background:#ffebee}
+  .opt:disabled{opacity:1;cursor:default}
+  .why{margin-top:12px;padding:12px 14px;border-left:3px solid var(--accent);background:var(--accent-light);border-radius:0 8px 8px 0;font-size:15px}
+  .why p{margin:0 0 7px}
+  .why .ok{color:var(--success)}
+  .verdict{font-weight:700;margin-bottom:6px}
+  .verdict.good{color:var(--success)} .verdict.bad{color:var(--error)}
+  .passage{font-family:Georgia,serif;font-size:17px;line-height:1.6;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:14px;background:#fff;max-height:340px;overflow:auto}
+  .passage p{margin:0 0 10px}
+  .passage h3{margin-bottom:8px}
+  .ln{font:11px/1 system-ui,sans-serif;color:#9a9284;margin-right:6px;vertical-align:top}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;font-size:14px;color:var(--text2)}
+  .prog{height:5px;background:var(--border);border-radius:3px;margin:4px 0 16px;overflow:hidden}
+  .prog i{display:block;height:100%;background:var(--primary)}
+  .big{font-family:Georgia,serif;font-size:40px;color:var(--primary);font-weight:700}
+  .source{font-size:12px;color:var(--text2);margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <div><h1>SHSAT Grammar</h1><div class="sub">The Revising/Editing section, one concept at a time, then the real questions</div></div>
+  <div class="row"><button class="small" onclick="go('home')">Lessons</button><a href="index.html"><button class="small">Practice</button></a></div>
+</header>
+<div id="app"></div>
+</div>
+<script src="config.js"></script>
+<script src="log.js"></script>
+<script src="concepts.js"></script>
+<script src="items.js"></script>
+<script>
+var REAL_PER_LESSON = 5, REVIEW_SIZE = 10;
+var app = document.getElementById('app');
+function save(k,v){ try{ localStorage.setItem('shg:'+k, JSON.stringify(v)); }catch(e){} }
+function load(k,d){ try{ var v=localStorage.getItem('shg:'+k); return v?JSON.parse(v):d; }catch(e){ return d; } }
+var ST = load('concepts', {}), IT = load('items', {});
+function cs(id){ return ST[id] = ST[id] || {learned:false, cr:0, ct:0, rr:0, rt:0}; }
+function is(id){ return IT[id] = IT[id] || {wrong:0, right:0, last:0}; }
+function persist(){ save('concepts', ST); save('items', IT); }
+function shuffle(a){ return a.map(function(x){return [Math.random(),x];}).sort(function(p,q){return p[0]-q[0];}).map(function(p){return p[1];}); }
+function realFor(c){ return ITEMS.filter(function(it){ return c.tags.indexOf(it.tag) >= 0; }); }
+function mastery(c){ var s=cs(c.id), t=s.ct+s.rt; return t ? (s.cr+s.rr)/t : 0; }
+
+/* ============================ HOME ============================ */
+function home(){
+  var next = CONCEPTS.find(function(c){ return !cs(c.id).learned; });
+  var missed = ITEMS.filter(function(it){ var s=IT[it.id]; return s && s.wrong > s.right; }).length;
+  var seen = Object.keys(IT).length;
+  var h = '<div class="card"><div class="row" style="justify-content:space-between">'
+    + '<div><h3>' + (next ? 'Next up: ' + next.name : 'All 13 concepts learned') + '</h3>'
+    + '<div class="sub">' + (next ? 'Rule, examples, three quick checks, then up to ' + REAL_PER_LESSON + ' real SHSAT questions.' : 'Keep reviewing; the review mixes in every question you have missed.') + '</div></div>'
+    + (next ? '<button class="primary" onclick="learn(\'' + next.id + '\')">Learn</button>' : '') + '</div></div>';
+  h += '<div class="card"><div class="row" style="justify-content:space-between"><div><h3>Review</h3>'
+    + '<div class="sub">' + REVIEW_SIZE + ' real questions: ones you missed first (' + missed + ' waiting), then the concepts you are weakest on. ' + seen + ' of ' + ITEMS.length + ' seen so far.</div></div>'
+    + '<button class="gold" onclick="review()" ' + (seen ? '' : 'disabled') + '>Review</button></div></div>';
+  h += '<h2>Concepts</h2><div class="card">';
+  var grp = '';
+  CONCEPTS.forEach(function(c){
+    if(c.group !== grp){ grp = c.group; h += '<div class="group">' + grp + '</div>'; }
+    var s = cs(c.id), t = s.ct + s.rt, m = Math.round(mastery(c)*100), n = realFor(c).length;
+    h += '<div class="concept"><div><div class="name">' + c.name + '</div><div class="mastery">' + (n ? n + ' real questions' : 'no stand-alone test questions; taught for the explanations') + (t ? ' &middot; ' + (s.cr+s.rr) + ' / ' + t + ' right' : '') + '</div></div>'
+      + '<div class="row"><div class="bar"><i style="width:' + m + '%"></i></div>'
+      + '<button class="small ' + (s.learned ? '' : 'primary') + '" onclick="learn(\'' + c.id + '\')">' + (s.learned ? 'Again' : 'Learn') + '</button></div></div>';
+  });
+  h += '</div>';
+  app.innerHTML = h;
+}
+
+/* ============================ LESSON ============================ */
+var L = null;   // {c, step, queue, i, right, phase:'check'|'real'}
+window.learn = function(id){
+  var c = CONCEPTS.find(function(x){ return x.id===id; });
+  var real = realFor(c);
+  var unseen = shuffle(real.filter(function(it){ return !IT[it.id]; }));
+  var missed = shuffle(real.filter(function(it){ var s=IT[it.id]; return s && s.wrong > s.right; }));
+  var rest = shuffle(real.filter(function(it){ return unseen.indexOf(it)<0 && missed.indexOf(it)<0; }));
+  L = { c:c, step:'card', check:c.check.slice(), real: missed.concat(unseen, rest).slice(0, REAL_PER_LESSON), i:0, cr:0, rr:0, sid:newSessionId(), t0:Date.now() };
+  cardView();
+};
+function cardView(){
+  var c = L.c;
+  var h = '<div class="topbar"><span>' + c.group + '</span><span>Step 1 of 3: the idea</span></div>'
+    + '<div class="card"><h2 style="margin-top:0">' + c.name + '</h2><div class="rule">' + c.rule + '</div>';
+  c.pairs.forEach(function(p){ h += '<div class="pair"><div class="wrong">' + p[0] + '</div><div class="right">' + p[1] + '</div></div>'; });
+  h += '<div class="note"><b>How the test asks it.</b> ' + c.note + '</div>'
+    + '<button class="primary" onclick="startCheck()">Check yourself &rarr;</button></div>';
+  app.innerHTML = h; window.scrollTo(0,0);
+}
+window.startCheck = function(){ L.step='check'; L.i=0; checkView(); };
+function checkView(){
+  var q = L.check[L.i];
+  var h = '<div class="topbar"><span>' + L.c.name + '</span><span>Step 2 of 3: quick check ' + (L.i+1) + ' of ' + L.check.length + '</span></div>'
+    + '<div class="prog"><i style="width:' + (L.i/L.check.length*100) + '%"></i></div><div class="card"><div class="stem">' + q.q + '</div>';
+  q.opts.forEach(function(o,j){ h += '<button class="opt" id="o' + j + '" onclick="answerCheck(' + j + ')"><b>' + 'ABCD'[j] + '.</b>' + o + '</button>'; });
+  h += '<div id="why"></div></div>';
+  app.innerHTML = h; window.scrollTo(0,0); T0 = Date.now();
+}
+var T0 = Date.now();
+function secs(){ return Math.round((Date.now() - T0)/1000); }
+window.answerCheck = function(j){
+  var q = L.check[L.i], ok = j===q.a, s = cs(L.c.id);
+  s.ct++; if(ok){ s.cr++; L.cr++; } persist();
+  logEvents([{ app:'grammar', session:L.sid, kind:'answer', form:'', block:L.c.name, n:'check ' + (L.i+1), tag:L.c.id, chosen:'ABCD'[j], correct:'ABCD'[q.a], ok:ok?1:0, secs:secs() }]);
+  reveal(j, q.a, ok, q.why, L.i+1 < L.check.length ? 'nextCheck()' : 'startReal()', L.i+1 < L.check.length ? 'Next' : 'Now the real questions →');
+};
+window.nextCheck = function(){ L.i++; checkView(); };
+window.startReal = function(){ L.step='real'; L.i=0; if(!L.real.length){ doneView(); return; } realView(L.real[L.i], 'lesson'); };
+
+/* ============================ REAL ITEMS ============================ */
+function realView(it, mode){
+  var total = mode==='lesson' ? L.real.length : R.items.length, i = mode==='lesson' ? L.i : R.i;
+  var head = mode==='lesson' ? [L.c.name, 'Step 3 of 3: real question ' + (i+1) + ' of ' + total] : ['Review', 'Question ' + (i+1) + ' of ' + total + ' &middot; ' + conceptOf(it).name];
+  var h = '<div class="topbar"><span>' + head[0] + '</span><span>' + head[1] + '</span></div>'
+    + '<div class="prog"><i style="width:' + (i/total*100) + '%"></i></div>';
+  var p = it.pid && PASSAGES[it.pid];
+  if(p) h += '<div class="passage">' + (p.title ? '<h3>' + p.title + '</h3>' : '') + p.html + '</div>';
+  h += '<div class="card"><div class="source">' + it.form + ', question ' + it.n + '</div><div class="stem">' + it.html + '</div>';
+  it.opts.forEach(function(o,j){ h += '<button class="opt" id="o' + j + '" onclick="answerReal(' + j + ',\'' + mode + '\')"><b>' + it.letters[j] + '.</b>' + o + '</button>'; });
+  h += '<div id="why"></div></div>';
+  app.innerHTML = h; window.scrollTo(0,0); T0 = Date.now();
+}
+window.answerReal = function(j, mode){
+  var it = mode==='lesson' ? L.real[L.i] : R.items[R.i];
+  var ok = j===it.a, s = is(it.id), c = conceptOf(it), cst = cs(c.id);
+  if(ok){ s.right++; cst.rr++; } else { s.wrong++; } s.last = Date.now(); cst.rt++;
+  if(mode==='lesson' && ok) L.rr++; if(mode==='review' && ok) R.right++;
+  persist();
+  logEvents([{ app:'grammar', session:(mode==='lesson'?L:R).sid, kind:'answer', form:it.form, block:c.name, n:it.n, tag:it.tag, chosen:it.letters[j], correct:it.letters[it.a], ok:ok?1:0, secs:secs() }]);
+  var exp = it.exp || '<i>No explanation is published for this form.</i>';
+  var last = mode==='lesson' ? L.i+1 >= L.real.length : R.i+1 >= R.items.length;
+  reveal(j, it.a, ok, exp, last ? (mode==='lesson' ? 'doneView()' : 'reviewDone()') : (mode==='lesson' ? 'nextReal()' : 'nextReview()'), last ? 'Finish' : 'Next');
+};
+window.nextReal = function(){ L.i++; realView(L.real[L.i], 'lesson'); };
+function conceptOf(it){ return CONCEPTS.find(function(c){ return c.tags.indexOf(it.tag) >= 0; }) || CONCEPTS[CONCEPTS.length-1]; }
+
+function reveal(j, a, ok, why, next, label){
+  document.querySelectorAll('.opt').forEach(function(b){ b.disabled = true; });
+  document.getElementById('o'+a).classList.add('correct');
+  if(!ok) document.getElementById('o'+j).classList.add('wrong');
+  document.getElementById('why').innerHTML = '<div class="why"><div class="verdict ' + (ok?'good':'bad') + '">' + (ok ? 'Right.' : 'Not this one.') + '</div>' + why + '</div>'
+    + '<button class="primary" style="margin-top:12px" onclick="' + next + '">' + label + '</button>';
+  document.getElementById('why').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function doneView(){
+  var s = cs(L.c.id); s.learned = true; persist();
+  logEvents([{ app:'grammar', session:L.sid, kind:'session', title:'Lesson: ' + L.c.name, score:(L.cr+L.rr)+'/'+(L.check.length+L.real.length), secs:Math.round((Date.now()-L.t0)/1000), tag:'lesson' }]);
+  lset('dailyGrammar', new Date().toISOString().slice(0,10));
+  var next = CONCEPTS.find(function(c){ return !cs(c.id).learned; });
+  var h = '<div class="card" style="text-align:center"><div class="big">' + (L.cr + L.rr) + ' / ' + (L.check.length + L.real.length) + '</div>'
+    + '<div class="sub">' + L.c.name + ' &middot; ' + L.cr + ' of ' + L.check.length + ' quick checks, ' + L.rr + ' of ' + L.real.length + ' real questions</div>'
+    + '<div class="row" style="justify-content:center;margin-top:16px">'
+    + (DAILY ? '<a href="index.html"><button class="primary">Step 2: today\u2019s practice set \u2192</button></a>' : '')
+    + (next ? '<button class="' + (DAILY ? '' : 'primary') + '" onclick="learn(\'' + next.id + '\')">Next: ' + next.name + '</button>' : '')
+    + '<button onclick="learn(\'' + L.c.id + '\')">Do this one again</button><button onclick="go(\'home\')">Home</button></div></div>';
+  app.innerHTML = h; window.scrollTo(0,0);
+}
+
+/* ============================ REVIEW ============================ */
+var R = null;
+window.review = function(){
+  var missed = shuffle(ITEMS.filter(function(it){ var s=IT[it.id]; return s && s.wrong > s.right; }));
+  // weakest learned concepts first, unseen items from them
+  var weak = CONCEPTS.filter(function(c){ return cs(c.id).learned; }).sort(function(a,b){ return mastery(a)-mastery(b); });
+  var pool = [];
+  weak.forEach(function(c){ pool = pool.concat(shuffle(realFor(c).filter(function(it){ return !IT[it.id]; }))); });
+  var rest = shuffle(ITEMS.filter(function(it){ return missed.indexOf(it)<0 && pool.indexOf(it)<0; }));
+  R = { items: missed.concat(pool, rest).slice(0, REVIEW_SIZE), i:0, right:0, sid:newSessionId(), t0:Date.now() };
+  realView(R.items[0], 'review');
+};
+window.nextReview = function(){ R.i++; realView(R.items[R.i], 'review'); };
+window.reviewDone = function(){
+  logEvents([{ app:'grammar', session:R.sid, kind:'session', title:'Grammar review', score:R.right+'/'+R.items.length, secs:Math.round((Date.now()-R.t0)/1000), tag:'review' }]);
+  lset('dailyGrammar', new Date().toISOString().slice(0,10));
+  app.innerHTML = '<div class="card" style="text-align:center"><div class="big">' + R.right + ' / ' + R.items.length + '</div><div class="sub">Review</div>'
+    + '<div class="row" style="justify-content:center;margin-top:16px">' + (DAILY ? '<a href="index.html"><button class="primary">Step 2: today\u2019s practice set \u2192</button></a>' : '') + '<button class="gold" onclick="review()">Another review</button><button onclick="go(\'home\')">Home</button></div></div>';
+  window.scrollTo(0,0);
+};
+
+window.go = function(n){ if(n==='home') home(); };
+var DAILY = /[?&]daily=1/.test(location.search);
+if(DAILY){ var nx = CONCEPTS.find(function(c){ return !cs(c.id).learned; }); if(nx) learn(nx.id); else review(); } else home();
+</script>
+</body>
+</html>

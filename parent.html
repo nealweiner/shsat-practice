@@ -3,91 +3,134 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SHSAT Parent Page</title>
+<title>SHSAT Progress</title>
 <style>
-  :root{--ink:#1A2B4A;--accent:#7A4A1F;--soft:#F3F0EA;--bg:#FBFAF7;--good:#1E7A4A;--bad:#A32B2B;--warn:#8a6d00;--line:#DDD6C9}
+  :root{--ink:#1A2B4A;--accent:#7A4A1F;--soft:#F3F0EA;--bg:#FBFAF7;--good:#1E7A4A;--bad:#A32B2B;--line:#DDD6C9}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Georgia,serif}
-  .wrap{max-width:640px;margin:0 auto;padding:24px 18px 60px}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Georgia,serif}
+  .wrap{max-width:900px;margin:0 auto;padding:24px 18px 60px}
   h1{font-size:26px;margin:0 0 4px}
-  .sub{color:var(--accent);font-size:14px;margin-bottom:18px}
-  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0}
-  input{font:20px ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;padding:10px 12px;border:1px solid var(--line);border-radius:8px;width:100%}
-  button{font-family:inherit;font-size:15px;cursor:pointer;border-radius:6px;border:1px solid var(--ink);background:var(--ink);color:#fff;padding:9px 16px;margin-top:10px}
-  button.secondary{background:#fff;color:var(--ink)}
-  .result{margin-top:14px;padding:12px 14px;border-radius:8px;display:none}
-  .result.show{display:block}
-  .valid{background:#EEF7F1;border:1px solid var(--good)}
-  .invalid{background:#FBEFEF;border:1px solid var(--bad)}
-  .redeemed{background:#FFF8E1;border:1px solid var(--warn)}
-  .big{font-size:22px;font-weight:bold}
+  h2{font-size:19px;margin:24px 0 8px}
+  .sub{color:var(--accent);font-size:14px;margin-bottom:16px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:10px 0}
   .meta{font:13px system-ui,sans-serif;color:#6B6355}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .tile b{display:block;font-size:26px;line-height:1.2}
   table{width:100%;border-collapse:collapse;font-size:14px}
-  th,td{text-align:left;padding:6px 4px;border-top:1px solid var(--line)}
-  th{font:12px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#6B6355}
-  code{font:700 15px ui-monospace,Menlo,monospace;letter-spacing:.06em}
-  .stats{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:8px}
-  .stats b{display:block;font-size:22px}
+  th,td{text-align:left;padding:6px 6px;border-top:1px solid var(--line);vertical-align:top}
+  th{font:12px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#6B6355;border-top:none}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .bar{display:inline-block;width:110px;height:8px;background:var(--line);border-radius:4px;vertical-align:middle;margin-right:8px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--good)}
+  .bar i.low{background:var(--bad)}.bar i.mid{background:#b8860b}
+  .wrong{color:var(--bad)}.right{color:var(--good)}
+  details{margin:4px 0}summary{cursor:pointer;font:13px system-ui,sans-serif;color:var(--accent)}
+  .qtext{font-size:14px;margin:6px 0 0 12px;max-width:640px}
+  .qtext p{margin:0 0 5px}.qtext blockquote{margin:5px 0;padding:6px 10px;border:1px solid var(--line);border-radius:6px}
+  .qtext img{max-width:100%;border:1px solid var(--line)}
+  .src{font:12px system-ui,sans-serif;color:#6B6355}
+  .warn{background:#FFF8E1;border:1px solid #b8860b;border-radius:8px;padding:10px 14px;font:14px system-ui,sans-serif}
+  @media (max-width:600px){.hide-sm{display:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>SHSAT Parent Page</h1>
-  <div class="sub">Check a screen-time voucher earned in the SHSAT Practice or SHSAT Grammar app</div>
-  <div class="card">
-    <label class="meta" for="code">Voucher code (10 characters)</label>
-    <input id="code" placeholder="ABCD123456" autocomplete="off" oninput="verify()">
-    <div id="result" class="result"></div>
-  </div>
-  <div class="card">
-    <h3 style="margin:0 0 8px">Redeemed</h3>
-    <div class="stats" id="stats"></div>
-    <div id="history"></div>
-  </div>
-  <p class="meta">Codes are signed, so a made-up code fails. Redeeming marks the code used on this device only; a redeemed code is still flagged if it is entered here again.</p>
+  <h1>SHSAT Progress</h1>
+  <div class="sub">Every answer and session from the practice sets and grammar lessons</div>
+  <div id="app"><p class="meta">Loading&hellip;</p></div>
 </div>
-<script src="voucher-crypto.js"></script>
+<script src="config.js"></script>
+<script src="bank.js"></script>
+<script src="items.js"></script>
+<script src="concepts.js"></script>
 <script>
-var KEY = 'shsat_parent_redeemed';
-function list(){ try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; } }
-function saveList(l){ localStorage.setItem(KEY, JSON.stringify(l)); }
-var current = null;
+const AREA = { rea: 'Revising/Editing: sentences', reb: 'Revising/Editing: passage', rc: 'Reading', grid: 'Grid-in math', mc: 'Math multiple choice' };
+const esc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const day = ts => new Date(ts).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+const ymd = ts => { const d = new Date(ts); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
+const mins = s => s ? Math.round(s/60) : 0;
+const pct = (r, t) => t ? Math.round(100*r/t) : 0;
+const bar = p => `<span class="bar"><i class="${p < 60 ? 'low' : p < 80 ? 'mid' : ''}" style="width:${p}%"></i></span>${p}%`;
 
-function verify(){
-  var code = document.getElementById('code').value.trim().toUpperCase().replace(/[\s-]/g, '');
-  var box = document.getElementById('result'); current = null;
-  box.className = 'result';
-  if (code.length < 10) return;
-  var item = verifyVoucherCode(code);
-  if (!item) { box.className = 'result show invalid'; box.innerHTML = '<div class="big">Not a valid code</div><div class="meta">Mistyped, or not issued by the app.</div>'; return; }
-  var used = list().find(function(v){ return v.code === code; });
-  if (used) {
-    box.className = 'result show redeemed';
-    box.innerHTML = '<div class="big">Already redeemed</div>' + item.icon + ' ' + item.name + '<div class="meta">Used ' + new Date(used.date).toLocaleString() + '</div>';
-    return;
+async function rows(){
+  let local = []; try { local = JSON.parse(localStorage.getItem('shsat:log')) || []; } catch (e) {}
+  if (!LOG_URL) return { rows: local, source: 'this device only (no log endpoint configured in config.js)' };
+  try {
+    const r = await fetch(LOG_URL); const remote = await r.json();
+    return { rows: remote, source: 'shared log, ' + remote.length + ' rows' };
+  } catch (e) { return { rows: local, source: 'could not reach the shared log; showing this device only' }; }
+}
+
+/* question text lookups, so a miss can be read without opening the test */
+const FORMS = {}; BANK.forEach(f => { FORMS[f.id.slice(0,4) + ' Form ' + f.id.slice(4)] = f; });
+function questionHTML(e){
+  if (e.app === 'grammar') {
+    if (/^check /.test(e.n)) { const c = CONCEPTS.find(c => c.id === e.tag); const k = +String(e.n).split(' ')[1] - 1; return c && c.check[k] ? c.check[k].q : ''; }
+    const it = ITEMS.find(i => i.form === e.form && String(i.n) === String(e.n)); return it ? it.html + it.opts.map((o,j) => `<div>${it.letters[j]}. ${esc(o)}</div>`).join('') : '';
   }
-  current = { code: code, item: item };
-  box.className = 'result show valid';
-  box.innerHTML = '<div class="big">Valid: ' + item.icon + ' ' + item.name + '</div><div class="meta">' + item.minutes + ' minutes' + (item.note ? ' · ' + item.note : '') + '</div>' +
-    '<button onclick="redeem()">Mark as used</button>';
+  const f = FORMS[e.form]; if (!f) return '';
+  const n = +e.n;
+  for (const p of f.ela.parts) for (const g of p.groups) for (const q of g.questions) if (q.n === n) return q.html + q.opts.map((o,j) => `<div>${q.letters[j]}. ${esc(o)}</div>`).join('');
+  const m = f.math.grid.concat(f.math.mc).find(q => q.n === n); return m ? `<img src="${m.img}" alt="question ${n}">` : '';
 }
-function redeem(){
-  if (!current) return;
-  var l = list(); l.push({ code: current.code, itemId: current.item.id, minutes: current.item.minutes, date: new Date().toISOString() }); saveList(l);
-  verify(); history();
+
+function render(R){
+  const ans = R.rows.filter(e => e.kind === 'answer'), ses = R.rows.filter(e => e.kind === 'session');
+  const days = {};
+  R.rows.forEach(e => { const d = ymd(e.ts); days[d] = days[d] || { q: 0, ok: 0, secs: 0 }; if (e.kind === 'answer') { days[d].q++; days[d].ok += +e.ok; } else days[d].secs += +e.secs || 0; });
+  const dayList = Object.keys(days).sort();
+  // streak: consecutive days ending today or yesterday
+  let streak = 0; const t = new Date(); t.setHours(12);
+  for (let i = 0; i < 400; i++) { const d = ymd(t.getTime() - i*864e5); if (days[d]) streak++; else if (i > 0) break; }
+  const totalOk = ans.reduce((s,e) => s + +e.ok, 0), totalSecs = ses.reduce((s,e) => s + (+e.secs || 0), 0);
+
+  let h = `<div class="tiles">
+    <div class="tile"><span class="meta">Days practiced</span><b>${dayList.length}</b></div>
+    <div class="tile"><span class="meta">Current streak</span><b>${streak}</b></div>
+    <div class="tile"><span class="meta">Time on task</span><b>${mins(totalSecs)} min</b></div>
+    <div class="tile"><span class="meta">Questions</span><b>${ans.length}</b></div>
+    <div class="tile"><span class="meta">Accuracy</span><b>${pct(totalOk, ans.length)}%</b></div></div>
+    <p class="meta">Source: ${R.source}. ${dayList.length ? 'First entry ' + day(R.rows[0].ts) + '.' : ''}</p>`;
+  if (!R.rows.length) { h += `<div class="warn">Nothing recorded yet. Once Vaughn finishes a set or a lesson it appears here.</div>`; app.innerHTML = h; return; }
+
+  // last 14 days
+  h += `<h2>Last two weeks</h2><div class="card"><table><tr><th>Day</th><th class="num">Minutes</th><th class="num">Questions</th><th class="num">Right</th><th>Accuracy</th></tr>`;
+  for (let i = 13; i >= 0; i--) {
+    const d = ymd(Date.now() - i*864e5), x = days[d];
+    h += `<tr><td>${day(d + 'T12:00:00')}</td><td class="num">${x ? mins(x.secs) : ''}</td><td class="num">${x ? x.q : ''}</td><td class="num">${x ? x.ok : ''}</td><td>${x && x.q ? bar(pct(x.ok, x.q)) : '<span class="meta">' + (x ? '' : 'no practice') + '</span>'}</td></tr>`;
+  }
+  h += `</table></div>`;
+
+  // by area, then by grammar concept
+  const by = {};
+  ans.forEach(e => { const k = e.app === 'grammar' ? 'Grammar: ' + ((CONCEPTS.find(c => c.id === e.tag) || {}).name || e.tag) : (AREA[e.tag] || e.tag); by[k] = by[k] || { q: 0, ok: 0 }; by[k].q++; by[k].ok += +e.ok; });
+  h += `<h2>By area</h2><div class="card"><table><tr><th>Area</th><th class="num">Questions</th><th>Accuracy</th></tr>`;
+  Object.keys(by).sort((a,b) => (a.startsWith('Grammar') - b.startsWith('Grammar')) || pct(by[a].ok, by[a].q) - pct(by[b].ok, by[b].q)).forEach(k => {
+    h += `<tr><td>${esc(k)}</td><td class="num">${by[k].q}</td><td>${bar(pct(by[k].ok, by[k].q))}</td></tr>`;
+  });
+  h += `</table></div>`;
+
+  // sessions
+  h += `<h2>Sessions</h2><div class="card"><table><tr><th>When</th><th>What</th><th class="num">Score</th><th class="num">Minutes</th></tr>`;
+  ses.slice().reverse().slice(0, 40).forEach(e => {
+    h += `<tr><td>${day(e.ts)} <span class="meta">${new Date(e.ts).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}</span></td><td>${esc(e.title)} <span class="src">${esc(e.tag)}</span></td><td class="num">${esc(e.score)}</td><td class="num">${mins(+e.secs)}</td></tr>`;
+  });
+  h += `</table></div>`;
+
+  // misses
+  const wrong = ans.filter(e => !+e.ok).slice().reverse().slice(0, 80);
+  h += `<h2>Missed questions <span class="meta">most recent ${wrong.length}</span></h2><div class="card"><table><tr><th>When</th><th>Where</th><th>Chose</th><th>Answer</th><th class="num hide-sm">Secs</th></tr>`;
+  wrong.forEach((e, i) => {
+    const qh = questionHTML(e);
+    h += `<tr><td>${day(e.ts)}</td><td>${esc(e.form)}${e.form ? ', ' : ''}${esc(e.block)}, q${esc(e.n)}${qh ? `<details><summary>show question</summary><div class="qtext">${qh}</div></details>` : ''}</td>
+      <td class="wrong">${esc(e.chosen)}</td><td class="right">${esc(e.correct)}</td><td class="num hide-sm">${e.secs || ''}</td></tr>`;
+  });
+  h += `</table></div>`;
+  app.innerHTML = h;
 }
-function history(){
-  var l = list(), week = Date.now() - 7 * 864e5, total = 0, thisWeek = 0;
-  l.forEach(function(v){ total += v.minutes; if (new Date(v.date).getTime() > week) thisWeek += v.minutes; });
-  document.getElementById('stats').innerHTML = '<div class="meta"><b>' + l.length + '</b>vouchers</div><div class="meta"><b>' + thisWeek + '</b>min this week</div><div class="meta"><b>' + total + '</b>min all time</div>';
-  var h = document.getElementById('history');
-  if (!l.length) { h.innerHTML = '<div class="meta">Nothing redeemed yet.</div>'; return; }
-  h.innerHTML = '<table><tr><th>Code</th><th>For</th><th>When</th></tr>' + l.slice().reverse().map(function(v){
-    var it = storeItem(v.itemId) || { name: v.itemId };
-    return '<tr><td><code>' + v.code + '</code></td><td>' + it.name + '</td><td>' + new Date(v.date).toLocaleDateString() + '</td></tr>';
-  }).join('') + '</table>';
-}
-history();
+const app = document.getElementById('app');
+rows().then(render);
 </script>
 </body>
 </html>
