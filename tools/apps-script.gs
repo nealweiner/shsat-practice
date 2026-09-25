@@ -1,12 +1,11 @@
-// SHSAT activity log endpoint. One-time setup:
-//   1. Create a Google Sheet. Extensions -> Apps Script. Replace the editor contents with this file. Save.
-//   2. Deploy -> New deployment -> type "Web app". Execute as: Me. Who has access: Anyone. Deploy.
-//   3. Copy the web app URL into config.js (LOG_URL) in both apps.
+// SHSAT activity log endpoint, deployed as a standalone Apps Script web app (Execute as me,
+// access: Anyone) that writes to the "SHSAT activity log" sheet by ID. The deployed URL is LOG_URL in config.js.
 // POST appends one row per event; GET returns every row as JSON for parent.html.
+var SHEET_ID = '172X4ApQUVm8ewjz8CzzI-_iLRdMyuItskyvPfCcmJW4';
 var COLS = ['ts', 'app', 'device', 'session', 'kind', 'form', 'block', 'n', 'tag', 'chosen', 'correct', 'ok', 'secs', 'score', 'title'];
 
 function sheet() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById(SHEET_ID);
   var sh = ss.getSheetByName('log') || ss.insertSheet('log');
   if (sh.getLastRow() === 0) sh.appendRow(COLS);
   return sh;
