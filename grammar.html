@@ -116,16 +116,17 @@ function home(){
 
 /* ============================ LESSON ============================ */
 var L = null;   // {c, step, queue, i, right, phase:'check'|'real'}
-function seenToday(it){ var s = IT[it.id]; return !!s && new Date(s.last).toDateString() === new Date().toDateString(); }
+var RECENT_DAYS = 7, MISSED_DAYS = 3;   // no repeats inside a week; a miss comes back after three days
+function daysSince(it){ var s = IT[it.id]; return s ? (Date.now() - s.last) / 864e5 : Infinity; }
 function uniq(list){ var seen = {}; return list.filter(function(it){ return seen[it.id] ? false : (seen[it.id] = true); }); }
-// missed (but not today) -> never seen -> seen longest ago; nothing asked earlier today unless that is all there is
+// missed at least MISSED_DAYS ago -> never seen -> seen longest ago (over RECENT_DAYS) -> recent ones only if nothing else is left
 function pickReal(real, n){
-  var fresh = real.filter(function(it){ return !seenToday(it); });
-  var missed = shuffle(fresh.filter(function(it){ var s=IT[it.id]; return s && s.wrong > s.right; }));
-  var unseen = shuffle(fresh.filter(function(it){ return !IT[it.id]; }));
-  var rest = fresh.filter(function(it){ return missed.indexOf(it)<0 && unseen.indexOf(it)<0; }).sort(function(a,b){ return IT[a.id].last - IT[b.id].last; });
-  var today = shuffle(real.filter(seenToday));
-  return uniq(missed.concat(unseen, rest, today)).slice(0, n);
+  var isMiss = function(it){ var s=IT[it.id]; return s && s.wrong > s.right; };
+  var missed = shuffle(real.filter(function(it){ return isMiss(it) && daysSince(it) >= MISSED_DAYS; }));
+  var unseen = shuffle(real.filter(function(it){ return !IT[it.id]; }));
+  var old = real.filter(function(it){ return IT[it.id] && !isMiss(it) && daysSince(it) >= RECENT_DAYS; }).sort(function(a,b){ return IT[a.id].last - IT[b.id].last; });
+  var recent = real.filter(function(it){ return IT[it.id] && missed.indexOf(it)<0 && old.indexOf(it)<0; }).sort(function(a,b){ return IT[a.id].last - IT[b.id].last; });
+  return uniq(missed.concat(unseen, old, recent)).slice(0, n);
 }
 window.learn = function(id){
   var c = CONCEPTS.find(function(x){ return x.id===id; });
