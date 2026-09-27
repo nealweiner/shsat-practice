@@ -37,7 +37,7 @@
 <body>
 <div class="wrap">
   <h1>SHSAT Progress</h1>
-  <div class="sub">Every answer and session from the practice sets and grammar lessons</div>
+  <div class="sub">Every answer and session from the practice sets and grammar lessons. Time counts whenever the app is in front and being used, including reading.</div>
   <div id="app"><p class="meta">Loading&hellip;</p></div>
 </div>
 <script src="config.js"></script>
@@ -78,17 +78,20 @@ function questionHTML(e){
 function render(R){
   const ans = R.rows.filter(e => e.kind === 'answer'), ses = R.rows.filter(e => e.kind === 'session');
   const days = {};
-  R.rows.forEach(e => { const d = ymd(e.ts); days[d] = days[d] || { q: 0, ok: 0, secs: 0 }; if (e.kind === 'answer') { days[d].q++; days[d].ok += +e.ok; } else days[d].secs += +e.secs || 0; });
+  R.rows.forEach(e => { const d = ymd(e.ts); days[d] = days[d] || { q: 0, ok: 0, secs: 0, act: 0 };
+    if (e.kind === 'answer') { days[d].q++; days[d].ok += +e.ok; } else if (e.kind === 'time') days[d].act += +e.secs || 0; else days[d].secs += +e.secs || 0; });
+  // time on task: the active-time clock when present, else the summed session times (older rows)
+  Object.values(days).forEach(x => { x.mins = mins(x.act || x.secs); });
   const dayList = Object.keys(days).sort();
   // streak: consecutive days ending today or yesterday
   let streak = 0; const t = new Date(); t.setHours(12);
   for (let i = 0; i < 400; i++) { const d = ymd(t.getTime() - i*864e5); if (days[d]) streak++; else if (i > 0) break; }
-  const totalOk = ans.reduce((s,e) => s + +e.ok, 0), totalSecs = ses.reduce((s,e) => s + (+e.secs || 0), 0);
+  const totalOk = ans.reduce((s,e) => s + +e.ok, 0), totalMins = Object.values(days).reduce((s,x) => s + x.mins, 0);
 
   let h = `<div class="tiles">
     <div class="tile"><span class="meta">Days practiced</span><b>${dayList.length}</b></div>
     <div class="tile"><span class="meta">Current streak</span><b>${streak}</b></div>
-    <div class="tile"><span class="meta">Time on task</span><b>${mins(totalSecs)} min</b></div>
+    <div class="tile"><span class="meta">Time on task</span><b>${totalMins} min</b></div>
     <div class="tile"><span class="meta">Questions</span><b>${ans.length}</b></div>
     <div class="tile"><span class="meta">Accuracy</span><b>${pct(totalOk, ans.length)}%</b></div></div>
     <p class="meta">Source: ${R.source}. ${dayList.length ? 'First entry ' + day(R.rows[0].ts) + '.' : ''}</p>`;
@@ -98,7 +101,7 @@ function render(R){
   h += `<h2>Last two weeks</h2><div class="card"><table><tr><th>Day</th><th class="num">Minutes</th><th class="num">Questions</th><th class="num">Right</th><th>Accuracy</th></tr>`;
   for (let i = 13; i >= 0; i--) {
     const d = ymd(Date.now() - i*864e5), x = days[d];
-    h += `<tr><td>${day(d + 'T12:00:00')}</td><td class="num">${x ? mins(x.secs) : ''}</td><td class="num">${x ? x.q : ''}</td><td class="num">${x ? x.ok : ''}</td><td>${x && x.q ? bar(pct(x.ok, x.q)) : '<span class="meta">' + (x ? '' : 'no practice') + '</span>'}</td></tr>`;
+    h += `<tr><td>${day(d + 'T12:00:00')}</td><td class="num">${x ? x.mins : ''}</td><td class="num">${x ? x.q : ''}</td><td class="num">${x ? x.ok : ''}</td><td>${x && x.q ? bar(pct(x.ok, x.q)) : '<span class="meta">' + (x ? '' : 'no practice') + '</span>'}</td></tr>`;
   }
   h += `</table></div>`;
 
