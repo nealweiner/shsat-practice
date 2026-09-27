@@ -116,13 +116,20 @@ function home(){
 
 /* ============================ LESSON ============================ */
 var L = null;   // {c, step, queue, i, right, phase:'check'|'real'}
+function seenToday(it){ var s = IT[it.id]; return !!s && new Date(s.last).toDateString() === new Date().toDateString(); }
+function uniq(list){ var seen = {}; return list.filter(function(it){ return seen[it.id] ? false : (seen[it.id] = true); }); }
+// missed (but not today) -> never seen -> seen longest ago; nothing asked earlier today unless that is all there is
+function pickReal(real, n){
+  var fresh = real.filter(function(it){ return !seenToday(it); });
+  var missed = shuffle(fresh.filter(function(it){ var s=IT[it.id]; return s && s.wrong > s.right; }));
+  var unseen = shuffle(fresh.filter(function(it){ return !IT[it.id]; }));
+  var rest = fresh.filter(function(it){ return missed.indexOf(it)<0 && unseen.indexOf(it)<0; }).sort(function(a,b){ return IT[a.id].last - IT[b.id].last; });
+  var today = shuffle(real.filter(seenToday));
+  return uniq(missed.concat(unseen, rest, today)).slice(0, n);
+}
 window.learn = function(id){
   var c = CONCEPTS.find(function(x){ return x.id===id; });
-  var real = realFor(c);
-  var unseen = shuffle(real.filter(function(it){ return !IT[it.id]; }));
-  var missed = shuffle(real.filter(function(it){ var s=IT[it.id]; return s && s.wrong > s.right; }));
-  var rest = shuffle(real.filter(function(it){ return unseen.indexOf(it)<0 && missed.indexOf(it)<0; }));
-  L = { c:c, step:'card', check:c.check.slice(), real: missed.concat(unseen, rest).slice(0, REAL_PER_LESSON), i:0, cr:0, rr:0, sid:newSessionId(), t0:Date.now() };
+  L = { c:c, step:'card', check:c.check.slice(), real: pickReal(realFor(c), REAL_PER_LESSON), i:0, cr:0, rr:0, sid:newSessionId(), t0:Date.now() };
   cardView();
 };
 function cardView(){
@@ -207,13 +214,10 @@ function doneView(){
 /* ============================ REVIEW ============================ */
 var R = null;
 window.review = function(){
-  var missed = shuffle(ITEMS.filter(function(it){ var s=IT[it.id]; return s && s.wrong > s.right; }));
-  // weakest learned concepts first, unseen items from them
+  // weakest learned concepts first; pickReal keeps each question at most once and avoids today's
   var weak = CONCEPTS.filter(function(c){ return cs(c.id).learned; }).sort(function(a,b){ return mastery(a)-mastery(b); });
-  var pool = [];
-  weak.forEach(function(c){ pool = pool.concat(shuffle(realFor(c).filter(function(it){ return !IT[it.id]; }))); });
-  var rest = shuffle(ITEMS.filter(function(it){ return missed.indexOf(it)<0 && pool.indexOf(it)<0; }));
-  R = { items: missed.concat(pool, rest).slice(0, REVIEW_SIZE), i:0, right:0, sid:newSessionId(), t0:Date.now() };
+  var ordered = uniq(weak.map(realFor).reduce(function(a,b){ return a.concat(b); }, []).concat(ITEMS));
+  R = { items: pickReal(ordered, REVIEW_SIZE), i:0, right:0, sid:newSessionId(), t0:Date.now() };
   realView(R.items[0], 'review');
 };
 window.nextReview = function(){ R.i++; realView(R.items[R.i], 'review'); };
