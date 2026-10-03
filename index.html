@@ -532,7 +532,7 @@ window.startAdaptive = async function(){
       const m = rows.filter(r => r.kind === 'session' && /level \d+ \u2192 (\d+)/.test(r.title)).pop();
       if (m) theta = +RegExp.$1 / 100; } catch (e) {}
   }
-  if (theta == null) theta = 0.35;             // start a little easy; the first answers move it fast
+  if (theta == null) theta = 0.65;             // Neal set the starting level; the first answers still move it fast
   AD = { theta0: theta, theta, i: 0, right: 0, sid: newSessionId(), t0: Date.now(), cur: null, answered: {} };
   AD.cur = nextProblem(null);
   adaptView();
