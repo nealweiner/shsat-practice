@@ -44,6 +44,8 @@
 <script src="bank.js"></script>
 <script src="items.js"></script>
 <script src="concepts.js"></script>
+<script src="mathmeta.js"></script>
+<script src="genmath.js"></script>
 <script>
 const AREA = { rea: 'Revising/Editing: sentences', reb: 'Revising/Editing: passage', rc: 'Reading', grid: 'Grid-in math', mc: 'Math multiple choice' };
 const esc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
@@ -62,9 +64,13 @@ async function rows(){
   } catch (e) { return { rows: local, source: 'could not reach the shared log; showing this device only' }; }
 }
 
+/* difficulty of a logged math answer, from the same ranking the app uses (0-100) */
+const FORMID = {}; BANK.forEach(f => { FORMID[f.id.slice(0,4) + ' Form ' + f.id.slice(4)] = f.id; });
+function diff(e){ const id = e.form === 'Extra' ? 'gen:' + e.n : (FORMID[e.form] || '') + ':' + e.n; const m = MATHMETA[id]; return m ? Math.round(m.d * 100) : null; }
 /* question text lookups, so a miss can be read without opening the test */
 const FORMS = {}; BANK.forEach(f => { FORMS[f.id.slice(0,4) + ' Form ' + f.id.slice(4)] = f; });
 function questionHTML(e){
+  if (e.form === 'Extra') { const g = GENMATH.find(g => g.id === 'gen:' + e.n); return g ? g.html + (g.opts || []).map((o,j) => `<div>${'ABCD'[j]}. ${o}</div>`).join('') : ''; }
   if (e.app === 'grammar') {
     if (/^check /.test(e.n)) { const c = CONCEPTS.find(c => c.id === e.tag); const k = +String(e.n).split(' ')[1] - 1; return c && c.check[k] ? c.check[k].q : ''; }
     const it = ITEMS.find(i => i.form === e.form && String(i.n) === String(e.n)); return it ? it.html + it.opts.map((o,j) => `<div>${it.letters[j]}. ${esc(o)}</div>`).join('') : '';
@@ -93,7 +99,8 @@ function render(R){
     <div class="tile"><span class="meta">Current streak</span><b>${streak}</b></div>
     <div class="tile"><span class="meta">Time on task</span><b>${totalMins} min</b></div>
     <div class="tile"><span class="meta">Questions</span><b>${ans.length}</b></div>
-    <div class="tile"><span class="meta">Accuracy</span><b>${pct(totalOk, ans.length)}%</b></div></div>
+    <div class="tile"><span class="meta">Accuracy</span><b>${pct(totalOk, ans.length)}%</b></div>
+    <div class="tile"><span class="meta">Math level</span><b>${(() => { const m = ses.filter(e => /level \d+ \u2192 \d+/.test(e.title)).pop(); return m ? m.title.match(/\u2192 (\d+)/)[1] + ' <span class="meta">of 100</span>' : '\u2014'; })()}</b></div></div>
     <p class="meta">Source: ${R.source}. ${dayList.length ? 'First entry ' + day(R.rows[0].ts) + '.' : ''}</p>`;
   if (!R.rows.length) { h += `<div class="warn">Nothing recorded yet. Once Vaughn finishes a set or a lesson it appears here.</div>`; app.innerHTML = h; return; }
 
@@ -107,13 +114,25 @@ function render(R){
 
   // by area, then by grammar concept
   const by = {};
-  ans.forEach(e => { const k = e.app === 'grammar' ? 'Grammar: ' + ((CONCEPTS.find(c => c.id === e.tag) || {}).name || e.tag) : (AREA[e.tag] || e.tag); by[k] = by[k] || { q: 0, ok: 0 }; by[k].q++; by[k].ok += +e.ok; });
+  ans.forEach(e => { const k = e.app === 'grammar' ? 'Grammar: ' + ((CONCEPTS.find(c => c.id === e.tag) || {}).name || e.tag) : e.tag === 'adaptive' ? 'Math: ' + String(e.block).replace(/-/g, ' ') : (AREA[e.tag] || e.tag); by[k] = by[k] || { q: 0, ok: 0 }; by[k].q++; by[k].ok += +e.ok; });
   h += `<h2>By area</h2><div class="card"><table><tr><th>Area</th><th class="num">Questions</th><th>Accuracy</th></tr>`;
   Object.keys(by).sort((a,b) => (a.startsWith('Grammar') - b.startsWith('Grammar')) || pct(by[a].ok, by[a].q) - pct(by[b].ok, by[b].q)).forEach(k => {
     h += `<tr><td>${esc(k)}</td><td class="num">${by[k].q}</td><td>${bar(pct(by[k].ok, by[k].q))}</td></tr>`;
   });
   h += `</table></div>`;
 
+  // adaptive math: level history, then each answer with the problem's difficulty
+  const msets = ses.filter(e => /level \d+ \u2192 \d+/.test(e.title)), mans = ans.filter(e => e.tag === 'adaptive');
+  if (msets.length) {
+    h += `<h2>Math sets</h2><div class="card"><p class="meta">Level and difficulty are percentiles of the ${Object.keys(MATHMETA).length}-problem bank: 70 means harder than 70% of it. Right answers are listed with the difficulty they were at; the wrong ones are in the missed-questions list below with the problem shown.</p>
+      <table><tr><th>When</th><th class="num">Level</th><th class="num">Score</th><th>Right at</th><th>Wrong at</th></tr>`;
+    msets.slice().reverse().slice(0, 30).forEach(e => {
+      const m = e.title.match(/level (\d+) \u2192 (\d+)/), rows = mans.filter(a => a.session === e.session);
+      const ds = ok => rows.filter(a => +a.ok === ok).map(diff).filter(d => d != null).sort((a,b) => a-b).join(', ');
+      h += `<tr><td>${day(e.ts)}</td><td class="num">${m[1]} &rarr; <b>${m[2]}</b></td><td class="num">${esc(e.score)}</td><td class="right">${ds(1)}</td><td class="wrong">${ds(0)}</td></tr>`;
+    });
+    h += `</table></div>`;
+  }
   // sessions
   h += `<h2>Sessions</h2><div class="card"><table><tr><th>When</th><th>What</th><th class="num">Score</th><th class="num">Minutes</th></tr>`;
   ses.slice().reverse().slice(0, 40).forEach(e => {
@@ -123,11 +142,11 @@ function render(R){
 
   // misses
   const wrong = ans.filter(e => !+e.ok).slice().reverse().slice(0, 80);
-  h += `<h2>Missed questions <span class="meta">most recent ${wrong.length}</span></h2><div class="card"><table><tr><th>When</th><th>Where</th><th>Chose</th><th>Answer</th><th class="num hide-sm">Secs</th></tr>`;
+  h += `<h2>Missed questions <span class="meta">most recent ${wrong.length}</span></h2><div class="card"><table><tr><th>When</th><th>Where</th><th>Chose</th><th>Answer</th><th class="num">Diff.</th><th class="num hide-sm">Secs</th></tr>`;
   wrong.forEach((e, i) => {
     const qh = questionHTML(e);
-    h += `<tr><td>${day(e.ts)}</td><td>${esc(e.form)}${e.form ? ', ' : ''}${esc(e.block)}, q${esc(e.n)}${qh ? `<details><summary>show question</summary><div class="qtext">${qh}</div></details>` : ''}</td>
-      <td class="wrong">${esc(e.chosen)}</td><td class="right">${esc(e.correct)}</td><td class="num hide-sm">${e.secs || ''}</td></tr>`;
+    h += `<tr><td>${day(e.ts)}</td><td>${esc(e.form)}${e.form ? ', ' : ''}${esc(String(e.block).replace(/-/g,' '))}${e.form === 'Extra' ? '' : ', q' + esc(e.n)}${qh ? `<details><summary>show question</summary><div class="qtext">${qh}</div></details>` : ''}</td>
+      <td class="wrong">${e.form === 'Extra' ? e.chosen : esc(e.chosen)}</td><td class="right">${e.form === 'Extra' ? e.correct : esc(e.correct)}</td><td class="num">${diff(e) ?? ''}</td><td class="num hide-sm">${e.secs || ''}</td></tr>`;
   });
   h += `</table></div>`;
   app.innerHTML = h;

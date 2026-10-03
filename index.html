@@ -43,6 +43,9 @@
   .qtext p{margin:0 0 8px}
   .qtext blockquote{font-weight:normal;margin:8px 0 10px;padding:10px 14px;border:1px solid var(--line);border-radius:6px;background:#fff}
   .qimg{max-width:100%;display:block;border:1px solid var(--line);border-radius:6px;margin-bottom:10px}
+  .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .18em;line-height:1.2;font-size:.9em}
+  .frac .fnum{border-bottom:1.5px solid currentColor;padding:0 .3em}.frac .fden{padding:0 .3em}
+  .qmath{font-size:17px;line-height:1.7;margin-bottom:10px}.qmath p{margin:0 0 8px}
   label.opt{display:block;padding:8px 11px;margin:5px 0;border:1px solid var(--line);
     border-radius:7px;cursor:pointer;background:#fff}
   label.opt:hover{background:var(--soft)}
@@ -108,6 +111,8 @@
 <script src="config.js"></script>
 <script src="log.js"></script>
 <script src="bank.js"></script>
+<script src="mathmeta.js"></script>
+<script src="genmath.js"></script>
 <script>
 /* ============================ DATA ============================ */
 const SECTION_MIN = 90;                 // suggested time per section on the paper test
@@ -182,11 +187,11 @@ function isRight(q, v){
 function shown(q, v){          // what the student chose, for the report
   if(v===undefined||v===null||v==='') return 'left blank';
   if(q.kind==='grid') return esc(v);
-  return q.kind==='text' ? q.letters[v] + '. ' + esc(q.opts[v]) : q.letters[v];
+  return q.kind==='text' ? q.letters[v] + '. ' + (q.html ? q.opts[v] : esc(q.opts[v])) : q.letters[v];
 }
 function keyText(q){
   if(q.kind==='grid') return esc(q.a);
-  return q.kind==='text' ? q.letters[q.a] + '. ' + esc(q.opts[q.a]) : q.letters[q.a];
+  return q.kind==='text' ? q.letters[q.a] + '. ' + (q.html ? q.opts[q.a] : esc(q.opts[q.a])) : q.letters[q.a];
 }
 function expHTML(q){
   if(!q.exp) return '<i>No explanation is published for this form.</i>';
@@ -205,13 +210,13 @@ function home(){
   const daily = load('daily', {});
   const doneToday = daily.last === today;
   const grammarToday = load('dailyGrammar', '') === today;
-  let h = `<h2>Today&rsquo;s 30 minutes</h2>
+  let h = `<h2>Today</h2>
     <div class="card">
-      <div class="meta" style="margin:0 0 10px">${daily.streak ? '<b>' + daily.streak + '-day streak.</b> ' : ''}Two steps. New material every day until all 12 forms are used.</div>
-      <div class="drill"><span><b>1. Grammar lesson</b> <span class="meta">one Revising/Editing concept with real questions, about 8 minutes &middot; ${grammarToday ? 'done today' : 'not yet today'}</span></span>
+      <div class="meta" style="margin:0 0 10px">${daily.streak ? '<b>' + daily.streak + '-day streak.</b> ' : ''}Two separate sets. Each adapts to him and never repeats a question within a week.</div>
+      <div class="drill"><span><b>Math set</b> <span class="meta">${ADAPT_N} problems, one at a time, each one picked for you from the last answer &middot; ${doneToday ? 'done today: ' + daily.lastScore : 'not yet today'}</span></span>
+        <button class="small ${doneToday ? '' : 'primary'}" onclick="startAdaptive()">${doneToday ? 'Another' : 'Start'}</button></div>
+      <div class="drill"><span><b>Grammar set</b> <span class="meta">one Revising/Editing concept, then real questions, about 8 minutes &middot; ${grammarToday ? 'done today' : 'not yet today'}</span></span>
         <a href="grammar.html?daily=1"><button class="small ${grammarToday ? '' : 'primary'}">${grammarToday ? 'Another' : 'Start'}</button></a></div>
-      <div class="drill"><span><b>2. Practice set</b> <span class="meta">a Revising/Editing piece, a grid-in set, and a reading passage or math chunk, about 25 minutes &middot; ${doneToday ? 'done today: ' + daily.lastScore : 'not yet today'}</span></span>
-        <button class="small ${doneToday ? '' : 'primary'}" onclick="startDaily()">${doneToday ? 'Another' : 'Start'}</button></div>
     </div>
     <h2>Start here: what the ISEE did not cover</h2>
     <div class="card">
@@ -271,17 +276,6 @@ window.startMix = function(kind){
   runView();
 };
 /* Daily: R/E (A and B alternate), grid-ins, then reading and math MC on alternate days. Undone blocks first. */
-window.startDaily = function(){
-  const scores = load('scores',{}), daily = load('daily',{});
-  const day = daily.count || 0;
-  const pick = kind => { const all = FORMS.flatMap(f => f.ela.concat(f.math).filter(b => b.kind===kind));
-    const fresh = all.filter(b => !scores[b.id]); const pool = fresh.length ? fresh : all; return pool[Math.floor(Math.random()*pool.length)]; };
-  const blocks = [pick(day % 2 ? 'reb' : 'rea'), pick('grid'), pick(day % 2 ? 'mc' : 'rc')];
-  const n = blocks.reduce((s,b) => s + b.questions.length, 0);
-  RUN = { blocks, title: 'Today\u2019s 30 minutes', mix: true, daily: true, target: Math.round(SECTION_MIN*60*n/57),
-          test:false, one: load('one',false), idx:0, answers:{} };
-  runView();
-};
 window.startDrill = function(id){
   const b = BLOCKS[id];
   const n = b.questions.length;
@@ -403,12 +397,6 @@ window.finish = function(){
   logEvents(all.map(({b,q}) => { const v = RUN.answers[q.id]; return { app:'practice', session:RUN.sid, kind:'answer', form:b.formLabel, block:b.title, n:q.n, tag:b.kind,
       chosen:plainText(shown(q,v)), correct:plainText(keyText(q)), ok:isRight(q,v)?1:0, secs:(RUN.secs||{})[q.id]||'' }; })
     .concat([{ app:'practice', session:RUN.sid, kind:'session', title:RUN.title, score:c+'/'+all.length, secs:time, tag:RUN.daily?'daily':RUN.test?'section':RUN.mix?'mix':'drill' }]));
-  if(RUN.daily){
-    const d = load('daily',{}), today = new Date().toISOString().slice(0,10);
-    const yday = new Date(Date.now()-864e5).toISOString().slice(0,10);
-    if(d.last !== today){ d.streak = (d.last === yday ? (d.streak||0) : 0) + 1; d.count = (d.count||0) + 1; }
-    d.last = today; d.lastScore = c + ' / ' + all.length; save('daily', d);
-  }
   if(RUN.test){ go('report'); return; }
 
   // drill: mark answers inline, show explanations
@@ -506,6 +494,99 @@ window.emailReport = function(){
   location.href = 'mailto:' + encodeURIComponent(to) + '?subject=' + encodeURIComponent('SHSAT practice — ' + when + ' — ' + log.length + ' missed') + '&body=' + encodeURIComponent(body);
 };
 window.clearReport = function(){ if(confirm('Clear the review sheet?')){ save('misslog', []); go('report'); } };
+
+/* ============================ ADAPTIVE MATH ============================
+   Every math problem has a difficulty d in [0,1] (its percentile in the rated bank, mathmeta.js)
+   and a topic. Vaughn has a level theta on the same scale. After a right answer the next
+   problem comes from the band just above theta, after a wrong one from just below; theta
+   moves by an Elo step each answer. Problems are not repeated within a week. */
+const ADAPT_N = 12, BAND = 0.15, SLOPE = 8;
+const MATHQ = FORMS.flatMap(f => f.math.flatMap(b => b.questions.map(q => {
+  const m = (typeof MATHMETA !== 'undefined' && MATHMETA[q.id]) || {};
+  return { ...q, formLabel: f.label, d: m.d == null ? 0.5 : m.d, topic: m.t || 'math' };
+}))).concat((typeof GENMATH === 'undefined' ? [] : GENMATH).map(g => {
+  const m = (typeof MATHMETA !== 'undefined' && MATHMETA[g.id]) || {};
+  return { ...g, n: g.id.replace('gen:', ''), formLabel: 'Extra', letters: g.kind === 'grid' ? [] : ['A','B','C','D'],
+           d: m.d == null ? 0.9 : m.d, topic: g.topic, kind: g.kind === 'grid' ? 'grid' : 'text' };
+}));
+let AD = null;   // {theta0, theta, i, right, sid, t0, qStart, cur, done:[], answered:{}}
+
+function expected(theta, d){ return 1 / (1 + Math.exp(-(theta - d) * SLOPE)); }
+function nextProblem(afterOk){
+  const stat = load('mstat', {}), week = Date.now() - 7*864e5;
+  const fresh = MATHQ.filter(q => !AD.answered[q.id] && !(stat[q.id] && stat[q.id].last > week));
+  const pool = fresh.length ? fresh : MATHQ.filter(q => !AD.answered[q.id]);
+  const th = AD.theta;
+  let lo = afterOk == null ? th - BAND/2 : afterOk ? th : th - BAND;
+  let hi = afterOk == null ? th + BAND/2 : afterOk ? th + BAND : th;
+  let cand = [];
+  for (let w = 0; w < 6 && !cand.length; w++) { cand = pool.filter(q => q.d >= lo - w*BAND && q.d <= hi + w*BAND); }
+  const last = AD.cur, other = cand.filter(q => !last || q.topic !== last.topic);
+  const from = other.length ? other : cand;
+  return from[Math.floor(Math.random() * from.length)];
+}
+window.startAdaptive = async function(){
+  let theta = load('theta', null);
+  if (theta == null && LOG_URL) {              // a new device: pick the level up from the shared log
+    try { const rows = await (await fetch(LOG_URL)).json();
+      const m = rows.filter(r => r.kind === 'session' && /level \d+ \u2192 (\d+)/.test(r.title)).pop();
+      if (m) theta = +RegExp.$1 / 100; } catch (e) {}
+  }
+  if (theta == null) theta = 0.35;             // start a little easy; the first answers move it fast
+  AD = { theta0: theta, theta, i: 0, right: 0, sid: newSessionId(), t0: Date.now(), cur: null, answered: {} };
+  AD.cur = nextProblem(null);
+  adaptView();
+};
+function adaptView(){
+  const q = AD.cur;
+  let h = `<div class="bar"><button onclick="confirmHomeAD()">&larr; Back</button><span>Math set</span>
+     <span id="prog" class="meta">${AD.i+1} / ${ADAPT_N}</span></div>
+     <div class="card"><div class="meta" style="margin-bottom:6px">${esc(q.formLabel)}${q.img ? ', question ' + q.n : ''} &middot; ${esc(q.topic.replace(/-/g,' '))}</div>
+     ${q.img ? `<img class="qimg" src="${q.img}" alt="question ${q.n}">` : `<div class="qmath">${q.html}</div>`}`;
+  if (q.kind === 'grid') h += `<div class="gridin" id="ad_g"><input type="text" inputmode="decimal" placeholder="your answer" id="ad_in"></div>`;
+  else { h += `<div class="${q.opts ? '' : 'letters'}">`; q.letters.forEach((L,j) => { h += `<label class="opt" id="ad_o${j}"><input type="radio" name="adq" value="${j}"><b>${L}.</b>${q.opts ? q.opts[j] : ''}</label>`; }); h += `</div>`; }
+  h += `<div id="ad_exp" class="exp hide"></div><div class="row" style="margin-top:12px"><button class="primary" id="ad_btn" onclick="adaptCheck()">Check</button></div></div>`;
+  app.innerHTML = h; AD.qStart = Date.now(); window.scrollTo(0,0);
+  const inp = document.getElementById('ad_in'); if (inp) { inp.focus(); inp.addEventListener('keydown', e => { if (e.key === 'Enter') adaptCheck(); }); }
+}
+window.adaptCheck = function(){
+  const q = AD.cur;
+  let v;
+  if (q.kind === 'grid') v = document.getElementById('ad_in').value.trim();
+  else { const sel = document.querySelector('input[name="adq"]:checked'); v = sel ? +sel.value : ''; }
+  if (v === '' ) { alert('Pick an answer first.'); return; }
+  const ok = isRight(q, v), secs = Math.round((Date.now() - AD.qStart)/1000);
+  const K = AD.i < 6 ? 0.10 : 0.05;
+  AD.theta = Math.min(0.98, Math.max(0.02, AD.theta + K * ((ok ? 1 : 0) - expected(AD.theta, q.d))));
+  AD.answered[q.id] = true; if (ok) AD.right++;
+  const stat = load('mstat', {}); const st = stat[q.id] = stat[q.id] || { right: 0, wrong: 0 }; st.last = Date.now(); if (ok) st.right++; else st.wrong++; save('mstat', stat);
+  save('theta', AD.theta);
+  logEvents([{ app:'practice', session:AD.sid, kind:'answer', form:q.formLabel, block:q.topic, n:q.n, tag:'adaptive', chosen:plainText(shown(q, v)), correct:plainText(keyText(q)), ok:ok?1:0, secs }]);
+  // mark and explain
+  if (q.kind === 'grid') { const g = document.getElementById('ad_g'); g.classList.add(ok ? 'correct' : 'chosen-wrong'); g.querySelector('input').disabled = true; g.insertAdjacentHTML('beforeend', `<span class="meta" style="margin-left:10px">Answer: <b>${esc(q.a)}</b></span>`); }
+  else { document.getElementById('ad_o' + q.a).classList.add('correct'); if (+v !== q.a) document.getElementById('ad_o' + v).classList.add('chosen-wrong'); document.querySelectorAll('input[name="adq"]').forEach(r => r.disabled = true); }
+  const e = document.getElementById('ad_exp'); e.innerHTML = `<div class="meta" style="margin-bottom:6px">${ok ? '<b style="color:var(--good)">Right.</b>' : '<b style="color:var(--bad)">Not this one.</b>'}</div>` + expHTML(q); e.classList.remove('hide');
+  const btn = document.getElementById('ad_btn'); btn.textContent = AD.i + 1 >= ADAPT_N ? 'Finish' : 'Next \u2192'; btn.onclick = () => adaptNext(ok);
+  e.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+};
+window.adaptNext = function(ok){
+  AD.i++;
+  if (AD.i >= ADAPT_N) { adaptDone(); return; }
+  AD.cur = nextProblem(ok); adaptView();
+};
+function adaptDone(){
+  const a = Math.round(AD.theta0*100), b = Math.round(AD.theta*100), time = Math.round((Date.now() - AD.t0)/1000);
+  logEvents([{ app:'practice', session:AD.sid, kind:'session', title:'Math set \u00b7 level ' + a + ' \u2192 ' + b, score:AD.right + '/' + ADAPT_N, secs:time, tag:'math-daily' }]);
+  const d = load('daily',{}), today = new Date().toISOString().slice(0,10), yday = new Date(Date.now()-864e5).toISOString().slice(0,10);
+  if (d.last !== today) { d.streak = (d.last === yday ? (d.streak||0) : 0) + 1; d.count = (d.count||0) + 1; }
+  d.last = today; d.lastScore = AD.right + ' / ' + ADAPT_N; save('daily', d);
+  app.innerHTML = `<div class="card" style="text-align:center"><div class="score">${AD.right} / ${ADAPT_N}</div>
+    <div class="meta">Level ${a} &rarr; <b>${b}</b> of 100 &middot; ${fmt(time)}</div>
+    <div class="exp" style="margin-top:12px;text-align:left">The level is where you sit in the bank of ${MATHQ.length} real SHSAT problems: ${b} means you are working at problems harder than ${b}% of them. It carries over to tomorrow.</div>
+    <div class="row" style="justify-content:center;margin-top:14px"><button class="primary" onclick="startAdaptive()">Another set</button><button onclick="go('home')">Home</button></div></div>`;
+  window.scrollTo(0,0);
+}
+window.confirmHomeAD = function(){ if (AD && AD.i && !confirm('Leave this set? Your level so far is saved.')) return; go('home'); };
 
 window.go = function(name){
   window.scrollTo(0,0);
