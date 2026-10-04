@@ -378,13 +378,13 @@ function fmtClock(sec){ return fmt(Math.max(0,sec)).replace(/^(\d+):/, (m,a)=> (
 function persistTest(){
   if (!RUN || !RUN.test || !RUN.started) return;
   save('testrun', { form:RUN.form, label:RUN.f.label, section:RUN.section, first:RUN.blocks[0].section, title:RUN.title, target:RUN.target, started:RUN.started, sid:RUN.sid,
-                    setIdx:RUN.setIdx, qIdx:RUN.qIdx, answers:RUN.answers, flags:RUN.flags, secs:RUN.secs });
+                    setIdx:RUN.setIdx, qIdx:RUN.qIdx, answers:RUN.answers, flags:RUN.flags, secs:RUN.secs, logged:RUN.logged||{} });
 }
 window.resumeTest = function(){
   const t = load('testrun', null); if (!t) return;
   const f = FORMS.find(x => x.id === t.form);
   RUN = { blocks: t.section==='all' ? (t.first==='ela' ? f.ela.concat(f.math) : f.math.concat(f.ela)) : f[t.section], title:t.title, target:t.target, test:true, section:t.section, form:t.form, f,
-          answers:t.answers||{}, flags:t.flags||{}, secs:t.secs||{}, setIdx:t.setIdx, qIdx:t.qIdx, started:t.started, sid:t.sid };
+          answers:t.answers||{}, flags:t.flags||{}, secs:t.secs||{}, setIdx:t.setIdx, qIdx:t.qIdx, started:t.started, sid:t.sid, logged:t.logged||{} };
   document.body.classList.add('testing');
   clearInterval(TT); TT = setInterval(testTick, 1000);
   if (testLeft() <= 0) { testFinish(); return; }
@@ -394,7 +394,7 @@ function testLeft(){ return RUN.target - Math.floor((Date.now() - RUN.started)/1
 function testTick(){
   const el = document.getElementById('clock'); const left = testLeft();
   if (el) { el.textContent = fmtClock(left); el.classList.toggle('low', left < 600); }
-  if (left <= 0) { clearInterval(TT); alert('Time is up. The test is being submitted.'); testFinish(); }
+  if (left <= 0) { clearInterval(TT); testFinish(); }
 }
 function testView(){
   const b = RUN.blocks[RUN.setIdx], q = b.questions[RUN.qIdx], n = b.questions.length;
@@ -407,7 +407,7 @@ function testView(){
     <div class="row"><button onclick="testGo(${RUN.qIdx-1})" ${RUN.qIdx===0?'disabled':''}>&larr; Previous</button>
       <button onclick="testFlag()">${RUN.flags[q.id] ? 'Unflag' : 'Flag for review'}</button>
       ${RUN.qIdx < n-1 ? `<button class="primary" onclick="testGo(${RUN.qIdx+1})">Next &rarr;</button>` : `<button class="primary" onclick="testSubmitSet()">Submit this set &rarr;</button>`}
-      <span class="note" style="margin-left:auto">Submitting a set is final.</span></div>`;
+      <span class="note" style="margin-left:auto">Submitting a set is final.</span></div><div id="tconfirm"></div>`;
   app.innerHTML = h;
   // the drill renderer hides explanations and marks nothing, which is what a test needs
   const box = document.getElementById('e_' + RUN.qIdx); if (box) box.remove();
@@ -420,8 +420,18 @@ window.testFlag = function(){ const q = RUN.blocks[RUN.setIdx].questions[RUN.qId
 window.testSubmitSet = function(){
   const b = RUN.blocks[RUN.setIdx];
   const blank = b.questions.filter(x => RUN.answers[x.id]===undefined || RUN.answers[x.id]==='').length;
-  if (!confirm((blank ? blank + ' question' + (blank>1?'s':'') + ' in this set ' + (blank>1?'are':'is') + ' unanswered. ' : '') + 'Submit this set? You cannot come back to it.')) return;
+  const box = document.getElementById('tconfirm');
+  if (box) { box.innerHTML = `<div class="card" style="border-color:var(--bad)"><b>${blank ? blank + ' question' + (blank>1?'s':'') + ' in this set ' + (blank>1?'are':'is') + ' still unanswered. ' : ''}Submit this set?</b> You cannot come back to it.
+      <div class="row" style="margin-top:10px"><button class="primary" onclick="testSubmitSetNow()">Submit set</button><button onclick="document.getElementById('tconfirm').innerHTML=''">Keep working</button></div></div>`; box.scrollIntoView({behavior:'smooth', block:'nearest'}); return; }
+  testSubmitSetNow();
+};
+window.testSubmitSetNow = function(){
+  const b = RUN.blocks[RUN.setIdx];
   testLeave();
+  // the set's answers go to the sheet now, so a crash or a closed tab later still leaves a record
+  RUN.logged = RUN.logged || {};
+  if (!RUN.logged[b.id]) { RUN.logged[b.id] = true; logEvents(b.questions.map(q => { const v = RUN.answers[q.id]; return { app:'practice', session:RUN.sid, kind:'answer', form:b.formLabel, block:b.title, n:q.n, tag:b.kind,
+      chosen:plainText(shown(q,v)), correct:plainText(keyText(q)), ok:isRight(q,v)?1:0, secs:(RUN.secs||{})[q.id]||'' }; })); persistTest(); }
   const next = RUN.blocks[RUN.setIdx+1];
   if (!next) { testFinish(); return; }
   if (next.section !== b.section) {
@@ -552,7 +562,7 @@ window.finish = function(){
     RUN.rec.est = est.composite != null ? est.composite : (est.ela != null ? est.ela : est.math);
     RUN.logTitle = RUN.title + (RUN.rec.ela ? ' \u00b7 ELA ' + RUN.rec.ela : '') + (RUN.rec.math ? ' \u00b7 Math ' + RUN.rec.math : '') + ' \u00b7 est. ' + RUN.rec.est;
   }
-  logEvents(all.map(({b,q}) => { const v = RUN.answers[q.id]; return { app:'practice', session:RUN.sid, kind:'answer', form:b.formLabel, block:b.title, n:q.n, tag:b.kind,
+  logEvents(all.filter(({b}) => !(RUN.logged && RUN.logged[b.id])).map(({b,q}) => { const v = RUN.answers[q.id]; return { app:'practice', session:RUN.sid, kind:'answer', form:b.formLabel, block:b.title, n:q.n, tag:b.kind,
       chosen:plainText(shown(q,v)), correct:plainText(keyText(q)), ok:isRight(q,v)?1:0, secs:(RUN.secs||{})[q.id]||'' }; })
     .concat([{ app:'practice', session:RUN.sid, kind:'session', title:RUN.logTitle || RUN.title, score:c+'/'+all.length, secs:time, tag:RUN.daily?'daily':RUN.test?'section':RUN.mix?'mix':'drill' }]));
   if(RUN.test){
