@@ -41,7 +41,7 @@ window.addEventListener('load', flushLog);
 // Active-time clock: counts seconds while the tab is in front and there was input in the
 // last minute, so reading a passage counts but a tab left open does not. Sent as
 // kind 'time' rows (secs = seconds since the last time row), summed per day by parent.html.
-var ACT_IDLE_MS = 60 * 1000, ACT_TICK = 5, actLast = Date.now(), actUnsent = 0;
+var ACT_IDLE_MS = 4 * 60 * 1000, ACT_TICK = 5, actLast = Date.now(), actUnsent = 0;
 ['keydown', 'pointerdown', 'scroll', 'touchstart', 'input'].forEach(function(ev){ addEventListener(ev, function(){ actLast = Date.now(); }, { passive: true }); });
 function sendTime(){
   if (!actUnsent) return;
