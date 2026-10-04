@@ -55,3 +55,11 @@ setInterval(function(){
 }, ACT_TICK * 1000);
 addEventListener('visibilitychange', function(){ if (document.hidden) sendTime(); });
 addEventListener('pagehide', sendTime);
+
+// Any uncaught error goes to the log too, so a crash on his device is visible on the sheet.
+addEventListener('error', function(ev){
+  try { logEvents([{ app: APP_NAME, kind: 'error', title: String(ev.message || ev.error || 'error').slice(0, 200), block: String((ev.error && ev.error.stack) || (ev.filename + ':' + ev.lineno)).slice(0, 300) }]); } catch (e) {}
+});
+addEventListener('unhandledrejection', function(ev){
+  try { logEvents([{ app: APP_NAME, kind: 'error', title: 'unhandled: ' + String(ev.reason && (ev.reason.message || ev.reason)).slice(0, 200) }]); } catch (e) {}
+});
