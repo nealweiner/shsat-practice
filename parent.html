@@ -55,11 +55,14 @@ const mins = s => s ? Math.round(s/60) : 0;
 const pct = (r, t) => t ? Math.round(100*r/t) : 0;
 const bar = p => `<span class="bar"><i class="${p < 60 ? 'low' : p < 80 ? 'mid' : ''}" style="width:${p}%"></i></span>${p}%`;
 
+// Google Sheets parses a score like "7/8" as a date (July 8) unless the cell is text; undo that for old rows.
+function fixScore(v){ const m = /^(\d{4})-(\d{2})-(\d{2})T/.exec(String(v || '')); return m ? (+m[2]) + '/' + (+m[3]) : v; }
 async function rows(){
   let local = []; try { local = JSON.parse(localStorage.getItem('shsat:log')) || []; } catch (e) {}
   if (!LOG_URL) return { rows: local, source: 'this device only (no log endpoint configured in config.js)' };
   try {
     const r = await fetch(LOG_URL); const remote = await r.json();
+    remote.forEach(e => { e.score = fixScore(e.score); });
     return { rows: remote, source: 'shared log, ' + remote.length + ' rows' };
   } catch (e) { return { rows: local, source: 'could not reach the shared log; showing this device only' }; }
 }

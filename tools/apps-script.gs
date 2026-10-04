@@ -16,7 +16,8 @@ function doPost(e) {
   if (!Array.isArray(events)) events = [events];
   var rows = events.map(function (ev) { return COLS.map(function (c) { return ev[c] == null ? '' : ev[c]; }); });
   var sh = sheet();
-  if (rows.length) sh.getRange(sh.getLastRow() + 1, 1, rows.length, COLS.length).setValues(rows);
+  // text format first, or Sheets turns a score like "7/8" into a date
+  if (rows.length) sh.getRange(sh.getLastRow() + 1, 1, rows.length, COLS.length).setNumberFormat('@').setValues(rows);
   return ContentService.createTextOutput('ok');
 }
 
