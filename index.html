@@ -248,7 +248,7 @@ function home(){
     <div class="card">
       <p class="meta" style="margin:0 0 10px">Each official sample test under test conditions: a 3-hour clock, one question at a time, a passage set at a time with no going back once it is submitted, a break between sections, and the score only at the end. A section alone is 90 minutes.</p>
       <table class="tests"><tr><th>Test</th><th>Last result</th><th></th></tr>
-      ${FORMS.map(f => { const r = tests[f.id] || {}; const cell = k => r[k] ? `<span class="meta">${k==='all'?'Full':k==='ela'?'ELA':'Math'}: </span>${r[k].ela?'ELA '+r[k].ela:''}${r[k].ela&&r[k].math?' &middot; ':''}${r[k].math?'Math '+r[k].math:''} <span class="meta">${r[k].date}</span>` : '';
+      ${FORMS.map(f => { const r = tests[f.id] || {}; const cell = k => r[k] ? `<span class="meta">${k==='all'?'Full':k==='ela'?'ELA':'Math'}: </span>${r[k].ela?'ELA '+r[k].ela:''}${r[k].ela&&r[k].math?' &middot; ':''}${r[k].math?'Math '+r[k].math:''}${r[k].est ? ' <b>&asymp; ' + r[k].est + '</b>' : ''} <span class="meta">${r[k].date}</span>` : '';
         const last = ['all','ela','math'].map(cell).filter(Boolean).join('<br>');
         return `<tr><td><b>${f.label}</b></td><td>${last || '<span class="meta">not taken</span>'}</td>
           <td class="row" style="justify-content:flex-end"><button class="small primary" onclick="startTest('all','${f.id}')">Full test</button><button class="small" onclick="startTest('ela','${f.id}')">ELA</button><button class="small" onclick="startTest('math','${f.id}')">Math</button></td></tr>`; }).join('')}
@@ -302,6 +302,24 @@ window.startDrill = function(id){
           one: load('one',false), idx:0, answers:{}, form:b.form };
   runView();
 };
+/* ---- Estimated SHSAT scaled score. The DOE does not publish its raw-to-scaled curve and
+   re-norms it every year; these anchors are the widely quoted ones (44 right of 57 -> about 278
+   per section, 51 -> about 308, 30 -> about 218) and agree with the published cutoffs. Treat the
+   result as plus or minus 15 composite points. The 2026 test (50 + 50, adaptive) is scored
+   differently again. ---- */
+const SCALE = [[0,40],[6,80],[10,110],[16,164],[23,194],[30,218],[37,252],[44,278],[51,308],[57,350]];
+function scaled(raw, total){
+  const r = raw * 57 / total;
+  for (let i = 1; i < SCALE.length; i++) if (r <= SCALE[i][0]) { const [a,b] = SCALE[i-1], [c,d] = SCALE[i]; return Math.round(b + (d-b) * (r-a) / (c-a)); }
+  return SCALE[SCALE.length-1][1];
+}
+function estimate(ela, math){
+  const part = v => { if (!v) return null; const [c,t] = v.split('/').map(Number); return scaled(c, t); };
+  const e = part(ela), m = part(math);
+  return { ela: e, math: m, composite: e != null && m != null ? e + m : null };
+}
+const CUTOFFS = [['Stuyvesant',561],['HSMSE at City College',539],['Queens HS for the Sciences',531],['Bronx Science',525],['Staten Island Tech',517],['HS of American Studies',507],['Brooklyn Tech',506],['Brooklyn Latin',495]];
+
 /* ============================ TEST MODE ============================
    One form under test conditions: countdown clock, one question at a time, a set
    (passage or math group) at a time with a navigator, no return to a submitted set,
@@ -492,14 +510,19 @@ window.finish = function(){
   missed.forEach(m=>log.push({...m, setScore:c+' / '+all.length, setTime:time}));
   save('misslog', log.slice(-300));
 
-  logEvents(all.map(({b,q}) => { const v = RUN.answers[q.id]; return { app:'practice', session:RUN.sid, kind:'answer', form:b.formLabel, block:b.title, n:q.n, tag:b.kind,
-      chosen:plainText(shown(q,v)), correct:plainText(keyText(q)), ok:isRight(q,v)?1:0, secs:(RUN.secs||{})[q.id]||'' }; })
-    .concat([{ app:'practice', session:RUN.sid, kind:'session', title:RUN.title, score:c+'/'+all.length, secs:time, tag:RUN.daily?'daily':RUN.test?'section':RUN.mix?'mix':'drill' }]));
   if(RUN.test){
     const tot = sec => { const bs = RUN.blocks.filter(b => b.section === sec); return bs.length ? bs.reduce((s,b) => s + perBlock[b.id].c, 0) + '/' + bs.reduce((s,b) => s + perBlock[b.id].t, 0) : ''; };
-    const rec = { ela: tot('ela'), math: tot('math'), date: new Date().toLocaleDateString(), time };
-    const tests = load('tests', {}); (tests[RUN.form] = tests[RUN.form] || {})[RUN.section] = rec; save('tests', tests);
-    save('lasttest', { ...rec, title: RUN.title, form: RUN.form, ts: Date.now() });
+    RUN.rec = { ela: tot('ela'), math: tot('math'), date: new Date().toLocaleDateString(), time };
+    const est = estimate(RUN.rec.ela, RUN.rec.math);
+    RUN.rec.est = est.composite != null ? est.composite : (est.ela != null ? est.ela : est.math);
+    RUN.logTitle = RUN.title + (RUN.rec.ela ? ' \u00b7 ELA ' + RUN.rec.ela : '') + (RUN.rec.math ? ' \u00b7 Math ' + RUN.rec.math : '') + ' \u00b7 est. ' + RUN.rec.est;
+  }
+  logEvents(all.map(({b,q}) => { const v = RUN.answers[q.id]; return { app:'practice', session:RUN.sid, kind:'answer', form:b.formLabel, block:b.title, n:q.n, tag:b.kind,
+      chosen:plainText(shown(q,v)), correct:plainText(keyText(q)), ok:isRight(q,v)?1:0, secs:(RUN.secs||{})[q.id]||'' }; })
+    .concat([{ app:'practice', session:RUN.sid, kind:'session', title:RUN.logTitle || RUN.title, score:c+'/'+all.length, secs:time, tag:RUN.daily?'daily':RUN.test?'section':RUN.mix?'mix':'drill' }]));
+  if(RUN.test){
+    const tests = load('tests', {}); (tests[RUN.form] = tests[RUN.form] || {})[RUN.section] = RUN.rec; save('tests', tests);
+    save('lasttest', { ...RUN.rec, title: RUN.title, form: RUN.form, ts: Date.now() });
     go('report'); return;
   }
 
@@ -559,7 +582,11 @@ function reportView(){
       ${lt.math ? `<div>Math<b>${lt.math}</b><span class="meta">${pc(lt.math)}</span></div>` : ''}
       ${lt.ela && lt.math ? `<div>Total<b>${+lt.ela.split('/')[0] + +lt.math.split('/')[0]} / 114</b></div>` : ''}
       <div>Time<b>${fmt(lt.time)}</b></div></div>
-      <p class="note" style="margin:0">On the paper test, students admitted to the specialized high schools typically scored in the high 40s or better out of 57 on each section. The 2026 test is 50 + 50 and computer-adaptive, so treat this as a practice mark, not a prediction.</p></div>`;
+      ${(() => { const e = estimate(lt.ela, lt.math); if (e.ela == null && e.math == null) return '';
+        const comp = e.composite;
+        return `<div class="scorebar" style="margin-top:4px">${e.ela != null ? `<div>Est. ELA scaled<b>${e.ela}</b></div>` : ''}${e.math != null ? `<div>Est. Math scaled<b>${e.math}</b></div>` : ''}${comp != null ? `<div>Est. composite<b>${comp}</b><span class="meta">of 800</span></div>` : ''}</div>
+        ${comp != null ? `<div class="meta" style="margin:6px 0 4px">2026 cutoffs (lowest composite admitted):</div><div class="row" style="gap:6px 14px;font:13px system-ui,sans-serif">${CUTOFFS.map(([n,c]) => `<span style="color:${comp >= c ? 'var(--good)' : '#9A9284'}">${comp >= c ? '\u2713' : '\u2013'} ${n} ${c}</span>`).join('')}</div>` : ''}`; })()}
+      <p class="note" style="margin:8px 0 0">The scaled score is an estimate: the DOE does not publish its conversion and renorms it each year, so read it as plus or minus about 15 composite points. The 2026 test is 50 + 50 and computer-adaptive and is scored differently again, so the cutoffs are a guide to the target, not a prediction.</p></div>`;
   }
   if(!log.length){
     h += `<div class="card"><p>Nothing logged yet. Work through a piece, or run a full section, and every question you miss lands here.</p></div>`;
