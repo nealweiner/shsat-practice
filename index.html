@@ -80,6 +80,7 @@
   table.tests th{text-align:left;font:12px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#6B6355;padding:4px 6px}
   table.tests td{padding:7px 6px;border-top:1px solid var(--line);vertical-align:middle}
   table.tests td.row{gap:6px;flex-wrap:nowrap}
+  table.tests tr.fresh td{background:#FFF8E6}
   details summary{cursor:pointer;font-size:17px;font-weight:bold;padding:6px 0}
   .rpt-head{border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:16px}
   .rpt-sec{font:bold 13px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;margin:22px 0 6px;color:var(--accent)}
@@ -247,10 +248,11 @@ function home(){
     <h2>Full tests</h2>
     <div class="card">
       <p class="meta" style="margin:0 0 10px">Each official sample test under test conditions: a 3-hour clock, one question at a time, a passage set at a time with no going back once it is submitted, a break between sections, and the score only at the end. A section alone is 90 minutes.</p>
+      <p class="meta" style="margin:0 0 8px">Highlighted tests have no score yet. "Seen" counts questions from that form he has already met in drills and lessons, so the lowest counts make the cleanest full tests. <a href="strategy.html">How to take the test &rarr;</a></p>
       <table class="tests"><tr><th>Test</th><th>Last result</th><th></th></tr>
       ${FORMS.map(f => { const r = tests[f.id] || {}; const cell = k => r[k] ? `<span class="meta">${k==='all'?'Full':k==='ela'?'ELA':'Math'}: </span>${r[k].ela?'ELA '+r[k].ela:''}${r[k].ela&&r[k].math?' &middot; ':''}${r[k].math?'Math '+r[k].math:''}${r[k].est ? ' <b>&asymp; ' + r[k].est + '</b>' : ''} <span class="meta">${r[k].date}</span>` : '';
         const last = ['all','ela','math'].map(cell).filter(Boolean).join('<br>');
-        return `<tr><td><b>${f.label}</b></td><td>${last || '<span class="meta">not taken</span>'}</td>
+        return `<tr class="${last ? '' : 'fresh'}"><td><b>${f.label}</b><div class="meta" id="seen_${f.id}"></div></td><td>${last || '<span class="tag">no score yet</span>'}</td>
           <td class="row" style="justify-content:flex-end"><button class="small primary" onclick="startTest('all','${f.id}')">Full test</button><button class="small" onclick="startTest('ela','${f.id}')">ELA</button><button class="small" onclick="startTest('math','${f.id}')">Math</button></td></tr>`; }).join('')}
       </table>
     </div>
@@ -273,7 +275,18 @@ function home(){
     h += `</details>`;
   });
   h += `<p class="note" style="margin-top:26px">Read the explanation on every one you miss, not just the score.</p>`;
-  app.innerHTML = h;
+  app.innerHTML = h; markSeen();
+}
+/* how many questions of each form he has already met, from the shared log when it is reachable */
+let SEEN = null;
+async function markSeen(){
+  if (!SEEN) {
+    SEEN = {};
+    let rows = load('log', []);
+    if (LOG_URL) { try { rows = await (await fetch(LOG_URL)).json(); } catch (e) {} }
+    rows.forEach(e => { if (e.kind === 'answer' && e.form) SEEN[e.form] = (SEEN[e.form] || 0) + 1; });
+  }
+  FORMS.forEach(f => { const el = document.getElementById('seen_' + f.id); if (el) el.textContent = (SEEN[f.label] || 0) + ' of 114 seen'; });
 }
 function drillRow(b, s){
   const tag = b.kind in NEW_TO_ISEE ? '<span class="tag">not on ISEE</span>' : '';
@@ -343,7 +356,7 @@ window.startTest = function(section, fid){
     </ul>
     <div class="row" style="margin-top:14px">
       ${section==='all' ? `<button class="primary" onclick="testBegin('ela')">Begin with English Language Arts</button><button class="primary" onclick="testBegin('math')">Begin with Mathematics</button>` : `<button class="primary" onclick="testBegin('${section}')">Begin</button>`}
-      <button onclick="go('home')">Not now</button></div></div>`;
+      <button onclick="go('home')">Not now</button><a href="strategy.html" class="meta" style="margin-left:auto">How to take the test &rarr;</a></div></div>`;
   window.scrollTo(0,0);
 };
 window.testBegin = function(first){
