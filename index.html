@@ -233,6 +233,8 @@ function home(){
   let h = `<h2>Today</h2>
     <div class="card">
       <div class="meta" style="margin:0 0 10px">${daily.streak ? '<b>' + daily.streak + '-day streak.</b> ' : ''}Two separate sets. Each adapts to him and never repeats a question within a week.</div>
+      ${(() => { const r = load('adrun', null); return r && r.i < ADAPT_N && Date.now() - r.ts < 36e5*24 ? `<div class="drill"><span><b>Unfinished math set</b> <span class="meta">${r.i + (r.checked ? 1 : 0)} of ${ADAPT_N} answered</span></span><button class="small primary" onclick="resumeAdaptive()">Resume</button></div>` : ''; })()}
+      ${(() => { const t = load('testrun', null); return t && Date.now() - t.started < 4*3600e3 ? `<div class="drill"><span><b>Unfinished test: ${esc(t.label)}</b> <span class="meta">${fmtClock(Math.max(0, t.target - Math.floor((Date.now() - t.started)/1000)))} left on the clock</span></span><button class="small primary" onclick="resumeTest()">Resume</button></div>` : ''; })()}
       <div class="drill"><span><b>Math set</b> <span class="meta">${ADAPT_N} problems, one at a time, each one picked for you from the last answer &middot; ${doneToday ? 'done today: ' + daily.lastScore : 'not yet today'}</span></span>
         <button class="small ${doneToday ? '' : 'primary'}" onclick="startAdaptive()">${doneToday ? 'Another' : 'Start'}</button></div>
       <div class="drill"><span><b>Grammar set</b> <span class="meta">one Revising/Editing concept, then real questions, about 8 minutes &middot; ${grammarToday ? 'done today' : 'not yet today'}</span></span>
@@ -367,12 +369,31 @@ window.testBegin = function(first){
   document.body.classList.add('testing');
   try { document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(()=>{}); } catch(e){}
   clearInterval(TT); TT = setInterval(testTick, 1000);
+  persistTest(); testView();
+};
+// any answer change during a test is saved at once, so a reload loses nothing
+app.addEventListener('change', () => { if (document.body.classList.contains('testing')) persistTest(); });
+app.addEventListener('input', () => { if (document.body.classList.contains('testing')) persistTest(); });
+function fmtClock(sec){ return fmt(Math.max(0,sec)).replace(/^(\d+):/, (m,a)=> (a>=60? Math.floor(a/60)+':'+String(a%60).padStart(2,'0')+':' : a+':')); }
+function persistTest(){
+  if (!RUN || !RUN.test || !RUN.started) return;
+  save('testrun', { form:RUN.form, label:RUN.f.label, section:RUN.section, first:RUN.blocks[0].section, title:RUN.title, target:RUN.target, started:RUN.started, sid:RUN.sid,
+                    setIdx:RUN.setIdx, qIdx:RUN.qIdx, answers:RUN.answers, flags:RUN.flags, secs:RUN.secs });
+}
+window.resumeTest = function(){
+  const t = load('testrun', null); if (!t) return;
+  const f = FORMS.find(x => x.id === t.form);
+  RUN = { blocks: t.section==='all' ? (t.first==='ela' ? f.ela.concat(f.math) : f.math.concat(f.ela)) : f[t.section], title:t.title, target:t.target, test:true, section:t.section, form:t.form, f,
+          answers:t.answers||{}, flags:t.flags||{}, secs:t.secs||{}, setIdx:t.setIdx, qIdx:t.qIdx, started:t.started, sid:t.sid };
+  document.body.classList.add('testing');
+  clearInterval(TT); TT = setInterval(testTick, 1000);
+  if (testLeft() <= 0) { testFinish(); return; }
   testView();
 };
 function testLeft(){ return RUN.target - Math.floor((Date.now() - RUN.started)/1000); }
 function testTick(){
   const el = document.getElementById('clock'); const left = testLeft();
-  if (el) { el.textContent = fmt(Math.max(0,left)).replace(/^(\d+):/, (m,a)=> (a>=60? Math.floor(a/60)+':'+String(a%60).padStart(2,'0')+':' : a+':')); el.classList.toggle('low', left < 600); }
+  if (el) { el.textContent = fmtClock(left); el.classList.toggle('low', left < 600); }
   if (left <= 0) { clearInterval(TT); alert('Time is up. The test is being submitted.'); testFinish(); }
 }
 function testView(){
@@ -394,7 +415,7 @@ function testView(){
   window.scrollTo(0,0);
 }
 function testLeave(){ const q = RUN.blocks[RUN.setIdx].questions[RUN.qIdx]; RUN.secs[q.id] = (RUN.secs[q.id]||0) + Math.round((Date.now()-RUN.qStart)/1000); }
-window.testGo = function(i){ testLeave(); RUN.qIdx = i; testView(); };
+window.testGo = function(i){ testLeave(); RUN.qIdx = i; persistTest(); testView(); };
 window.testFlag = function(){ const q = RUN.blocks[RUN.setIdx].questions[RUN.qIdx]; RUN.flags[q.id] = !RUN.flags[q.id]; testView(); };
 window.testSubmitSet = function(){
   const b = RUN.blocks[RUN.setIdx];
@@ -404,17 +425,18 @@ window.testSubmitSet = function(){
   const next = RUN.blocks[RUN.setIdx+1];
   if (!next) { testFinish(); return; }
   if (next.section !== b.section) {
-    RUN.setIdx++; RUN.qIdx = 0;
+    RUN.setIdx++; RUN.qIdx = 0; persistTest();
     const done = b.section==='ela' ? 'English Language Arts' : 'Mathematics', up = next.section==='ela' ? 'English Language Arts' : 'Mathematics';
     app.innerHTML = `<div class="tbar"><b>${esc(RUN.f.label)}</b><span class="clock" id="clock">—</span></div>
       <div class="card" style="margin-top:14px"><h2 style="margin:0 0 6px">${done} complete</h2><p>The clock keeps running. Take a breath, then continue to ${up}.</p>
       <button class="primary" onclick="testView()">Continue to ${up} &rarr;</button></div>`;
     testTick(); window.scrollTo(0,0); return;
   }
-  RUN.setIdx++; RUN.qIdx = 0; testView();
+  RUN.setIdx++; RUN.qIdx = 0; persistTest(); testView();
 };
 function testFinish(){
   clearInterval(TT); TT = null;
+  localStorage.removeItem('shsat:testrun');
   document.body.classList.remove('testing');
   try { document.exitFullscreen && document.fullscreenElement && document.exitFullscreen().catch(()=>{}); } catch(e){}
   elapsed = Math.min(RUN.target, Math.round((Date.now() - RUN.started)/1000));
@@ -679,6 +701,16 @@ function nextProblem(afterOk){
   const from = other.length ? other : cand;
   return from[Math.floor(Math.random() * from.length)];
 }
+function persistAD(extra){
+  save('adrun', { theta0:AD.theta0, theta:AD.theta, i:AD.i, right:AD.right, sid:AD.sid, t0:AD.t0, curId:AD.cur && AD.cur.id, answered:AD.answered, ts:Date.now(), ...(extra||{}) });
+}
+window.resumeAdaptive = function(){
+  const r = load('adrun', null); if (!r) { startAdaptive(); return; }
+  AD = { theta0:r.theta0, theta:r.theta, i:r.i, right:r.right, sid:r.sid, t0:r.t0, cur:MATHQ.find(q => q.id === r.curId) || null, answered:r.answered || {} };
+  if (r.checked) { AD.i++; if (AD.i >= ADAPT_N) { adaptDone(); return; } AD.cur = nextProblem(r.lastOk); }
+  if (!AD.cur) AD.cur = nextProblem(null);
+  persistAD(); adaptView();
+};
 window.startAdaptive = async function(){
   let theta = load('theta', null);
   if (theta == null && LOG_URL) {              // a new device: pick the level up from the shared log
@@ -689,7 +721,7 @@ window.startAdaptive = async function(){
   if (theta == null) theta = 0.65;             // Neal set the starting level; the first answers still move it fast
   AD = { theta0: theta, theta, i: 0, right: 0, sid: newSessionId(), t0: Date.now(), cur: null, answered: {} };
   AD.cur = nextProblem(null);
-  adaptView();
+  persistAD(); adaptView();
 };
 function adaptView(){
   const q = AD.cur;
@@ -720,15 +752,17 @@ window.adaptCheck = function(){
   if (q.kind === 'grid') { const g = document.getElementById('ad_g'); g.classList.add(ok ? 'correct' : 'chosen-wrong'); g.querySelector('input').disabled = true; g.insertAdjacentHTML('beforeend', `<span class="meta" style="margin-left:10px">Answer: <b>${esc(q.a)}</b></span>`); }
   else { document.getElementById('ad_o' + q.a).classList.add('correct'); if (+v !== q.a) document.getElementById('ad_o' + v).classList.add('chosen-wrong'); document.querySelectorAll('input[name="adq"]').forEach(r => r.disabled = true); }
   const e = document.getElementById('ad_exp'); e.innerHTML = `<div class="meta" style="margin-bottom:6px">${ok ? '<b style="color:var(--good)">Right.</b>' : '<b style="color:var(--bad)">Not this one.</b>'}</div>` + expHTML(q); e.classList.remove('hide');
+  persistAD({ checked:true, lastOk:ok });
   const btn = document.getElementById('ad_btn'); btn.textContent = AD.i + 1 >= ADAPT_N ? 'Finish' : 'Next \u2192'; btn.onclick = () => adaptNext(ok);
   e.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 };
 window.adaptNext = function(ok){
   AD.i++;
   if (AD.i >= ADAPT_N) { adaptDone(); return; }
-  AD.cur = nextProblem(ok); adaptView();
+  AD.cur = nextProblem(ok); persistAD(); adaptView();
 };
 function adaptDone(){
+  localStorage.removeItem('shsat:adrun');
   const a = Math.round(AD.theta0*100), b = Math.round(AD.theta*100), time = Math.round((Date.now() - AD.t0)/1000);
   logEvents([{ app:'practice', session:AD.sid, kind:'session', title:'Math set \u00b7 level ' + a + ' \u2192 ' + b, score:AD.right + '/' + ADAPT_N, secs:time, tag:'math-daily' }]);
   const d = load('daily',{}), today = new Date().toISOString().slice(0,10), yday = new Date(Date.now()-864e5).toISOString().slice(0,10);
@@ -740,7 +774,7 @@ function adaptDone(){
     <div class="row" style="justify-content:center;margin-top:14px"><button class="primary" onclick="startAdaptive()">Another set</button><button onclick="go('home')">Home</button></div></div>`;
   window.scrollTo(0,0);
 }
-window.confirmHomeAD = function(){ if (AD && AD.i && !confirm('Leave this set? Your level so far is saved.')) return; go('home'); };
+window.confirmHomeAD = function(){ if (AD && AD.i && !confirm('Leave this set? You can resume it from the home page.')) return; go('home'); };
 
 window.go = function(name){
   window.scrollTo(0,0);

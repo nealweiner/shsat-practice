@@ -125,14 +125,19 @@ function render(R){
   h += `</table></div>`;
 
   // adaptive math: level history, then each answer with the problem's difficulty
-  const msets = ses.filter(e => /level \d+ \u2192 \d+/.test(e.title)), mans = ans.filter(e => e.tag === 'adaptive');
+  const mans = ans.filter(e => e.tag === 'adaptive');
+  let msets = ses.filter(e => /level \d+ \u2192 \d+/.test(e.title));
+  // sets that were started but never finished have answer rows and no session row
+  const finished = new Set(msets.map(e => e.session));
+  [...new Set(mans.map(a => a.session))].filter(sid => !finished.has(sid)).forEach(sid => { const a = mans.filter(x => x.session === sid); msets.push({ ts:a[0].ts, session:sid, title:'unfinished', score:a.filter(x => +x.ok).length + '/' + a.length, unfinished:true }); });
+  msets.sort((a,b) => new Date(a.ts) - new Date(b.ts));
   if (msets.length) {
     h += `<h2>Math sets</h2><div class="card"><p class="meta">Level and difficulty are percentiles of the ${Object.keys(MATHMETA).length}-problem bank: 70 means harder than 70% of it. Right answers are listed with the difficulty they were at; the wrong ones are in the missed-questions list below with the problem shown.</p>
       <table><tr><th>When</th><th class="num">Level</th><th class="num">Score</th><th>Right at</th><th>Wrong at</th></tr>`;
     msets.slice().reverse().slice(0, 30).forEach(e => {
       const m = e.title.match(/level (\d+) \u2192 (\d+)/), rows = mans.filter(a => a.session === e.session);
       const ds = ok => rows.filter(a => +a.ok === ok).map(diff).filter(d => d != null).sort((a,b) => a-b).join(', ');
-      h += `<tr><td>${day(e.ts)}</td><td class="num">${m[1]} &rarr; <b>${m[2]}</b></td><td class="num">${esc(e.score)}</td><td class="right">${ds(1)}</td><td class="wrong">${ds(0)}</td></tr>`;
+      h += `<tr><td>${day(e.ts)}</td><td class="num">${m ? m[1] + ' &rarr; <b>' + m[2] + '</b>' : '<span class="meta">unfinished</span>'}</td><td class="num">${esc(e.score)}</td><td class="right">${ds(1)}</td><td class="wrong">${ds(0)}</td></tr>`;
     });
     h += `</table></div>`;
   }
