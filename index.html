@@ -76,6 +76,10 @@
   .drill{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:15px}
   .drill:first-child{border-top:none}
   .drill .meta{white-space:normal}
+  table.tests{width:100%;border-collapse:collapse;font-size:15px}
+  table.tests th{text-align:left;font:12px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#6B6355;padding:4px 6px}
+  table.tests td{padding:7px 6px;border-top:1px solid var(--line);vertical-align:middle}
+  table.tests td.row{gap:6px;flex-wrap:nowrap}
   details summary{cursor:pointer;font-size:17px;font-weight:bold;padding:6px 0}
   .rpt-head{border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:16px}
   .rpt-sec{font:bold 13px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;margin:22px 0 6px;color:var(--accent)}
@@ -91,6 +95,21 @@
   .scorebar{display:flex;flex-wrap:wrap;gap:8px 18px;margin:8px 0 14px;font:14px system-ui,sans-serif}
   .scorebar b{display:block;font-size:18px}
   .scorebar .meta{display:block;font-size:12px}
+  body.testing header{display:none}
+  body.testing .wrap{max-width:1100px;padding-top:8px}
+  .tbar{position:sticky;top:0;z-index:9;background:var(--ink);color:#fff;padding:8px 14px;border-radius:8px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;font:14px system-ui,sans-serif}
+  .tbar .clock{margin-left:auto;font:700 20px ui-monospace,Menlo,monospace;letter-spacing:.04em}
+  .tbar .clock.low{color:#ffb4a8}
+  .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:12px}
+  .split .passage{max-height:calc(100vh - 120px);overflow:auto;position:sticky;top:56px;margin:0}
+  @media (max-width:760px){.split{grid-template-columns:1fr}.split .passage{position:static;max-height:260px}}
+  .tnav{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+  .tnav button{min-width:34px;padding:4px 6px;font:13px system-ui,sans-serif;border-radius:17px;background:#fff}
+  .tnav button.done{background:var(--soft)}
+  .tnav button.cur{border-width:2px;font-weight:700}
+  .tnav button.flag::after{content:'\26A0';margin-left:3px;color:var(--bad)}
+  .tq .qtext{font-size:17px}
+  body.testing .tq .qimg{width:min(100%,640px)}
   @media print{
     .noprint,.bar{display:none!important}
     body{background:#fff;font-size:12.5px}
@@ -203,7 +222,7 @@ function home(){
   stopTimer(); RUN = null;
   const scores = load('scores',{});
   const nMiss = load('misslog',[]).length;
-  const sel = load('form', FORMS[FORMS.length-1].id);
+  const tests = load('tests', {});
   const one = load('one', false);
   const undone = k => FORMS.map(f => f.ela.concat(f.math).find(b => b.kind===k)).filter(b => !scores[b.id]).length;
   const today = new Date().toISOString().slice(0,10);
@@ -225,16 +244,15 @@ function home(){
       ${Object.keys(NEW_TO_ISEE).map(k => `<div class="drill"><span>${NEW_TO_ISEE[k]} <span class="meta">${undone(k)} of ${FORMS.length} forms left</span></span>
         <button class="small primary" onclick="startMix('${k}')">Start</button></div>`).join('')}
     </div>
-    <h2>Run a full section</h2>
+    <h2>Full tests</h2>
     <div class="card">
-      <p class="meta" style="margin:0 0 10px">A whole ELA or Math section from one form, ${SECTION_MIN} minutes suggested, no answers shown until the end. Every miss goes onto the review sheet.</p>
-      <div class="row">
-        <select id="formsel" onchange="save('form',this.value)">${FORMS.map(f=>`<option value="${f.id}" ${f.id===sel?'selected':''}>${f.label}</option>`).join('')}</select>
-        <button class="primary" onclick="startSection('ela')">ELA &mdash; 57 questions</button>
-        <button class="primary" onclick="startSection('math')">Math &mdash; 57 questions</button>
-      </div>
-      <label class="meta" style="display:block;margin-top:12px"><input type="checkbox" id="onecb" ${one?'checked':''} onchange="save('one',this.checked)">
-        One question at a time, no going back &mdash; the way the computer-adaptive test works from fall 2026.</label>
+      <p class="meta" style="margin:0 0 10px">Each official sample test under test conditions: a 3-hour clock, one question at a time, a passage set at a time with no going back once it is submitted, a break between sections, and the score only at the end. A section alone is 90 minutes.</p>
+      <table class="tests"><tr><th>Test</th><th>Last result</th><th></th></tr>
+      ${FORMS.map(f => { const r = tests[f.id] || {}; const cell = k => r[k] ? `<span class="meta">${k==='all'?'Full':k==='ela'?'ELA':'Math'}: </span>${r[k].ela?'ELA '+r[k].ela:''}${r[k].ela&&r[k].math?' &middot; ':''}${r[k].math?'Math '+r[k].math:''} <span class="meta">${r[k].date}</span>` : '';
+        const last = ['all','ela','math'].map(cell).filter(Boolean).join('<br>');
+        return `<tr><td><b>${f.label}</b></td><td>${last || '<span class="meta">not taken</span>'}</td>
+          <td class="row" style="justify-content:flex-end"><button class="small primary" onclick="startTest('all','${f.id}')">Full test</button><button class="small" onclick="startTest('ela','${f.id}')">ELA</button><button class="small" onclick="startTest('math','${f.id}')">Math</button></td></tr>`; }).join('')}
+      </table>
     </div>
     <div class="card">
       <h3>Review sheet</h3>
@@ -243,10 +261,11 @@ function home(){
     </div>
     <p class="note">The real test is 3 hours for both sections, no calculator. From fall 2026 it is a computer-adaptive test with 50 ELA and 50 Math items; the content is the same as these paper forms, and the grid-in questions are typed into an equation editor rather than bubbled.</p>
     <h2>Practice one piece at a time</h2>
-    <p class="meta">Answers and explanations are shown as soon as you submit. Scores are remembered on this device.</p>`;
+    <p class="meta">Answers and explanations are shown as soon as you submit. Scores are remembered on this device.</p>
+    <label class="meta" style="display:block;margin:0 0 8px"><input type="checkbox" id="onecb" ${one?'checked':''} onchange="save('one',this.checked)"> In drills, show one question at a time with no going back.</label>`;
   FORMS.forEach(f=>{
     const done = f.ela.concat(f.math).filter(b=>scores[b.id]).length;
-    h += `<details class="card" ${f.id===sel?'open':''}><summary>${f.label} <span class="meta">${done? done+' of '+(f.ela.length+f.math.length)+' pieces done' : ''}</span></summary>`;
+    h += `<details class="card"><summary>${f.label} <span class="meta">${done? done+' of '+(f.ela.length+f.math.length)+' pieces done' : ''}</span></summary>`;
     h += `<div class="meta" style="margin:8px 0 2px"><span class="tag">ELA</span></div>`;
     f.ela.forEach(b=>h+=drillRow(b, scores[b.id]));
     h += `<div class="meta" style="margin:14px 0 2px"><span class="tag">Math</span></div>`;
@@ -283,17 +302,96 @@ window.startDrill = function(id){
           one: load('one',false), idx:0, answers:{}, form:b.form };
   runView();
 };
-window.startSection = function(section){
-  const fid = document.getElementById('formsel').value;
+/* ============================ TEST MODE ============================
+   One form under test conditions: countdown clock, one question at a time, a set
+   (passage or math group) at a time with a navigator, no return to a submitted set,
+   a break between sections, no feedback until the score report. Grading and the
+   review sheet reuse finish(). */
+let TT = null;   // countdown interval
+window.startTest = function(section, fid){
   const f = FORMS.find(x=>x.id===fid);
-  RUN = { blocks: f[section], title: f.label + ' — ' + (section==='ela'?'English Language Arts':'Mathematics'),
-          target: SECTION_MIN*60, test:true, one: load('one',false), idx:0, answers:{}, form:fid };
-  save('misslog', []);            // a fresh full section starts a fresh review sheet
-  runView();
+  RUN = { blocks: [], title: f.label + ' — ' + (section==='all' ? 'full test' : section==='ela' ? 'English Language Arts' : 'Mathematics'),
+          target: SECTION_MIN*60*(section==='all'?2:1), test:true, section, form:fid, f, answers:{}, flags:{}, secs:{} };
+  const mins = Math.round(RUN.target/60);
+  app.innerHTML = `<div class="card"><h2 style="margin:0 0 6px">${esc(f.label)}</h2>
+    <div class="meta" style="margin-bottom:12px">${section==='all' ? '57 English Language Arts questions and 57 Mathematics questions' : '57 questions'} &middot; ${mins} minutes</div>
+    <p>This works like the real test:</p>
+    <ul class="compact">
+      <li>The clock starts when you begin and does not stop. When it reaches zero the test is submitted as it stands.</li>
+      <li>You see one question at a time. Within a passage set you can move back and forth and flag questions to revisit.</li>
+      <li>When you submit a set you cannot return to it.</li>
+      <li>No calculator. Use scrap paper. Grid-in answers are typed as a number (a decimal or a fraction like 3/4).</li>
+      <li>No answers or explanations until the end. Then you get your score and a review sheet of every miss.</li>
+    </ul>
+    <div class="row" style="margin-top:14px">
+      ${section==='all' ? `<button class="primary" onclick="testBegin('ela')">Begin with English Language Arts</button><button class="primary" onclick="testBegin('math')">Begin with Mathematics</button>` : `<button class="primary" onclick="testBegin('${section}')">Begin</button>`}
+      <button onclick="go('home')">Not now</button></div></div>`;
+  window.scrollTo(0,0);
 };
+window.testBegin = function(first){
+  const f = RUN.f;
+  RUN.blocks = RUN.section==='all' ? (first==='ela' ? f.ela.concat(f.math) : f.math.concat(f.ela)) : f[RUN.section];
+  RUN.setIdx = 0; RUN.qIdx = 0; RUN.started = Date.now(); RUN.sid = newSessionId();
+  save('misslog', []);
+  document.body.classList.add('testing');
+  try { document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(()=>{}); } catch(e){}
+  clearInterval(TT); TT = setInterval(testTick, 1000);
+  testView();
+};
+function testLeft(){ return RUN.target - Math.floor((Date.now() - RUN.started)/1000); }
+function testTick(){
+  const el = document.getElementById('clock'); const left = testLeft();
+  if (el) { el.textContent = fmt(Math.max(0,left)).replace(/^(\d+):/, (m,a)=> (a>=60? Math.floor(a/60)+':'+String(a%60).padStart(2,'0')+':' : a+':')); el.classList.toggle('low', left < 600); }
+  if (left <= 0) { clearInterval(TT); alert('Time is up. The test is being submitted.'); testFinish(); }
+}
+function testView(){
+  const b = RUN.blocks[RUN.setIdx], q = b.questions[RUN.qIdx], n = b.questions.length;
+  const secName = b.section==='ela' ? 'English Language Arts' : 'Mathematics';
+  const setsInSec = RUN.blocks.filter(x => x.section===b.section), setNo = setsInSec.indexOf(b)+1;
+  let h = `<div class="tbar"><b>${esc(RUN.f.label)}</b><span>${secName}</span><span>Set ${setNo} of ${setsInSec.length}</span><span>Question ${RUN.qIdx+1} of ${n}</span><span class="clock" id="clock">—</span></div>`;
+  const qh = `<div class="card tq" id="tq">` + qHTML(q, RUN.qIdx) + `</div>`;
+  h += b.passage ? `<div class="split">${passageHTML(b.passage)}<div>${qh}</div></div>` : qh;
+  h += `<div class="tnav">${b.questions.map((x,i) => `<button class="${RUN.answers[x.id]!==undefined && RUN.answers[x.id]!=='' ? 'done' : ''} ${i===RUN.qIdx?'cur':''} ${RUN.flags[x.id]?'flag':''}" onclick="testGo(${i})">${x.n}</button>`).join('')}</div>
+    <div class="row"><button onclick="testGo(${RUN.qIdx-1})" ${RUN.qIdx===0?'disabled':''}>&larr; Previous</button>
+      <button onclick="testFlag()">${RUN.flags[q.id] ? 'Unflag' : 'Flag for review'}</button>
+      ${RUN.qIdx < n-1 ? `<button class="primary" onclick="testGo(${RUN.qIdx+1})">Next &rarr;</button>` : `<button class="primary" onclick="testSubmitSet()">Submit this set &rarr;</button>`}
+      <span class="note" style="margin-left:auto">Submitting a set is final.</span></div>`;
+  app.innerHTML = h;
+  // the drill renderer hides explanations and marks nothing, which is what a test needs
+  const box = document.getElementById('e_' + RUN.qIdx); if (box) box.remove();
+  RUN.qStart = Date.now(); testTick();
+  window.scrollTo(0,0);
+}
+function testLeave(){ const q = RUN.blocks[RUN.setIdx].questions[RUN.qIdx]; RUN.secs[q.id] = (RUN.secs[q.id]||0) + Math.round((Date.now()-RUN.qStart)/1000); }
+window.testGo = function(i){ testLeave(); RUN.qIdx = i; testView(); };
+window.testFlag = function(){ const q = RUN.blocks[RUN.setIdx].questions[RUN.qIdx]; RUN.flags[q.id] = !RUN.flags[q.id]; testView(); };
+window.testSubmitSet = function(){
+  const b = RUN.blocks[RUN.setIdx];
+  const blank = b.questions.filter(x => RUN.answers[x.id]===undefined || RUN.answers[x.id]==='').length;
+  if (!confirm((blank ? blank + ' question' + (blank>1?'s':'') + ' in this set ' + (blank>1?'are':'is') + ' unanswered. ' : '') + 'Submit this set? You cannot come back to it.')) return;
+  testLeave();
+  const next = RUN.blocks[RUN.setIdx+1];
+  if (!next) { testFinish(); return; }
+  if (next.section !== b.section) {
+    RUN.setIdx++; RUN.qIdx = 0;
+    const done = b.section==='ela' ? 'English Language Arts' : 'Mathematics', up = next.section==='ela' ? 'English Language Arts' : 'Mathematics';
+    app.innerHTML = `<div class="tbar"><b>${esc(RUN.f.label)}</b><span class="clock" id="clock">—</span></div>
+      <div class="card" style="margin-top:14px"><h2 style="margin:0 0 6px">${done} complete</h2><p>The clock keeps running. Take a breath, then continue to ${up}.</p>
+      <button class="primary" onclick="testView()">Continue to ${up} &rarr;</button></div>`;
+    testTick(); window.scrollTo(0,0); return;
+  }
+  RUN.setIdx++; RUN.qIdx = 0; testView();
+};
+function testFinish(){
+  clearInterval(TT); TT = null;
+  document.body.classList.remove('testing');
+  try { document.exitFullscreen && document.fullscreenElement && document.exitFullscreen().catch(()=>{}); } catch(e){}
+  elapsed = Math.min(RUN.target, Math.round((Date.now() - RUN.started)/1000));
+  finish();
+}
 
 function qHTML(q, i){
-  const stem = q.kind==='text' ? (q.html.startsWith('<p>') ? q.html.replace('<p>', `<p>${q.n}. `) : `<p>${q.n}.</p>` + q.html) : `<p>${q.n}.</p>`;
+  const stem = q.kind==='text' ? (q.html.startsWith('<p>') ? q.html.replace('<p>', `<p>${q.n}. `) : `<p>${q.n}.</p>` + q.html) : '';
   let h = `<div class="q" id="q_${i}"><div class="qtext">${stem}</div>`;
   if(q.kind!=='text') h += `<img class="qimg" src="${q.img}" alt="question ${q.n}">`;
   if(q.kind==='grid'){
@@ -397,7 +495,13 @@ window.finish = function(){
   logEvents(all.map(({b,q}) => { const v = RUN.answers[q.id]; return { app:'practice', session:RUN.sid, kind:'answer', form:b.formLabel, block:b.title, n:q.n, tag:b.kind,
       chosen:plainText(shown(q,v)), correct:plainText(keyText(q)), ok:isRight(q,v)?1:0, secs:(RUN.secs||{})[q.id]||'' }; })
     .concat([{ app:'practice', session:RUN.sid, kind:'session', title:RUN.title, score:c+'/'+all.length, secs:time, tag:RUN.daily?'daily':RUN.test?'section':RUN.mix?'mix':'drill' }]));
-  if(RUN.test){ go('report'); return; }
+  if(RUN.test){
+    const tot = sec => { const bs = RUN.blocks.filter(b => b.section === sec); return bs.length ? bs.reduce((s,b) => s + perBlock[b.id].c, 0) + '/' + bs.reduce((s,b) => s + perBlock[b.id].t, 0) : ''; };
+    const rec = { ela: tot('ela'), math: tot('math'), date: new Date().toLocaleDateString(), time };
+    const tests = load('tests', {}); (tests[RUN.form] = tests[RUN.form] || {})[RUN.section] = rec; save('tests', tests);
+    save('lasttest', { ...rec, title: RUN.title, form: RUN.form, ts: Date.now() });
+    go('report'); return;
+  }
 
   // drill: mark answers inline, show explanations
   if(RUN.one){
@@ -447,6 +551,16 @@ function reportView(){
     </div>
     <div class="rpt-head"><h2 style="margin:0">Review sheet</h2>
     <div class="meta">Generated ${new Date().toLocaleDateString(undefined,{weekday:'long', day:'numeric', month:'long', year:'numeric'})}</div></div>`;
+  const lt = load('lasttest', null);
+  if(lt && Date.now() - lt.ts < 6*3600e3){
+    const pc = v => v ? Math.round(100 * v.split('/')[0] / v.split('/')[1]) + '%' : '';
+    h += `<div class="card"><h3 style="margin:0 0 6px">${esc(lt.title)}</h3><div class="scorebar">
+      ${lt.ela ? `<div>ELA<b>${lt.ela}</b><span class="meta">${pc(lt.ela)}</span></div>` : ''}
+      ${lt.math ? `<div>Math<b>${lt.math}</b><span class="meta">${pc(lt.math)}</span></div>` : ''}
+      ${lt.ela && lt.math ? `<div>Total<b>${+lt.ela.split('/')[0] + +lt.math.split('/')[0]} / 114</b></div>` : ''}
+      <div>Time<b>${fmt(lt.time)}</b></div></div>
+      <p class="note" style="margin:0">On the paper test, students admitted to the specialized high schools typically scored in the high 40s or better out of 57 on each section. The 2026 test is 50 + 50 and computer-adaptive, so treat this as a practice mark, not a prediction.</p></div>`;
+  }
   if(!log.length){
     h += `<div class="card"><p>Nothing logged yet. Work through a piece, or run a full section, and every question you miss lands here.</p></div>`;
     app.innerHTML = h; return;
