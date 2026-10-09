@@ -12,7 +12,7 @@
   h1{font-size:26px;margin:0 0 4px}
   h2{font-size:19px;margin:24px 0 8px}
   .sub{color:var(--accent);font-size:14px;margin-bottom:16px}
-  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:10px 0}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:10px 0;overflow-x:auto}
   .meta{font:13px system-ui,sans-serif;color:#6B6355}
   .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
   .tile{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
@@ -97,6 +97,84 @@ function sane(R){
   R.rows.forEach(e => { if (e.kind !== 'session') return; const est = perSes[e.session] || 0;
     if ((+e.secs || 0) > est + SES_SLACK) { e.secs = est; e.approx = true; } });
 }
+/* ============================ RATINGS ============================
+   One row per area, each with a rating and what to do about it.
+   Grammar: the two comma lessons share one tag on the real questions, so they are rated together.
+   A rating needs RATE_MIN answers; below that the row says so and gives the count.
+   Math: questions differ in difficulty, so raw accuracy says little (the adaptive set aims
+   each problem at his level, where anyone gets about half). Instead each topic gets its own
+   level on the bank's 0-100 scale: the posterior mean under the same logistic model the app
+   uses (slope 8), starting from a prior centred on his overall level. With no answers a topic
+   sits at the overall level; every answer pulls it. */
+const RATE_MIN = 6, RATE_MIN_MATH = 4, PRIOR_SD = 0.15, M_SLOPE = 8;
+function topicLevel(rows, centre){
+  let sw = 0, sm = 0, sv = 0;
+  for (let i = -40; i <= 140; i++) { const th = i/100;   /* past both ends, so a prior centred near 100 is not cut off on one side */ let lw = -((th - centre) ** 2) / (2 * PRIOR_SD * PRIOR_SD);
+    rows.forEach(r => { const p = 1 / (1 + Math.exp(-(th - r.d) * M_SLOPE)); lw += Math.log(r.ok ? p : 1 - p); });
+    const w = Math.exp(lw); sw += w; sm += w * th; sv += w * th * th; }
+  const m = sm / sw; return { m: Math.min(0.99, Math.max(0.01, m)), sd: Math.sqrt(Math.max(0, sv / sw - m * m)) };
+}
+function ratingsHTML(ans, ses){
+  const when = ts => ts ? day(ts) : '';
+  const pill = (t, c) => `<b class="${c || ''}">${t}</b>`;
+  // ---- grammar areas
+  const G = [];
+  CONCEPTS.forEach(c => { const key = c.tags[0] || c.id; let g = G.find(x => x.key === key);
+    if (!g) G.push(g = { key, names: [], ids: [], tags: [], q: 0, ok: 0, last: 0, lessons: 0, of: 0 });
+    g.names.push(c.name.replace(/^Commas /, '')); g.ids.push(c.id); c.tags.forEach(t => g.tags.includes(t) || g.tags.push(t)); g.of++; });
+  G.forEach(g => { g.name = g.names.length > 1 ? 'Commas: ' + g.names.map(n => n.split(',')[0].replace(/^that /, '')).join('; ') : g.names[0];
+    g.bank = ITEMS.filter(it => g.tags.includes(it.tag)).length; });
+  const lessonDone = new Set(ses.filter(e => /^Lesson: /.test(e.title)).map(e => e.title.slice(8)));
+  CONCEPTS.forEach(c => { if (lessonDone.has(c.name)) G.find(g => g.ids.includes(c.id)).lessons++; });
+  const itemTag = {}; ITEMS.forEach(it => { itemTag[it.form + '|' + it.n] = it.tag; });
+  let reviews = ses.filter(e => e.tag === 'review').length;
+  const other = { reb: { name: 'Revising/Editing passages (in a drill or test)', q: 0, ok: 0, last: 0 }, rc: { name: 'Reading comprehension', q: 0, ok: 0, last: 0 }, grid: { name: 'Grid-in format', q: 0, ok: 0, last: 0 } };
+  // ---- math topics
+  const lv = ses.filter(e => /level \d+ → \d+/.test(e.title)).pop();
+  const M = {}; Object.values(MATHMETA).forEach(m => { M[m.t] = M[m.t] || { rows: [], bank: 0, last: 0 }; M[m.t].bank++; });
+  const allMath = [];
+  ans.forEach(e => {
+    const t = new Date(e.ts).getTime(), ok = +e.ok;
+    if (e.app === 'grammar') { const c = CONCEPTS.find(c => c.name === e.block) || CONCEPTS.find(c => c.id === e.tag) || CONCEPTS.find(c => c.tags.includes(e.tag)); const g = c && G.find(g => g.ids.includes(c.id)); if (g) { g.q++; g.ok += ok; g.last = Math.max(g.last, t); } return; }
+    const id = e.form === 'Extra' ? 'gen:' + e.n : (FORMID[e.form] || '') + ':' + e.n, mm = (e.tag === 'adaptive' || e.tag === 'grid' || e.tag === 'mc') && MATHMETA[id];
+    if (mm) { const r = { d: mm.d, ok }; M[mm.t].rows.push(r); M[mm.t].last = Math.max(M[mm.t].last, t); allMath.push(r); }
+    if (e.tag === 'rea' || e.tag === 'reb') { const g = G.find(g => g.tags.includes(itemTag[e.form + '|' + e.n])); if (g) { g.q++; g.ok += ok; g.last = Math.max(g.last, t); } }
+    if (other[e.tag]) { const o = other[e.tag]; o.q++; o.ok += ok; o.last = Math.max(o.last, t); }
+  });
+  const overall = lv ? +lv.title.match(/→ (\d+)/)[1] / 100 : allMath.length ? topicLevel(allMath, 0.65).m : null;
+
+  const todo = [];
+  const grade = (q, ok) => { const p = pct(ok, q);
+    if (!q) return ['Not started', 'meta', 3];
+    if (q < RATE_MIN) return q - ok >= 2 && p <= 60 ? ['Early warning', 'wrong', 1] : ['Too few to rate', 'meta', 4];
+    return p >= 85 ? ['Solid', 'right', 5] : p >= 70 ? ['Shaky', '', 2] : ['Needs work', 'wrong', 0]; };
+  let h = `<h2>Where he stands</h2><div class="card"><p class="meta">A rating needs ${RATE_MIN} answers in the area; with fewer the row shows the count and no verdict. "Bank" is how many real SHSAT questions the app holds for that area, which caps how well it can ever be rated.</p>
+    <table><tr><th>Grammar (Revising/Editing)</th><th class="num">Right</th><th>Rating</th><th class="num hide-sm">Bank</th><th class="hide-sm">Last</th><th>Next step</th></tr>`;
+  G.map(g => ({ g, r: grade(g.q, g.ok) })).sort((a, b) => a.r[2] - b.r[2] || pct(a.g.ok, a.g.q) - pct(b.g.ok, b.g.q)).forEach(({ g, r }) => {
+    const step = g.lessons < g.of ? (g.q ? 'Finish the lesson' + (g.of > 1 ? 's' : '') : 'Lesson not done yet')
+      : r[2] <= 1 ? 'Redo the lesson, then a Review' : r[2] === 2 ? 'Review sets' : r[2] === 4 ? (g.bank > g.q ? 'Review sets, to get a rating' : 'Bank is too small to rate; needs written questions') : 'Nothing';
+    if (r[2] <= 2 || g.lessons < g.of) todo.push([r[2] <= 1 ? 0 : g.lessons < g.of ? 2 : 1, 'Grammar: ' + g.name + (g.q ? ' (' + g.ok + '/' + g.q + ')' : '') + ' — ' + step.toLowerCase()]);
+    h += `<tr><td>${esc(g.name)}</td><td class="num">${g.q ? g.ok + '/' + g.q : ''}</td><td>${pill(r[0], r[1])}</td><td class="num hide-sm">${g.bank}</td><td class="hide-sm meta">${when(g.last)}</td><td class="meta">${step}</td></tr>`;
+  });
+  h += `</table><p class="meta" style="margin:8px 0 0">${reviews ? reviews + ' Review set' + (reviews > 1 ? 's' : '') + ' done.' : 'No Review set done yet. The Review is the part that adapts: 10 real questions, missed ones first, then the weakest concepts.'}</p></div>`;
+
+  h += `<div class="card"><p class="meta">Math topics are rated as a level on the same 0–100 scale as the Math level tile${overall != null ? ' (now ' + Math.round(overall * 100) + ')' : ''}, adjusted for how hard each problem was. A topic needs ${RATE_MIN_MATH} answers for a verdict; ± is how unsure the level is, and it shrinks as he answers more.</p>
+    <table><tr><th>Math topic</th><th class="num">Right</th><th class="num">Level</th><th>Rating</th><th class="num hide-sm">Bank</th><th class="hide-sm">Last</th></tr>`;
+  if (overall != null) Object.keys(M).map(t => ({ t, x: M[t], L: topicLevel(M[t].rows, overall) })).sort((a, b) => (!a.x.rows.length - !b.x.rows.length) || a.L.m - b.L.m).forEach(({ t, x, L }) => {
+    const n = x.rows.length, ok = x.rows.filter(r => r.ok).length, gap = overall - L.m;
+    const r = !n ? ['Not seen yet', 'meta'] : n < RATE_MIN_MATH ? (n - ok >= 2 ? ['Early warning', 'wrong'] : ['Too few to rate', 'meta']) : gap >= 0.08 ? ['Behind his level', 'wrong'] : gap >= 0.03 ? ['Slightly behind', ''] : ['At his level', 'right'];
+    if (r[0] === 'Early warning' || (n >= RATE_MIN_MATH && gap >= 0.03)) todo.push([gap >= 0.08 || n < RATE_MIN_MATH ? 0 : 1, 'Math: ' + t.replace(/-/g, ' ') + ' (' + ok + '/' + n + ', level about ' + Math.round(L.m * 100) + ')']);
+    h += `<tr><td>${esc(t.replace(/-/g, ' '))}</td><td class="num">${n ? ok + '/' + n : ''}</td><td class="num">${n ? Math.round(L.m * 100) + ' <span class="meta">±' + Math.round(L.sd * 100) + '</span>' : ''}</td><td>${pill(r[0], r[1])}</td><td class="num hide-sm">${x.bank}</td><td class="hide-sm meta">${when(x.last)}</td></tr>`;
+  });
+  h += `</table></div><div class="card"><table><tr><th>Other sections</th><th class="num">Right</th><th>Rating</th><th class="hide-sm">Last</th></tr>`;
+  Object.keys(other).forEach(k => { const o = other[k], r = grade(o.q, o.ok);
+    if (!o.q) todo.push([2, o.name + ' — not started']);
+    h += `<tr><td>${o.name}</td><td class="num">${o.q ? o.ok + '/' + o.q : ''}</td><td>${pill(r[0], r[1])}</td><td class="hide-sm meta">${when(o.last)}</td></tr>`; });
+  h += `</table></div>`;
+  todo.sort((a, b) => a[0] - b[0]);
+  const top = todo.length ? `<div class="card"><b>Work on next</b><ol style="margin:6px 0 0;padding-left:22px">${todo.slice(0, 8).map(t => `<li>${esc(t[1])}</li>`).join('')}</ol></div>` : '';
+  return h.replace('<h2>Where he stands</h2>', '<h2>Where he stands</h2>' + top);
+}
 function render(R){
   sane(R);
   const ans = R.rows.filter(e => e.kind === 'answer'), ses = R.rows.filter(e => e.kind === 'session');
@@ -121,21 +199,14 @@ function render(R){
     <p class="meta">Source: ${R.source}. ${dayList.length ? 'First entry ' + day(R.rows[0].ts) + '.' : ''}</p>`;
   if (!R.rows.length) { h += `<div class="warn">Nothing recorded yet. Once Vaughn finishes a set or a lesson it appears here.</div>`; app.innerHTML = h; return; }
 
+  h += ratingsHTML(ans, ses);
+
   // last 14 days
   h += `<h2>Last two weeks</h2><div class="card"><table><tr><th>Day</th><th class="num">Minutes</th><th class="num">Questions</th><th class="num">Right</th><th>Accuracy</th></tr>`;
   for (let i = 13; i >= 0; i--) {
     const d = ymd(Date.now() - i*864e5), x = days[d];
     h += `<tr><td>${day(d + 'T12:00:00')}</td><td class="num">${x ? x.mins : ''}</td><td class="num">${x ? x.q : ''}</td><td class="num">${x ? x.ok : ''}</td><td>${x && x.q ? bar(pct(x.ok, x.q)) : '<span class="meta">' + (x ? '' : 'no practice') + '</span>'}</td></tr>`;
   }
-  h += `</table></div>`;
-
-  // by area, then by grammar concept
-  const by = {};
-  ans.forEach(e => { const k = e.app === 'grammar' ? 'Grammar: ' + ((CONCEPTS.find(c => c.id === e.tag) || {}).name || e.tag) : e.tag === 'adaptive' ? 'Math: ' + String(e.block).replace(/-/g, ' ') : (AREA[e.tag] || e.tag); by[k] = by[k] || { q: 0, ok: 0 }; by[k].q++; by[k].ok += +e.ok; });
-  h += `<h2>By area</h2><div class="card"><table><tr><th>Area</th><th class="num">Questions</th><th>Accuracy</th></tr>`;
-  Object.keys(by).sort((a,b) => (a.startsWith('Grammar') - b.startsWith('Grammar')) || pct(by[a].ok, by[a].q) - pct(by[b].ok, by[b].q)).forEach(k => {
-    h += `<tr><td>${esc(k)}</td><td class="num">${by[k].q}</td><td>${bar(pct(by[k].ok, by[k].q))}</td></tr>`;
-  });
   h += `</table></div>`;
 
   // adaptive math: level history, then each answer with the problem's difficulty
