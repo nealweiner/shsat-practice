@@ -73,7 +73,7 @@
 <div id="app"></div>
 </div>
 <script src="config.js"></script>
-<script src="log.js"></script>
+<script src="log.js?v=2"></script>
 <script src="concepts.js"></script>
 <script src="items.js"></script>
 <script>
@@ -130,7 +130,7 @@ function pickReal(real, n){
 }
 window.learn = function(id){
   var c = CONCEPTS.find(function(x){ return x.id===id; });
-  L = { c:c, step:'card', check:c.check.slice(), real: pickReal(realFor(c), REAL_PER_LESSON), i:0, cr:0, rr:0, sid:newSessionId(), t0:Date.now() };
+  L = { c:c, step:'card', check:c.check.slice(), real: pickReal(realFor(c), REAL_PER_LESSON), i:0, cr:0, rr:0, sid:newSessionId(), t0:activeNow() };
   cardView();
 };
 function cardView(){
@@ -149,10 +149,11 @@ function checkView(){
     + '<div class="prog"><i style="width:' + (L.i/L.check.length*100) + '%"></i></div><div class="card"><div class="stem">' + q.q + '</div>';
   q.opts.forEach(function(o,j){ h += '<button class="opt" id="o' + j + '" onclick="answerCheck(' + j + ')"><b>' + 'ABCD'[j] + '.</b>' + o + '</button>'; });
   h += '<div id="why"></div></div>';
-  app.innerHTML = h; window.scrollTo(0,0); T0 = Date.now();
+  app.innerHTML = h; window.scrollTo(0,0); T0 = activeNow();
 }
-var T0 = Date.now();
-function secs(){ return Math.round((Date.now() - T0)/1000); }
+// times are active seconds (log.js), not wall clock
+var T0 = 0;
+function secs(){ return activeNow() - T0; }
 window.answerCheck = function(j){
   var q = L.check[L.i], ok = j===q.a, s = cs(L.c.id);
   s.ct++; if(ok){ s.cr++; L.cr++; } persist();
@@ -173,7 +174,7 @@ function realView(it, mode){
   h += '<div class="card"><div class="source">' + it.form + ', question ' + it.n + '</div><div class="stem">' + it.html + '</div>';
   it.opts.forEach(function(o,j){ h += '<button class="opt" id="o' + j + '" onclick="answerReal(' + j + ',\'' + mode + '\')"><b>' + it.letters[j] + '.</b>' + o + '</button>'; });
   h += '<div id="why"></div></div>';
-  app.innerHTML = h; window.scrollTo(0,0); T0 = Date.now();
+  app.innerHTML = h; window.scrollTo(0,0); T0 = activeNow();
 }
 window.answerReal = function(j, mode){
   var it = mode==='lesson' ? L.real[L.i] : R.items[R.i];
@@ -200,7 +201,7 @@ function reveal(j, a, ok, why, next, label){
 
 function doneView(){
   var s = cs(L.c.id); s.learned = true; persist();
-  logEvents([{ app:'grammar', session:L.sid, kind:'session', title:'Lesson: ' + L.c.name, score:(L.cr+L.rr)+'/'+(L.check.length+L.real.length), secs:Math.round((Date.now()-L.t0)/1000), tag:'lesson' }]);
+  logEvents([{ app:'grammar', session:L.sid, kind:'session', title:'Lesson: ' + L.c.name, score:(L.cr+L.rr)+'/'+(L.check.length+L.real.length), secs:activeNow()-L.t0, tag:'lesson' }]);
   lset('dailyGrammar', new Date().toISOString().slice(0,10));
   var next = CONCEPTS.find(function(c){ return !cs(c.id).learned; });
   var h = '<div class="card" style="text-align:center"><div class="big">' + (L.cr + L.rr) + ' / ' + (L.check.length + L.real.length) + '</div>'
@@ -218,12 +219,12 @@ window.review = function(){
   // weakest learned concepts first; pickReal keeps each question at most once and avoids today's
   var weak = CONCEPTS.filter(function(c){ return cs(c.id).learned; }).sort(function(a,b){ return mastery(a)-mastery(b); });
   var ordered = uniq(weak.map(realFor).reduce(function(a,b){ return a.concat(b); }, []).concat(ITEMS));
-  R = { items: pickReal(ordered, REVIEW_SIZE), i:0, right:0, sid:newSessionId(), t0:Date.now() };
+  R = { items: pickReal(ordered, REVIEW_SIZE), i:0, right:0, sid:newSessionId(), t0:activeNow() };
   realView(R.items[0], 'review');
 };
 window.nextReview = function(){ R.i++; realView(R.items[R.i], 'review'); };
 window.reviewDone = function(){
-  logEvents([{ app:'grammar', session:R.sid, kind:'session', title:'Grammar review', score:R.right+'/'+R.items.length, secs:Math.round((Date.now()-R.t0)/1000), tag:'review' }]);
+  logEvents([{ app:'grammar', session:R.sid, kind:'session', title:'Grammar review', score:R.right+'/'+R.items.length, secs:activeNow()-R.t0, tag:'review' }]);
   lset('dailyGrammar', new Date().toISOString().slice(0,10));
   app.innerHTML = '<div class="card" style="text-align:center"><div class="big">' + R.right + ' / ' + R.items.length + '</div><div class="sub">Review</div>'
     + '<div class="row" style="justify-content:center;margin-top:16px">' + (DAILY ? '<a href="index.html"><button class="primary">Step 2: today\u2019s practice set \u2192</button></a>' : '') + '<button class="gold" onclick="review()">Another review</button><button onclick="go(\'home\')">Home</button></div></div>';

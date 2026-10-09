@@ -39,9 +39,13 @@ function flushLog(){
 window.addEventListener('load', flushLog);
 
 // Active-time clock: counts seconds while the tab is in front and there was input in the
-// last minute, so reading a passage counts but a tab left open does not. Sent as
+// last four minutes, so reading a passage counts but a tab left open does not. Sent as
 // kind 'time' rows (secs = seconds since the last time row), summed per day by parent.html.
-var ACT_IDLE_MS = 4 * 60 * 1000, ACT_TICK = 5, actLast = Date.now(), actUnsent = 0;
+// activeNow() is the same clock as a running total for this page load: session and
+// per-question times are differences of it, so a set left open for days logs only the
+// minutes actually worked. (A wall-clock difference once logged a 6,885-minute lesson.)
+var ACT_IDLE_MS = 4 * 60 * 1000, ACT_TICK = 1, actLast = Date.now(), actUnsent = 0, actClock = 0;
+function activeNow(){ return actClock; }
 ['keydown', 'pointerdown', 'scroll', 'touchstart', 'input'].forEach(function(ev){ addEventListener(ev, function(){ actLast = Date.now(); }, { passive: true }); });
 function sendTime(){
   if (!actUnsent) return;
@@ -50,7 +54,7 @@ function sendTime(){
 }
 setInterval(function(){
   if (document.hidden || Date.now() - actLast > ACT_IDLE_MS) return;
-  actUnsent += ACT_TICK;
+  actUnsent += ACT_TICK; actClock += ACT_TICK;
   if (actUnsent >= 60) sendTime();
 }, ACT_TICK * 1000);
 addEventListener('visibilitychange', function(){ if (document.hidden) sendTime(); });

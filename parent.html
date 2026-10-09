@@ -62,8 +62,11 @@ async function rows(){
   if (!LOG_URL) return { rows: local, source: 'this device only (no log endpoint configured in config.js)' };
   try {
     const r = await fetch(LOG_URL); const remote = await r.json();
-    remote.forEach(e => { e.score = fixScore(e.score); });
-    return { rows: remote, source: 'shared log, ' + remote.length + ' rows' };
+    // A batch whose page closed before the POST was acknowledged is sent again on the next
+    // load, so the sheet can hold the same row twice (same timestamp, same everything).
+    const seen = new Set(), uniq = remote.filter(e => { const k = JSON.stringify(e); return seen.has(k) ? false : (seen.add(k), true); });
+    uniq.forEach(e => { e.score = fixScore(e.score); });
+    return { rows: uniq, source: 'shared log, ' + uniq.length + ' rows' + (remote.length > uniq.length ? ' (' + (remote.length - uniq.length) + ' repeated rows ignored)' : '') };
   } catch (e) { return { rows: local, source: 'could not reach the shared log; showing this device only' }; }
 }
 
@@ -84,7 +87,18 @@ function questionHTML(e){
   const m = f.math.grid.concat(f.math.mc).find(q => q.n === n); return m ? `<img src="${m.img}" alt="question ${n}">` : '';
 }
 
+/* Rows logged before the active-time clock timed sessions and questions by wall clock, so a
+   tab left open reads as hours. A question is trusted up to Q_CAP; a session longer than its
+   own questions could explain is replaced by the sum of those questions and marked approximate. */
+const Q_CAP = 240, SES_SLACK = 1200, Q_STALE = 3600;
+function sane(R){
+  const perSes = {};
+  R.rows.forEach(e => { if (e.kind === 'answer') perSes[e.session] = (perSes[e.session] || 0) + Math.min(+e.secs || 0, Q_CAP); });
+  R.rows.forEach(e => { if (e.kind !== 'session') return; const est = perSes[e.session] || 0;
+    if ((+e.secs || 0) > est + SES_SLACK) { e.secs = est; e.approx = true; } });
+}
 function render(R){
+  sane(R);
   const ans = R.rows.filter(e => e.kind === 'answer'), ses = R.rows.filter(e => e.kind === 'session');
   const days = {};
   R.rows.forEach(e => { const d = ymd(e.ts); days[d] = days[d] || { q: 0, ok: 0, secs: 0, act: 0 };
@@ -144,7 +158,7 @@ function render(R){
   // sessions
   h += `<h2>Sessions</h2><div class="card"><table><tr><th>When</th><th>What</th><th class="num">Score</th><th class="num">Minutes</th></tr>`;
   ses.slice().reverse().slice(0, 40).forEach(e => {
-    h += `<tr><td>${day(e.ts)} <span class="meta">${new Date(e.ts).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}</span></td><td>${esc(e.title)} <span class="src">${esc(e.tag)}</span></td><td class="num">${esc(e.score)}</td><td class="num">${mins(+e.secs)}</td></tr>`;
+    h += `<tr><td>${day(e.ts)} <span class="meta">${new Date(e.ts).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}</span></td><td>${esc(e.title)} <span class="src">${esc(e.tag)}</span></td><td class="num">${esc(e.score)}</td><td class="num">${e.approx ? '~' : ''}${mins(+e.secs)}</td></tr>`;
   });
   h += `</table></div>`;
 
@@ -154,7 +168,7 @@ function render(R){
   wrong.forEach((e, i) => {
     const qh = questionHTML(e);
     h += `<tr><td>${day(e.ts)}</td><td>${esc(e.form)}${e.form ? ', ' : ''}${esc(String(e.block).replace(/-/g,' '))}${e.form === 'Extra' ? '' : ', q' + esc(e.n)}${qh ? `<details><summary>show question</summary><div class="qtext">${qh}</div></details>` : ''}</td>
-      <td class="wrong">${e.form === 'Extra' ? e.chosen : esc(e.chosen)}</td><td class="right">${e.form === 'Extra' ? e.correct : esc(e.correct)}</td><td class="num">${diff(e) ?? ''}</td><td class="num hide-sm">${e.secs || ''}</td></tr>`;
+      <td class="wrong">${e.form === 'Extra' ? e.chosen : esc(e.chosen)}</td><td class="right">${e.form === 'Extra' ? e.correct : esc(e.correct)}</td><td class="num">${diff(e) ?? ''}</td><td class="num hide-sm">${+e.secs > Q_STALE ? '<span class="meta">left open</span>' : e.secs || ''}</td></tr>`;
   });
   h += `</table></div>`;
   app.innerHTML = h;

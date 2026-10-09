@@ -129,7 +129,7 @@
 </div>
 
 <script src="config.js"></script>
-<script src="log.js"></script>
+<script src="log.js?v=2"></script>
 <script src="bank.js"></script>
 <script src="mathmeta.js"></script>
 <script src="genmath.js"></script>
@@ -479,7 +479,7 @@ function passageHTML(p){
 function flat(){ const out=[]; RUN.blocks.forEach(b=>b.questions.forEach(q=>out.push({b,q}))); return out; }
 
 function runView(){
-  RUN.sid = newSessionId(); RUN.secs = {};
+  RUN.sid = newSessionId(); RUN.secs = {}; RUN.a0 = activeNow();
   const all = flat();
   let h = `<div class="bar"><button onclick="confirmHome()">&larr; Back</button>
      <span>${esc(RUN.title)}</span><span>Target ${fmt(RUN.target)}</span><span class="timer" id="timer">0:00</span>
@@ -509,7 +509,7 @@ function renderOne(){
     <div class="row"><button class="primary" onclick="nextOne()">${RUN.idx===all.length-1?'Submit answers':'Next →'}</button>
     <span class="note">You cannot come back to this question.</span></div>`;
   document.getElementById('one').innerHTML = h;
-  RUN.qStart = Date.now();
+  RUN.qStart = activeNow();
   document.getElementById('prog').textContent = (RUN.idx+1) + ' / ' + all.length;
   window.scrollTo(0,0);
 }
@@ -517,7 +517,7 @@ window.nextOne = function(){
   const all = flat(); const {q} = all[RUN.idx];
   const v = RUN.answers[q.id];
   if(v===undefined || v===''){ if(!confirm('No answer chosen. Leave it blank and move on?')) return; }
-  RUN.secs[q.id] = Math.round((Date.now() - RUN.qStart)/1000);
+  RUN.secs[q.id] = activeNow() - RUN.qStart;
   if(RUN.idx === all.length-1){ finish(); return; }
   RUN.idx++; renderOne();
 };
@@ -564,7 +564,7 @@ window.finish = function(){
   }
   logEvents(all.filter(({b}) => !(RUN.logged && RUN.logged[b.id])).map(({b,q}) => { const v = RUN.answers[q.id]; return { app:'practice', session:RUN.sid, kind:'answer', form:b.formLabel, block:b.title, n:q.n, tag:b.kind,
       chosen:plainText(shown(q,v)), correct:plainText(keyText(q)), ok:isRight(q,v)?1:0, secs:(RUN.secs||{})[q.id]||'' }; })
-    .concat([{ app:'practice', session:RUN.sid, kind:'session', title:RUN.logTitle || RUN.title, score:c+'/'+all.length, secs:time, tag:RUN.daily?'daily':RUN.test?'section':RUN.mix?'mix':'drill' }]));
+    .concat([{ app:'practice', session:RUN.sid, kind:'session', title:RUN.logTitle || RUN.title, score:c+'/'+all.length, secs:RUN.test || RUN.a0 == null ? time : Math.min(time, activeNow() - RUN.a0), tag:RUN.daily?'daily':RUN.test?'section':RUN.mix?'mix':'drill' }]));
   if(RUN.test){
     const tests = load('tests', {}); (tests[RUN.form] = tests[RUN.form] || {})[RUN.section] = RUN.rec; save('tests', tests);
     save('lasttest', { ...RUN.rec, title: RUN.title, form: RUN.form, ts: Date.now() });
@@ -695,7 +695,9 @@ const MATHQ = FORMS.flatMap(f => f.math.flatMap(b => b.questions.map(q => {
   return { ...g, n: g.id.replace('gen:', ''), formLabel: 'Extra', letters: g.kind === 'grid' ? [] : ['A','B','C','D'],
            d: m.d == null ? 0.9 : m.d, topic: g.topic, kind: g.kind === 'grid' ? 'grid' : 'text' };
 }));
-let AD = null;   // {theta0, theta, i, right, sid, t0, qStart, cur, done:[], answered:{}}
+let AD = null;   // {theta0, theta, i, right, sid, t0, act, a0, qStart, cur, done:[], answered:{}}
+// active seconds spent on this set: what earlier page loads banked (act) plus this one's share of the clock
+function adAct(){ return (AD.act || 0) + activeNow() - AD.a0; }
 
 function expected(theta, d){ return 1 / (1 + Math.exp(-(theta - d) * SLOPE)); }
 function nextProblem(afterOk){
@@ -712,11 +714,11 @@ function nextProblem(afterOk){
   return from[Math.floor(Math.random() * from.length)];
 }
 function persistAD(extra){
-  save('adrun', { theta0:AD.theta0, theta:AD.theta, i:AD.i, right:AD.right, sid:AD.sid, t0:AD.t0, curId:AD.cur && AD.cur.id, answered:AD.answered, ts:Date.now(), ...(extra||{}) });
+  save('adrun', { theta0:AD.theta0, theta:AD.theta, i:AD.i, right:AD.right, sid:AD.sid, t0:AD.t0, act:adAct(), curId:AD.cur && AD.cur.id, answered:AD.answered, ts:Date.now(), ...(extra||{}) });
 }
 window.resumeAdaptive = function(){
   const r = load('adrun', null); if (!r) { startAdaptive(); return; }
-  AD = { theta0:r.theta0, theta:r.theta, i:r.i, right:r.right, sid:r.sid, t0:r.t0, cur:MATHQ.find(q => q.id === r.curId) || null, answered:r.answered || {} };
+  AD = { theta0:r.theta0, theta:r.theta, i:r.i, right:r.right, sid:r.sid, t0:r.t0, act:r.act || 0, a0:activeNow(), cur:MATHQ.find(q => q.id === r.curId) || null, answered:r.answered || {} };
   if (r.checked) { AD.i++; if (AD.i >= ADAPT_N) { adaptDone(); return; } AD.cur = nextProblem(r.lastOk); }
   if (!AD.cur) AD.cur = nextProblem(null);
   persistAD(); adaptView();
@@ -729,7 +731,7 @@ window.startAdaptive = async function(){
       if (m) theta = +RegExp.$1 / 100; } catch (e) {}
   }
   if (theta == null) theta = 0.65;             // Neal set the starting level; the first answers still move it fast
-  AD = { theta0: theta, theta, i: 0, right: 0, sid: newSessionId(), t0: Date.now(), cur: null, answered: {} };
+  AD = { theta0: theta, theta, i: 0, right: 0, sid: newSessionId(), t0: Date.now(), act: 0, a0: activeNow(), cur: null, answered: {} };
   AD.cur = nextProblem(null);
   persistAD(); adaptView();
 };
@@ -742,7 +744,7 @@ function adaptView(){
   if (q.kind === 'grid') h += `<div class="gridin" id="ad_g"><input type="text" inputmode="decimal" placeholder="your answer" id="ad_in"></div>`;
   else { h += `<div class="${q.opts ? '' : 'letters'}">`; q.letters.forEach((L,j) => { h += `<label class="opt" id="ad_o${j}"><input type="radio" name="adq" value="${j}"><b>${L}.</b>${q.opts ? q.opts[j] : ''}</label>`; }); h += `</div>`; }
   h += `<div id="ad_exp" class="exp hide"></div><div class="row" style="margin-top:12px"><button class="primary" id="ad_btn" onclick="adaptCheck()">Check</button></div></div>`;
-  app.innerHTML = h; AD.qStart = Date.now(); window.scrollTo(0,0);
+  app.innerHTML = h; AD.qStart = activeNow(); window.scrollTo(0,0);
   const inp = document.getElementById('ad_in'); if (inp) { inp.focus(); inp.addEventListener('keydown', e => { if (e.key === 'Enter') adaptCheck(); }); }
 }
 window.adaptCheck = function(){
@@ -751,7 +753,7 @@ window.adaptCheck = function(){
   if (q.kind === 'grid') v = document.getElementById('ad_in').value.trim();
   else { const sel = document.querySelector('input[name="adq"]:checked'); v = sel ? +sel.value : ''; }
   if (v === '' ) { alert('Pick an answer first.'); return; }
-  const ok = isRight(q, v), secs = Math.round((Date.now() - AD.qStart)/1000);
+  const ok = isRight(q, v), secs = activeNow() - AD.qStart;
   const K = AD.i < 6 ? 0.10 : 0.05;
   AD.theta = Math.min(0.98, Math.max(0.02, AD.theta + K * ((ok ? 1 : 0) - expected(AD.theta, q.d))));
   AD.answered[q.id] = true; if (ok) AD.right++;
@@ -773,7 +775,7 @@ window.adaptNext = function(ok){
 };
 function adaptDone(){
   localStorage.removeItem('shsat:adrun');
-  const a = Math.round(AD.theta0*100), b = Math.round(AD.theta*100), time = Math.round((Date.now() - AD.t0)/1000);
+  const a = Math.round(AD.theta0*100), b = Math.round(AD.theta*100), time = adAct();
   logEvents([{ app:'practice', session:AD.sid, kind:'session', title:'Math set \u00b7 level ' + a + ' \u2192 ' + b, score:AD.right + '/' + ADAPT_N, secs:time, tag:'math-daily' }]);
   const d = load('daily',{}), today = new Date().toISOString().slice(0,10), yday = new Date(Date.now()-864e5).toISOString().slice(0,10);
   if (d.last !== today) { d.streak = (d.last === yday ? (d.streak||0) : 0) + 1; d.count = (d.count||0) + 1; }
