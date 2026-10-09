@@ -1,0 +1,158 @@
+[
+ {
+  "id": "gg:agreement-01",
+  "tag": "agreement",
+  "html": "<p>Read this sentence.</p><blockquote>The number of commuters who ride bicycles across the city’s bridges have nearly doubled over the past decade.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change <i>commuters</i> to <i>commuter</i>.",
+   "Change <i>have</i> to <i>has</i>.",
+   "Change <i>ride</i> to <i>rides</i>.",
+   "Change <i>doubled</i> to <i>double</i>."
+  ],
+  "a": 1,
+  "exp": "<p>The question asks for the edit that corrects the sentence. The subject of the main verb is the singular noun <i>number</i>, so the verb must be <i>has</i>, not <i>have</i>.</p><p><b>A. Incorrect.</b> <i>Commuters</i> must stay plural: <i>the number of</i> is followed by a plural noun, and the plural verb <i>ride</i> depends on it.</p><p><b>B. CORRECT.</b> <i>The number of</i> always takes a singular verb. The plural nouns <i>commuters</i>, <i>bicycles</i>, and <i>bridges</i> stand between the subject and the verb, but the subject is <i>number</i>: <i>The number … has nearly doubled</i>.</p><p><b>C. Incorrect.</b> <i>Who</i> refers to the plural <i>commuters</i>, so <i>ride</i> is already correct.</p><p><b>D. Incorrect.</b> After the helping verb the past participle <i>doubled</i> is required; <i>have double</i> is not a verb form.</p>"
+ },
+ {
+  "id": "gg:agreement-02",
+  "tag": "agreement",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) A coral reef, though it resembles a mass of colorful rocks, is built by colonies of tiny animals called polyps. (2) Each of the polyps secretes a hard limestone skeleton that remains long after the animal has died. (3) Living among the branches of the coral are thousands of fish, crabs, and sponges that depend on the reef for shelter. (4) Neither rising water temperatures nor pollution from coastal cities have been easy for these fragile ecosystems to withstand.</blockquote><p>Which sentence contains an error in subject-verb agreement?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 3,
+  "exp": "<p>The question asks which sentence has a verb that does not agree with its subject. In sentence 4 the subjects are joined by <i>neither … nor</i>, so the verb agrees with the nearer subject, the singular <i>pollution</i>; <i>have been</i> should be <i>has been</i>.</p><p><b>A. Incorrect.</b> In sentence 1 the singular subject <i>reef</i> correctly takes <i>is built</i>, even though a clause separates them.</p><p><b>B. Incorrect.</b> In sentence 2 the subject is the singular <i>Each</i>, not <i>polyps</i>, so <i>secretes</i> is correct.</p><p><b>C. Incorrect.</b> In sentence 3 the subject follows the verb: <i>thousands of fish, crabs, and sponges</i> is plural, so <i>are</i> is correct, and <i>depend</i> agrees with the same plural group.</p><p><b>D. CORRECT.</b> With <i>neither … nor</i> the verb agrees with the subject closer to it. That subject is <i>pollution</i>; the plural <i>cities</i> is only part of the phrase <i>from coastal cities</i>. The sentence should read <i>Neither rising water temperatures nor pollution from coastal cities has been easy</i>.</p>"
+ },
+ {
+  "id": "gg:agreement-03",
+  "tag": "agreement",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) When the Brooklyn Bridge opened in 1883 its two stone towers, each of which rises more than 270 feet above the river, was taller than nearly every building in New York. (2) John Roebling, the engineer who designed the bridge, died before construction began; his son Washington took over the project. (3) After Washington fell ill, his wife, Emily Roebling, carried his instructions to the workers and oversaw much of the remaining construction. (4) Tens of thousands of vehicles, as well as thousands of pedestrians and cyclists, now cross the bridge each day.</blockquote><p>Which pair of revisions need to be made in this paragraph?</p>",
+  "opts": [
+   "Sentence 1: Insert a comma after <i>1883</i> AND change <i>was</i> to <i>were</i>.",
+   "Sentence 2: Change <i>died</i> to <i>dies</i> AND change the semicolon to a comma.",
+   "Sentence 3: Delete the comma after <i>ill</i> AND change <i>oversaw</i> to <i>oversees</i>.",
+   "Sentence 4: Change <i>cross</i> to <i>crosses</i> AND delete the comma after <i>cyclists</i>."
+  ],
+  "a": 0,
+  "exp": "<p>The question asks which sentence contains two errors that the paired revisions would fix. Sentence 1 needs a comma after the introductory clause <i>When the Brooklyn Bridge opened in 1883</i>, and its plural subject <i>towers</i> needs the plural verb <i>were</i>.</p><p><b>A. CORRECT.</b> The opening dependent clause must be set off with a comma after <i>1883</i>. The subject of the main clause is <i>towers</i>; the clause <i>each of which rises more than 270 feet above the river</i> has its own singular subject and verb, but it does not change the main subject, so <i>was</i> must become <i>were</i>.</p><p><b>B. Incorrect.</b> <i>Died</i> correctly matches the past-tense verbs around it, and the semicolon correctly joins two complete sentences; a comma there would create a run-on.</p><p><b>C. Incorrect.</b> The comma after <i>ill</i> correctly follows an introductory clause, and <i>oversaw</i> correctly matches the past-tense <i>carried</i>.</p><p><b>D. Incorrect.</b> The subject is the plural <i>Tens of thousands of vehicles</i>, so <i>cross</i> is correct; the phrase beginning <i>as well as</i> is an interruption that needs a comma on both sides.</p>"
+ },
+ {
+  "id": "gg:agreement-04",
+  "tag": "agreement",
+  "html": "<p>Read this sentence.</p><blockquote>Among the artifacts recovered from the sunken merchant ship was a bronze compass, several glass bottles, and a chest of silver coins.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change <i>artifacts</i> to <i>artifact</i>.",
+   "Change <i>recovered</i> to <i>recovers</i>.",
+   "Change <i>was</i> to <i>were</i>.",
+   "Delete the comma after <i>compass</i>."
+  ],
+  "a": 2,
+  "exp": "<p>The question asks for the edit that corrects the sentence. The sentence is inverted: its subject comes after the verb and is the compound <i>a bronze compass, several glass bottles, and a chest of silver coins</i>, which requires the plural verb <i>were</i>.</p><p><b>A. Incorrect.</b> <i>Among</i> requires a plural object, so <i>artifacts</i> is correct; it is also not the subject of the sentence.</p><p><b>B. Incorrect.</b> <i>Recovered</i> is a participle describing the artifacts, not the main verb; <i>recovers</i> would make no sense.</p><p><b>C. CORRECT.</b> Turn the sentence around to find the subject: <i>A bronze compass, several glass bottles, and a chest of silver coins were among the artifacts</i>. Three items joined by <i>and</i> are plural, even though the first item, <i>a bronze compass</i>, is singular and sits next to the verb.</p><p><b>D. Incorrect.</b> The comma after <i>compass</i> separates items in a series and must stay.</p>"
+ },
+ {
+  "id": "gg:agreement-05",
+  "tag": "agreement",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) A colony of honeybees, which may contain as many as 60,000 insects, depend on a single queen to lay all of its eggs. (2) The workers, each of which lives only a few weeks in summer, gather nectar and build the wax comb. (3) There are also a few hundred drones, male bees whose only task is to mate with a queen. (4) The number of bees in a hive rises through the spring and reaches its peak in early summer.</blockquote><p>Which sentence contains an error in subject-verb agreement?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 0,
+  "exp": "<p>The question asks which sentence has a verb that does not agree with its subject. In sentence 1 the subject is the singular noun <i>colony</i>, so <i>depend</i> should be <i>depends</i>.</p><p><b>A. CORRECT.</b> The subject <i>colony</i> is singular, as the pronoun <i>its</i> later in the sentence confirms. The plural nouns <i>honeybees</i> and <i>insects</i> come between the subject and the verb, but the sentence should read <i>A colony … depends on a single queen</i>.</p><p><b>B. Incorrect.</b> In sentence 2 the plural subject <i>workers</i> correctly takes <i>gather</i> and <i>build</i>; inside the interrupting clause, the singular <i>each</i> correctly takes <i>lives</i>.</p><p><b>C. Incorrect.</b> In sentence 3 the subject follows the verb: <i>a few hundred drones</i> is plural, so <i>There are</i> is correct, and the singular <i>task</i> correctly takes <i>is</i>.</p><p><b>D. Incorrect.</b> In sentence 4 <i>The number</i> is singular, so <i>rises</i> and <i>reaches</i> are correct even though the plural <i>bees</i> stands beside them.</p>"
+ },
+ {
+  "id": "gg:agreement-06",
+  "tag": "agreement",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Every spring, the students at Lincoln Middle School hold a science fair in the gymnasium. (2) Each of the projects is judged by a panel of teachers, and the winners receive ribbons. (3) This year, neither the judges nor the principal were prepared for the size of the crowd, and there was not enough chairs for half of the visitors. (4) A team of eighth graders, along with their science teacher, has offered to plan next year’s event.</blockquote><p>Which pair of revisions need to be made in this paragraph?</p>",
+  "opts": [
+   "Sentence 1: Change <i>students</i> to <i>student’s</i> AND change <i>hold</i> to <i>holds</i>.",
+   "Sentence 2: Change <i>is</i> to <i>are</i> AND delete the comma after <i>teachers</i>.",
+   "Sentence 3: Change <i>were</i> to <i>was</i> AND change <i>there was</i> to <i>there were</i>.",
+   "Sentence 4: Change <i>has</i> to <i>have</i> AND delete the comma after <i>teacher</i>."
+  ],
+  "a": 2,
+  "exp": "<p>The question asks which sentence contains two errors that the paired revisions would fix. Sentence 3 has two verbs that disagree with their subjects: <i>were</i> should be <i>was</i> to agree with <i>principal</i>, and <i>there was</i> should be <i>there were</i> to agree with <i>chairs</i>.</p><p><b>A. Incorrect.</b> <i>Students</i> is a plural subject, not a possessive, and it correctly takes the plural verb <i>hold</i>.</p><p><b>B. Incorrect.</b> The subject <i>Each</i> is singular, so <i>is judged</i> is correct, and the comma before <i>and</i> correctly separates two complete sentences.</p><p><b>C. CORRECT.</b> With <i>neither … nor</i> the verb agrees with the nearer subject, the singular <i>principal</i>: <i>neither the judges nor the principal was prepared</i>. After <i>there</i>, the verb agrees with the noun that follows it, the plural <i>chairs</i>: <i>there were not enough chairs</i>.</p><p><b>D. Incorrect.</b> The subject is the singular <i>team</i>; the phrase <i>along with their science teacher</i> does not make it plural, so <i>has offered</i> is correct, and the interrupting phrase needs a comma on both sides.</p>"
+ },
+ {
+  "id": "gg:agreement-07",
+  "tag": "agreement",
+  "html": "<p>Read this sentence.</p><blockquote>Each of the murals that decorate the walls of the subway station depict a scene from the neighborhood’s history.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change <i>murals</i> to <i>mural</i>.",
+   "Change <i>decorate</i> to <i>decorates</i>.",
+   "Change <i>walls</i> to <i>wall</i>.",
+   "Change <i>depict</i> to <i>depicts</i>."
+  ],
+  "a": 3,
+  "exp": "<p>The question asks for the edit that corrects the sentence. The subject of the main verb is the singular pronoun <i>Each</i>, so the verb must be <i>depicts</i>.</p><p><b>A. Incorrect.</b> <i>Each of the</i> must be followed by a plural noun, so <i>murals</i> is correct.</p><p><b>B. Incorrect.</b> <i>That</i> refers to the plural <i>murals</i>, so <i>decorate</i> is already correct.</p><p><b>C. Incorrect.</b> Nothing is wrong with <i>walls</i>, and changing it would not repair the verb.</p><p><b>D. CORRECT.</b> Remove the words between the subject and the verb and the error is plain: <i>Each … depicts a scene</i>. The plural verb <i>decorate</i> earlier in the sentence belongs to <i>murals</i>, not to <i>Each</i>.</p>"
+ },
+ {
+  "id": "gg:agreement-08",
+  "tag": "agreement",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) The New York City Marathon, which winds through all five boroughs, attracts more than 50,000 runners each November. (2) Lining the streets along the 26.2-mile course is more than a million spectators, many of whom arrive hours before the first runners pass. (3) The crew of volunteers at each aid station hands out water and sports drinks to the runners. (4) Neither the steep bridges nor the unpredictable autumn weather discourages the thousands of people who apply for a place in the race each year.</blockquote><p>Which sentence contains an error in subject-verb agreement?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 1,
+  "exp": "<p>The question asks which sentence has a verb that does not agree with its subject. Sentence 2 is inverted: its subject, <i>more than a million spectators</i>, follows the verb and is plural, so <i>is</i> should be <i>are</i>.</p><p><b>A. Incorrect.</b> In sentence 1 the singular subject <i>Marathon</i> correctly takes <i>attracts</i>, and <i>which</i>, referring to the Marathon, correctly takes <i>winds</i>.</p><p><b>B. CORRECT.</b> Turn the sentence around to find the subject: <i>More than a million spectators are lining the streets</i>. The singular noun <i>course</i> just before the verb is part of the phrase <i>along the 26.2-mile course</i>, not the subject.</p><p><b>C. Incorrect.</b> In sentence 3 the subject is the singular <i>crew</i>, so <i>hands</i> is correct even though <i>volunteers</i> is plural.</p><p><b>D. Incorrect.</b> In sentence 4 the verb agrees with the nearer subject after <i>nor</i>, the singular <i>weather</i>, so <i>discourages</i> is correct; <i>who</i> refers to the plural <i>people</i>, so <i>apply</i> is correct.</p>"
+ },
+ {
+  "id": "gg:agreement-09",
+  "tag": "agreement",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) The Metropolitan Museum of Art, one of the largest museums in the world, houses more than a million works. (2) Its collection of Egyptian artifacts includes the Temple of Dendur, which was shipped to New York in pieces. (3) There are also galleries devoted to armor, musical instruments, and photography. (4) Each of the museum’s seventeen departments employ curators; who decide which objects are displayed.</blockquote><p>Which pair of revisions need to be made in this paragraph?</p>",
+  "opts": [
+   "Sentence 1: Delete the comma after <i>Art</i> AND change <i>houses</i> to <i>house</i>.",
+   "Sentence 2: Change <i>includes</i> to <i>include</i> AND change <i>was</i> to <i>were</i>.",
+   "Sentence 3: Change <i>are</i> to <i>is</i> AND delete the comma after <i>armor</i>.",
+   "Sentence 4: Change <i>employ</i> to <i>employs</i> AND change the semicolon to a comma."
+  ],
+  "a": 3,
+  "exp": "<p>The question asks which sentence contains two errors that the paired revisions would fix. In sentence 4 the singular subject <i>Each</i> needs the verb <i>employs</i>, and the semicolon is wrong because <i>who decide which objects are displayed</i> is not a complete sentence.</p><p><b>A. Incorrect.</b> The commas around <i>one of the largest museums in the world</i> correctly set off an interrupting phrase, and the singular subject <i>Museum</i> correctly takes <i>houses</i>.</p><p><b>B. Incorrect.</b> The subject <i>collection</i> is singular, so <i>includes</i> is correct, and <i>which</i> refers to the singular <i>Temple of Dendur</i>, so <i>was shipped</i> is correct.</p><p><b>C. Incorrect.</b> The subject follows the verb: <i>galleries</i> is plural, so <i>There are</i> is correct, and the comma after <i>armor</i> separates items in a series.</p><p><b>D. CORRECT.</b> <i>Each</i> is singular no matter how many <i>departments</i> follow it: <i>Each … employs curators</i>. A semicolon must have a complete sentence on both sides, and the clause beginning with <i>who</i> cannot stand alone, so a comma is needed. <i>Decide</i> is correct because <i>who</i> refers to the plural <i>curators</i>.</p>"
+ },
+ {
+  "id": "gg:agreement-10",
+  "tag": "agreement",
+  "html": "<p>Read this sentence.</p><blockquote>The lead violinist, as well as the three cellists who sit beside her, have been invited to perform at the citywide festival next month.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change <i>have</i> to <i>has</i>.",
+   "Change <i>sit</i> to <i>sits</i>.",
+   "Change <i>cellists</i> to <i>cellist</i>.",
+   "Delete the comma after <i>her</i>."
+  ],
+  "a": 0,
+  "exp": "<p>The question asks for the edit that corrects the sentence. The subject is the singular <i>violinist</i>; a phrase beginning with <i>as well as</i> does not make the subject plural, so the verb must be <i>has</i>.</p><p><b>A. CORRECT.</b> Unlike <i>and</i>, the words <i>as well as</i> do not create a compound subject. The phrase between the commas can be lifted out, leaving <i>The lead violinist … has been invited</i>.</p><p><b>B. Incorrect.</b> <i>Who</i> refers to the plural <i>cellists</i>, so <i>sit</i> is already correct.</p><p><b>C. Incorrect.</b> <i>Three</i> requires the plural <i>cellists</i>.</p><p><b>D. Incorrect.</b> The interrupting phrase needs a comma at each end; deleting the second one would leave it unclosed.</p>"
+ },
+ {
+  "id": "gg:agreement-11",
+  "tag": "agreement",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Completed in 1825, the Erie Canal connects the Hudson River to Lake Erie. (2) The system of locks along the route raises and lowers boats over a climb of more than 500 feet between Albany and Buffalo. (3) The cost of shipping grain and other goods from the Midwest to New York City were reduced by nearly ninety percent once the canal opened. (4) There were few engineers in the country with any experience in building canals, so many of the workers learned their trade on the job.</blockquote><p>Which sentence contains an error in subject-verb agreement?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 2,
+  "exp": "<p>The question asks which sentence has a verb that does not agree with its subject. In sentence 3 the subject is the singular noun <i>cost</i>, so <i>were reduced</i> should be <i>was reduced</i>.</p><p><b>A. Incorrect.</b> In sentence 1 the singular subject <i>Erie Canal</i> correctly takes <i>connects</i>.</p><p><b>B. Incorrect.</b> In sentence 2 the subject is the singular <i>system</i>, so <i>raises and lowers</i> is correct even though <i>locks</i> is plural.</p><p><b>C. CORRECT.</b> Everything between <i>cost</i> and the verb, including the plural <i>goods</i>, belongs to the phrase <i>of shipping grain and other goods from the Midwest to New York City</i>. The sentence should read <i>The cost … was reduced</i>.</p><p><b>D. Incorrect.</b> In sentence 4 the subject follows the verb: <i>few engineers</i> is plural, so <i>There were</i> is correct, and the plural <i>many of the workers</i> correctly takes <i>learned</i>.</p>"
+ },
+ {
+  "id": "gg:agreement-12",
+  "tag": "agreement",
+  "html": "<p>Read this sentence.</p><blockquote>Either the coach or the two team captains decides which players will start, and the list of starters is posted outside the gym every Friday.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change <i>captains</i> to <i>captain</i>.",
+   "Change <i>decides</i> to <i>decide</i>.",
+   "Change <i>is</i> to <i>are</i>.",
+   "Change <i>start</i> to <i>starts</i>."
+  ],
+  "a": 1,
+  "exp": "<p>The question asks for the edit that corrects the sentence. When subjects are joined by <i>either … or</i>, the verb agrees with the nearer subject, here the plural <i>captains</i>, so the verb must be <i>decide</i>.</p><p><b>A. Incorrect.</b> <i>Two</i> requires the plural <i>captains</i>.</p><p><b>B. CORRECT.</b> The subject closer to the verb is <i>the two team captains</i>, so the plural <i>decide</i> is needed: <i>Either the coach or the two team captains decide</i>. The singular <i>coach</i> is farther from the verb and does not control it.</p><p><b>C. Incorrect.</b> The subject of the second clause is the singular <i>list</i>, not <i>starters</i>, so <i>is posted</i> is correct.</p><p><b>D. Incorrect.</b> After the helping verb <i>will</i>, the base form <i>start</i> is required.</p>"
+ }
+]

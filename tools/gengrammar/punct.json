@@ -1,0 +1,132 @@
+[
+ {
+  "id": "gg:punct-01",
+  "tag": "punct",
+  "html": "<p>Which pair of revisions need to be made in this paragraph?</p><blockquote>(1) When the first subway line in New York City opened in 1904, more than 100,000 people paid a nickel to ride it on the first evening alone. (2) The line ran about nine miles from City Hall to 145th Street; it cut a trip that had taken more than an hour by streetcar to less than half an hour. (3) Each of the crews that dug the tunnels were confronted by the same three obstacles, solid bedrock, tangled water mains, and the foundations of nearby buildings. (4) The system has been rebuilt many times since then; however, several of the original stations are still in use.</blockquote>",
+  "opts": [
+   "Sentence 1: Delete the comma after <i>1904</i> AND change <i>paid</i> to <i>pay</i>.",
+   "Sentence 2: Change the semicolon after <i>Street</i> to a comma AND change <i>had taken</i> to <i>takes</i>.",
+   "Sentence 3: Change <i>were</i> to <i>was</i> AND change the comma after <i>obstacles</i> to a colon.",
+   "Sentence 4: Change the semicolon after <i>then</i> to a comma AND delete the comma after <i>however</i>."
+  ],
+  "a": 2,
+  "exp": "<p>The question asks for the pair of revisions needed to correct the errors in the paragraph, both of which appear in sentence 3.</p><p><b>A. Incorrect.</b> The comma after “1904” is needed to separate the introductory clause “When the first subway line in New York City opened in 1904” from the main clause. The verb “paid” is correctly in the past tense, which the paragraph uses for the events of 1904.</p><p><b>B. Incorrect.</b> The semicolon after “Street” correctly joins two complete sentences; a comma there would create a run-on. The past perfect “had taken” is correct because it describes how long the trip took before the line opened, an earlier time than the past-tense “cut.”</p><p><b>C. CORRECT.</b> The subject of the sentence is the singular pronoun “Each,” not the plural noun “crews” in the phrase that follows it, so the verb must be the singular “was confronted.” In addition, the words before the list (“Each of the crews that dug the tunnels was confronted by the same three obstacles”) form a complete sentence that introduces a list, so a colon is needed after “obstacles.” With a comma, the three obstacles run together with the items of the list.</p><p><b>D. Incorrect.</b> The semicolon after “then” is required because “however” is not a conjunction and cannot join two complete sentences with only a comma. The comma after “however” is also required to set off the transition from the sentence that follows it.</p>"
+ },
+ {
+  "id": "gg:punct-02",
+  "tag": "punct",
+  "html": "<p>Which pair of revisions need to be made in this paragraph?</p><blockquote>(1) Each of the bees in a honeybee colony belong to one of three groups; the queen, the workers, or the drones. (2) The queen, which can live for several years, lays as many as 2,000 eggs a day during the spring. (3) The workers do nearly everything else: they build the comb, feed the larvae, guard the entrance, and gather nectar. (4) Drones do not gather food or defend the hive; their only task is to mate with a queen from another colony.</blockquote>",
+  "opts": [
+   "Sentence 1: Change <i>belong</i> to <i>belongs</i> AND change the semicolon after <i>groups</i> to a colon.",
+   "Sentence 2: Delete the comma after <i>years</i> AND change <i>lays</i> to <i>lay</i>.",
+   "Sentence 3: Change the colon after <i>else</i> to a comma AND change <i>gather</i> to <i>gathers</i>.",
+   "Sentence 4: Change the semicolon after <i>hive</i> to a comma AND change <i>their</i> to <i>its</i>."
+  ],
+  "a": 0,
+  "exp": "<p>The question asks for the pair of revisions needed to correct the errors in the paragraph, both of which appear in sentence 1.</p><p><b>A. CORRECT.</b> The subject of the sentence is the singular pronoun “Each,” not the plural noun “bees,” so the verb must be the singular “belongs.” A semicolon must be followed by a complete sentence, but “the queen, the workers, or the drones” is only a list. Because the words before the list form a complete sentence that introduces it, a colon is needed after “groups.”</p><p><b>B. Incorrect.</b> The comma after “years” is needed to close the nonrestrictive clause “which can live for several years,” which is already set off by a comma after “queen.” The singular verb “lays” agrees with the singular subject “queen.”</p><p><b>C. Incorrect.</b> The colon after “else” correctly follows a complete sentence and introduces an explanation of it; a comma there would create a run-on. The verb “gather” is correct because its subject is the plural pronoun “they,” which also governs “build,” “feed,” and “guard.”</p><p><b>D. Incorrect.</b> The semicolon after “hive” correctly joins two closely related complete sentences; a comma there would create a run-on. The plural “their” correctly refers to the plural noun “Drones.”</p>"
+ },
+ {
+  "id": "gg:punct-03",
+  "tag": "punct",
+  "html": "<p>Which pair of revisions need to be made in this paragraph?</p><blockquote>(1) Before the Erie Canal opened in 1825, hauling a ton of grain from Buffalo to New York City took about two weeks and cost roughly one hundred dollars. (2) The canal changed those figures dramatically: the same shipment could now arrive in about five days for roughly ten dollars. (3) Towns along the route, such as Syracuse and Rochester, grew quickly; New York City, meanwhile, became the busiest port in the nation. (4) The canal’s success inspired other states to dig waterways of its own, however, the spread of railroads in the 1840s soon made most of them unprofitable.</blockquote>",
+  "opts": [
+   "Sentence 1: Delete the comma after <i>1825</i> AND change <i>took</i> to <i>takes</i>.",
+   "Sentence 2: Change the colon after <i>dramatically</i> to a comma AND change <i>could</i> to <i>can</i>.",
+   "Sentence 3: Delete the comma after <i>Rochester</i> AND change the semicolon after <i>quickly</i> to a comma.",
+   "Sentence 4: Change <i>its</i> to <i>their</i> AND change the comma after <i>own</i> to a semicolon."
+  ],
+  "a": 3,
+  "exp": "<p>The question asks for the pair of revisions needed to correct the errors in the paragraph, both of which appear in sentence 4.</p><p><b>A. Incorrect.</b> The comma after “1825” is needed to separate the introductory clause “Before the Erie Canal opened in 1825” from the main clause. The verb “took” is correctly in the past tense, matching “cost” and the rest of the paragraph.</p><p><b>B. Incorrect.</b> The colon after “dramatically” correctly follows a complete sentence and introduces a second sentence that explains it; a comma there would create a run-on. The verb “could” is correct in a paragraph about the 1820s.</p><p><b>C. Incorrect.</b> The comma after “Rochester” is needed to close the nonrestrictive phrase “such as Syracuse and Rochester,” which is already set off by a comma after “route.” The semicolon after “quickly” correctly joins two complete sentences; the word “meanwhile” is not a conjunction, so a comma there would create a run-on.</p><p><b>D. CORRECT.</b> The waterways belonged to the “other states,” a plural noun, so the possessive must be the plural “their” rather than “its.” The word “however” begins a second complete sentence (“the spread of railroads in the 1840s soon made most of them unprofitable”), and because “however” is not a conjunction, a semicolon rather than a comma is needed after “own.”</p>"
+ },
+ {
+  "id": "gg:punct-04",
+  "tag": "punct",
+  "html": "<p>Which pair of revisions need to be made in this paragraph?</p><blockquote>(1) Last spring, the students in Ms. Okafor’s science classes turned an empty lot behind the school into a vegetable garden. (2) The owners of a neighborhood hardware store, who had read about the project in a newsletter, was glad to donate supplies such as: lumber for the raised beds, bags of soil, and trays of seedlings. (3) By June the beds were full of lettuce, radishes, and herbs; the tomatoes, however, did not ripen until late August. (4) The students learned one lesson quickly: a garden that is not watered every day will not survive a New York summer.</blockquote>",
+  "opts": [
+   "Sentence 1: Insert a comma after <i>classes</i> AND change <i>turned</i> to <i>turn</i>.",
+   "Sentence 2: Change <i>was</i> to <i>were</i> AND delete the colon after <i>such as</i>.",
+   "Sentence 3: Change the semicolon after <i>herbs</i> to a comma AND delete the comma after <i>tomatoes</i>.",
+   "Sentence 4: Change the colon after <i>quickly</i> to a semicolon AND change <i>is</i> to <i>was</i>."
+  ],
+  "a": 1,
+  "exp": "<p>The question asks for the pair of revisions needed to correct the errors in the paragraph, both of which appear in sentence 2.</p><p><b>A. Incorrect.</b> A comma after “classes” would wrongly separate the subject “students” from its verb “turned.” The verb “turned” is correctly in the past tense for an event that happened last spring.</p><p><b>B. CORRECT.</b> The subject of the sentence is the plural noun “owners,” not the singular nouns “store,” “project,” or “newsletter” that come between it and the verb, so the verb must be the plural “were.” A colon must follow a complete sentence, but the words before this colon end with “such as” and are not complete; the phrase “such as” introduces the list by itself, so the colon should be deleted.</p><p><b>C. Incorrect.</b> The semicolon after “herbs” correctly joins two complete sentences. Here “however” interrupts the second sentence rather than beginning it, so it is correctly set off by a pair of commas; a comma after “herbs” would create a run-on, and deleting the comma after “tomatoes” would leave “however” set off on only one side.</p><p><b>D. Incorrect.</b> The colon after “quickly” correctly follows a complete sentence and introduces the lesson that the sentence promises. The present-tense “is” is correct because the lesson is a general truth, and it matches the verb “will not survive”; “was” would not.</p>"
+ },
+ {
+  "id": "gg:punct-05",
+  "tag": "punct",
+  "html": "<p>Which pair of revisions need to be made in this paragraph?</p><blockquote>(1) Every autumn, millions of monarch butterflies leave the northern United States and Canada, their destination is a small group of mountain forests in central Mexico, where it spends the winter clustered on fir trees. (2) The trip can cover nearly 3,000 miles; no single butterfly, however, has ever made it before. (3) Scientists believe that the insects rely on two guides: the position of the sun and the magnetic field of Earth. (4) The generation that flies south lives as long as eight months, but each of the generations that return north in the spring survives for only a few weeks.</blockquote>",
+  "opts": [
+   "Sentence 1: Change the comma after <i>Canada</i> to a semicolon AND change <i>it spends</i> to <i>they spend</i>.",
+   "Sentence 2: Change the semicolon after <i>miles</i> to a comma AND delete the comma after <i>however</i>.",
+   "Sentence 3: Delete the colon after <i>guides</i> AND change <i>rely</i> to <i>relies</i>.",
+   "Sentence 4: Delete the comma after <i>months</i> AND change <i>survives</i> to <i>survive</i>."
+  ],
+  "a": 0,
+  "exp": "<p>The question asks for the pair of revisions needed to correct the errors in the paragraph, both of which appear in sentence 1.</p><p><b>A. CORRECT.</b> The words before and after the comma following “Canada” are both complete sentences (“millions of monarch butterflies leave the northern United States and Canada” and “their destination is a small group of mountain forests in central Mexico”), so they must be joined by a semicolon rather than a comma. In addition, the pronoun refers to the plural “butterflies,” so “it spends” must be the plural “they spend.”</p><p><b>B. Incorrect.</b> The semicolon after “miles” correctly joins two complete sentences; a comma there would create a run-on. Here “however” interrupts the second sentence, so it is correctly set off by a comma on each side.</p><p><b>C. Incorrect.</b> The colon after “guides” correctly follows a complete sentence and introduces the two guides it mentions. The plural verb “rely” agrees with the plural subject “insects.”</p><p><b>D. Incorrect.</b> The comma after “months” is needed before the conjunction “but,” which joins two complete sentences. The singular verb “survives” is correct because its subject is the singular pronoun “each,” not the plural noun “generations”; the plural verb “return” belongs to “generations” and is also correct.</p>"
+ },
+ {
+  "id": "gg:punct-06",
+  "tag": "punct",
+  "html": "<p>Read this sentence.</p><blockquote>According to the museum’s guide, the materials that the sculptor used most often in her early work, which she completed before 1950, include: scrap steel, driftwood, and broken glass.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change the comma after <i>guide</i> to a colon.",
+   "Change <i>include</i> to <i>includes</i>.",
+   "Change the comma after <i>1950</i> to a semicolon.",
+   "Delete the colon after <i>include</i>."
+  ],
+  "a": 3,
+  "exp": "<p>The question asks which edit corrects the sentence, which misuses a colon.</p><p><b>A. Incorrect.</b> The comma after “guide” correctly sets off the introductory phrase “According to the museum’s guide.” That phrase is not a complete sentence, so a colon cannot follow it.</p><p><b>B. Incorrect.</b> The plural verb “include” agrees with the plural subject “materials.” The singular nouns “work” and “1950” that come just before the verb are not its subject.</p><p><b>C. Incorrect.</b> The comma after “1950” closes the nonrestrictive clause “which she completed before 1950.” A semicolon there would separate the subject “materials” from its verb “include.”</p><p><b>D. CORRECT.</b> A colon must follow a complete sentence. The words before this colon end with the verb “include,” which still needs the list to complete its meaning, so no punctuation belongs between “include” and “scrap steel, driftwood, and broken glass.”</p>"
+ },
+ {
+  "id": "gg:punct-07",
+  "tag": "punct",
+  "html": "<p>Read this sentence.</p><blockquote>The city council had planned to close the Ninth Street pool at the end of the summer, however, hundreds of residents signed a petition, and the members voted to keep it open.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Delete the comma after <i>however</i>.",
+   "Change the comma after <i>summer</i> to a semicolon.",
+   "Change the comma after <i>petition</i> to a semicolon.",
+   "Change <i>had planned</i> to <i>plans</i>."
+  ],
+  "a": 1,
+  "exp": "<p>The question asks which edit corrects the sentence, which joins two complete sentences with only a comma and the word <i>however</i>.</p><p><b>A. Incorrect.</b> The comma after “however” is needed to set off the transition from the sentence it introduces. Deleting it would not repair the run-on at “summer.”</p><p><b>B. CORRECT.</b> “The city council had planned to close the Ninth Street pool at the end of the summer” is a complete sentence, and so are the words that begin with “however.” Because “however” is not a conjunction, a semicolon is required before it, with a comma after it.</p><p><b>C. Incorrect.</b> The comma after “petition” correctly comes before the conjunction “and,” which joins two complete sentences. Changing it would leave the run-on at “summer” uncorrected.</p><p><b>D. Incorrect.</b> The past perfect “had planned” is correct because the council made its plan before the residents “signed” and the members “voted.” The present-tense “plans” would not fit these past-tense verbs.</p>"
+ },
+ {
+  "id": "gg:punct-08",
+  "tag": "punct",
+  "html": "<p>Read this sentence.</p><blockquote>The Hubble Space Telescope sent back blurry images at first; because its main mirror had been ground to a slightly incorrect shape, a flaw that astronauts corrected in 1993.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change the comma after <i>shape</i> to a semicolon.",
+   "Change the semicolon after <i>first</i> to a colon.",
+   "Delete the semicolon after <i>first</i>.",
+   "Change <i>had been</i> to <i>has been</i>."
+  ],
+  "a": 2,
+  "exp": "<p>The question asks which edit corrects the sentence, which uses a semicolon to join a complete sentence to a group of words that cannot stand alone.</p><p><b>A. Incorrect.</b> The comma after “shape” correctly sets off the phrase “a flaw that astronauts corrected in 1993,” which renames the mirror’s incorrect shape. That phrase is not a complete sentence, so a semicolon cannot come before it.</p><p><b>B. Incorrect.</b> A colon introduces a list, an example, or a sentence that explains the one before it. The words after “first” already begin with “because,” which attaches the reason directly to “sent back blurry images at first,” so a colon is no better than the semicolon.</p><p><b>C. CORRECT.</b> A semicolon must have a complete sentence on each side. The words that begin with “because” are a dependent clause, not a sentence, so they should follow “at first” with no punctuation: “sent back blurry images at first because its main mirror had been ground to a slightly incorrect shape.”</p><p><b>D. Incorrect.</b> The past perfect “had been ground” is correct because the mirror was shaped before the telescope “sent back” its images. The present perfect “has been” would not fit a sentence about the early 1990s.</p>"
+ },
+ {
+  "id": "gg:punct-09",
+  "tag": "punct",
+  "html": "<p>Which sentence uses a colon correctly?</p>",
+  "opts": [
+   "For the overnight hike, each student should bring: a water bottle, a rain jacket, and a pair of sturdy shoes.",
+   "The coach gave her players one final instruction before the match: pass the ball before the defense can close in.",
+   "The new wing of the museum has several attractions that appeal to children, such as: a planetarium, a fossil lab, and a small theater.",
+   "The three sites that the committee considered for the mural were: the gym wall, the front lobby, and the library entrance."
+  ],
+  "a": 1,
+  "exp": "<p>The question asks which sentence uses a colon correctly. A colon must come after words that could stand alone as a complete sentence.</p><p><b>A. Incorrect.</b> The words before the colon end with the verb “bring,” which needs the list to complete its meaning. No punctuation belongs between “bring” and the items.</p><p><b>B. CORRECT.</b> “The coach gave her players one final instruction before the match” is a complete sentence, and the words after the colon state the instruction that it promises.</p><p><b>C. Incorrect.</b> The phrase “such as” already introduces the examples, and the words that end with “such as” are not a complete sentence. The colon should be deleted.</p><p><b>D. Incorrect.</b> The words before the colon end with the verb “were,” which needs the list to complete its meaning. No punctuation belongs between “were” and the items.</p>"
+ },
+ {
+  "id": "gg:punct-10",
+  "tag": "punct",
+  "html": "<p>Which sentence uses semicolons correctly?</p>",
+  "opts": [
+   "Next month the choir will perform in three cities; Albany, Hartford, and Providence.",
+   "Many students at the school walk to class each morning; while others take the bus or the subway.",
+   "Last season the team played in Buffalo, New York; Erie, Pennsylvania; and Akron, Ohio.",
+   "The library’s oldest book; a hand-copied atlas from 1640, is kept in a locked glass case."
+  ],
+  "a": 2,
+  "exp": "<p>The question asks which sentence uses semicolons correctly. A semicolon either joins two complete sentences or separates the items of a list when the items themselves contain commas.</p><p><b>A. Incorrect.</b> The words after the semicolon, “Albany, Hartford, and Providence,” are a list, not a complete sentence. A colon is needed to introduce the list.</p><p><b>B. Incorrect.</b> The words “while others take the bus or the subway” are a dependent clause and cannot stand alone as a sentence. A comma, not a semicolon, should follow “morning.”</p><p><b>C. CORRECT.</b> Each item in the list is a city and its state, and each already contains a comma. Semicolons between the items show where one place ends and the next begins.</p><p><b>D. Incorrect.</b> The phrase “a hand-copied atlas from 1640” renames “book” and must be set off by a pair of commas. The semicolon separates the subject “book” from its verb “is kept.”</p>"
+ }
+]

@@ -43,10 +43,15 @@
 <script src="config.js"></script>
 <script src="bank.js"></script>
 <script src="items.js"></script>
+<script src="gengrammar.js"></script>
+<script src="rcmeta.js"></script>
 <script src="concepts.js"></script>
 <script src="mathmeta.js"></script>
 <script src="genmath.js"></script>
 <script>
+if (typeof GENGRAMMAR !== 'undefined') GENGRAMMAR.forEach(g => ITEMS.push(g));   // written questions count toward each concept's bank
+const RC_TYPE = { 'main-idea': 'Main idea and summary', detail: 'Stated detail', inference: 'Inference', evidence: 'Finding the evidence for an idea', function: 'What a paragraph or detail is doing there', craft: 'Author\u2019s craft: tone, word choice, form', vocab: 'Words and phrases in context', graphic: 'Graphs, maps and tables' };
+const RC_KIND = { science: 'Science', history: 'History and society', literary: 'Fiction and literary nonfiction', poetry: 'Poetry' };
 const AREA = { rea: 'Revising/Editing: sentences', reb: 'Revising/Editing: passage', rc: 'Reading', grid: 'Grid-in math', mc: 'Math multiple choice' };
 const esc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const day = ts => new Date(ts).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
@@ -76,7 +81,7 @@ function diff(e){ const id = e.form === 'Extra' ? 'gen:' + e.n : (FORMID[e.form]
 /* question text lookups, so a miss can be read without opening the test */
 const FORMS = {}; BANK.forEach(f => { FORMS[f.id.slice(0,4) + ' Form ' + f.id.slice(4)] = f; });
 function questionHTML(e){
-  if (e.form === 'Extra') { const g = GENMATH.find(g => g.id === 'gen:' + e.n); return g ? g.html + (g.opts || []).map((o,j) => `<div>${'ABCD'[j]}. ${o}</div>`).join('') : ''; }
+  if (e.form === 'Extra' && e.app !== 'grammar') { const g = GENMATH.find(g => g.id === 'gen:' + e.n); return g ? g.html + (g.opts || []).map((o,j) => `<div>${'ABCD'[j]}. ${o}</div>`).join('') : ''; }
   if (e.app === 'grammar') {
     if (/^check /.test(e.n)) { const c = CONCEPTS.find(c => c.id === e.tag); const k = +String(e.n).split(' ')[1] - 1; return c && c.check[k] ? c.check[k].q : ''; }
     const it = ITEMS.find(i => i.form === e.form && String(i.n) === String(e.n)); return it ? it.html + it.opts.map((o,j) => `<div>${it.letters[j]}. ${esc(o)}</div>`).join('') : '';
@@ -123,7 +128,7 @@ function ratingsHTML(ans, ses){
     if (!g) G.push(g = { key, names: [], ids: [], tags: [], q: 0, ok: 0, last: 0, lessons: 0, of: 0 });
     g.names.push(c.name.replace(/^Commas /, '')); g.ids.push(c.id); c.tags.forEach(t => g.tags.includes(t) || g.tags.push(t)); g.of++; });
   G.forEach(g => { g.name = g.names.length > 1 ? 'Commas: ' + g.names.map(n => n.split(',')[0].replace(/^that /, '')).join('; ') : g.names[0];
-    g.bank = ITEMS.filter(it => g.tags.includes(it.tag)).length; });
+    g.bank = ITEMS.filter(it => g.tags.includes(it.tag)).length; g.extra = ITEMS.filter(it => g.tags.includes(it.tag) && it.form === 'Extra').length; });
   const lessonDone = new Set(ses.filter(e => /^Lesson: /.test(e.title)).map(e => e.title.slice(8)));
   CONCEPTS.forEach(c => { if (lessonDone.has(c.name)) G.find(g => g.ids.includes(c.id)).lessons++; });
   const itemTag = {}; ITEMS.forEach(it => { itemTag[it.form + '|' + it.n] = it.tag; });
@@ -133,12 +138,16 @@ function ratingsHTML(ans, ses){
   const lv = ses.filter(e => /level \d+ → \d+/.test(e.title)).pop();
   const M = {}; Object.values(MATHMETA).forEach(m => { M[m.t] = M[m.t] || { rows: [], bank: 0, last: 0 }; M[m.t].bank++; });
   const allMath = [];
+  const RT = {}, RK = {}; Object.keys(RC_TYPE).forEach(k => { RT[k] = { name: RC_TYPE[k], q: 0, ok: 0, last: 0, bank: 0 }; }); Object.keys(RC_KIND).forEach(k => { RK[k] = { name: RC_KIND[k], q: 0, ok: 0, last: 0, bank: 0 }; });
+  const RCM = typeof RCMETA === 'undefined' ? {} : RCMETA; Object.values(RCM).forEach(m => { RT[m.t].bank++; RK[m.g].bank++; });
   ans.forEach(e => {
     const t = new Date(e.ts).getTime(), ok = +e.ok;
     if (e.app === 'grammar') { const c = CONCEPTS.find(c => c.name === e.block) || CONCEPTS.find(c => c.id === e.tag) || CONCEPTS.find(c => c.tags.includes(e.tag)); const g = c && G.find(g => g.ids.includes(c.id)); if (g) { g.q++; g.ok += ok; g.last = Math.max(g.last, t); } return; }
     const id = e.form === 'Extra' ? 'gen:' + e.n : (FORMID[e.form] || '') + ':' + e.n, mm = (e.tag === 'adaptive' || e.tag === 'grid' || e.tag === 'mc') && MATHMETA[id];
     if (mm) { const r = { d: mm.d, ok }; M[mm.t].rows.push(r); M[mm.t].last = Math.max(M[mm.t].last, t); allMath.push(r); }
     if (e.tag === 'rea' || e.tag === 'reb') { const g = G.find(g => g.tags.includes(itemTag[e.form + '|' + e.n])); if (g) { g.q++; g.ok += ok; g.last = Math.max(g.last, t); } }
+    const rm = e.tag === 'rc' && RCM[(FORMID[e.form] || '') + ':' + e.n];
+    if (rm) [RT[rm.t], RK[rm.g]].forEach(o => { o.q++; o.ok += ok; o.last = Math.max(o.last, t); });
     if (other[e.tag]) { const o = other[e.tag]; o.q++; o.ok += ok; o.last = Math.max(o.last, t); }
   });
   const overall = lv ? +lv.title.match(/→ (\d+)/)[1] / 100 : allMath.length ? topicLevel(allMath, 0.65).m : null;
@@ -148,13 +157,13 @@ function ratingsHTML(ans, ses){
     if (!q) return ['Not started', 'meta', 3];
     if (q < RATE_MIN) return q - ok >= 2 && p <= 60 ? ['Early warning', 'wrong', 1] : ['Too few to rate', 'meta', 4];
     return p >= 85 ? ['Solid', 'right', 5] : p >= 70 ? ['Shaky', '', 2] : ['Needs work', 'wrong', 0]; };
-  let h = `<h2>Where he stands</h2><div class="card"><p class="meta">A rating needs ${RATE_MIN} answers in the area; with fewer the row shows the count and no verdict. "Bank" is how many real SHSAT questions the app holds for that area, which caps how well it can ever be rated.</p>
+  let h = `<h2>Where he stands</h2><div class="card"><p class="meta">A rating needs ${RATE_MIN} answers in the area; with fewer the row shows the count and no verdict. "Bank" is how many questions the app holds for that area: real SHSAT questions, plus any written to fill a gap.</p>
     <table><tr><th>Grammar (Revising/Editing)</th><th class="num">Right</th><th>Rating</th><th class="num hide-sm">Bank</th><th class="hide-sm">Last</th><th>Next step</th></tr>`;
   G.map(g => ({ g, r: grade(g.q, g.ok) })).sort((a, b) => a.r[2] - b.r[2] || pct(a.g.ok, a.g.q) - pct(b.g.ok, b.g.q)).forEach(({ g, r }) => {
     const step = g.lessons < g.of ? (g.q ? 'Finish the lesson' + (g.of > 1 ? 's' : '') : 'Lesson not done yet')
       : r[2] <= 1 ? 'Redo the lesson, then a Review' : r[2] === 2 ? 'Review sets' : r[2] === 4 ? (g.bank > g.q ? 'Review sets, to get a rating' : 'Bank is too small to rate; needs written questions') : 'Nothing';
     if (r[2] <= 2 || g.lessons < g.of) todo.push([r[2] <= 1 ? 0 : g.lessons < g.of ? 2 : 1, 'Grammar: ' + g.name + (g.q ? ' (' + g.ok + '/' + g.q + ')' : '') + ' — ' + step.toLowerCase()]);
-    h += `<tr><td>${esc(g.name)}</td><td class="num">${g.q ? g.ok + '/' + g.q : ''}</td><td>${pill(r[0], r[1])}</td><td class="num hide-sm">${g.bank}</td><td class="hide-sm meta">${when(g.last)}</td><td class="meta">${step}</td></tr>`;
+    h += `<tr><td>${esc(g.name)}</td><td class="num">${g.q ? g.ok + '/' + g.q : ''}</td><td>${pill(r[0], r[1])}</td><td class="num hide-sm">${g.bank - g.extra}${g.extra ? ' + ' + g.extra : ''}</td><td class="hide-sm meta">${when(g.last)}</td><td class="meta">${step}</td></tr>`;
   });
   h += `</table><p class="meta" style="margin:8px 0 0">${reviews ? reviews + ' Review set' + (reviews > 1 ? 's' : '') + ' done.' : 'No Review set done yet. The Review is the part that adapts: 10 real questions, missed ones first, then the weakest concepts.'}</p></div>`;
 
@@ -171,6 +180,14 @@ function ratingsHTML(ans, ses){
     if (!o.q) todo.push([2, o.name + ' — not started']);
     h += `<tr><td>${o.name}</td><td class="num">${o.q ? o.ok + '/' + o.q : ''}</td><td>${pill(r[0], r[1])}</td><td class="hide-sm meta">${when(o.last)}</td></tr>`; });
   h += `</table></div>`;
+  // reading, cut two ways: by what the question asks and by the kind of passage
+  const rcAny = Object.values(RT).some(o => o.q);
+  [['Reading by question type', RT], ['Reading by kind of passage', RK]].forEach(([title, T]) => {
+    h += `<div class="card">${T === RT ? `<p class="meta">Every reading question in the bank is tagged by what it asks and by the kind of passage it sits under, so a reading drill or test fills in both tables at once.${rcAny ? '' : ' No reading has been done yet.'}</p>` : ''}<table><tr><th>${title}</th><th class="num">Right</th><th>Rating</th><th class="num hide-sm">Bank</th><th class="hide-sm">Last</th></tr>`;
+    Object.keys(T).map(k => ({ o: T[k], r: grade(T[k].q, T[k].ok) })).sort((a, b) => a.r[2] - b.r[2] || pct(a.o.ok, a.o.q) - pct(b.o.ok, b.o.q)).forEach(({ o, r }) => {
+      if (r[2] <= 2) todo.push([r[2] <= 1 ? 0 : 1, 'Reading: ' + o.name + ' (' + o.ok + '/' + o.q + ')']);
+      h += `<tr><td>${o.name}</td><td class="num">${o.q ? o.ok + '/' + o.q : ''}</td><td>${pill(r[0], r[1])}</td><td class="num hide-sm">${o.bank}</td><td class="hide-sm meta">${when(o.last)}</td></tr>`; });
+    h += `</table></div>`; });
   todo.sort((a, b) => a[0] - b[0]);
   const top = todo.length ? `<div class="card"><b>Work on next</b><ol style="margin:6px 0 0;padding-left:22px">${todo.slice(0, 8).map(t => `<li>${esc(t[1])}</li>`).join('')}</ol></div>` : '';
   return h.replace('<h2>Where he stands</h2>', '<h2>Where he stands</h2>' + top);

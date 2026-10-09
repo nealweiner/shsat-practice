@@ -1,0 +1,132 @@
+[
+ {
+  "id": "gg:tense-01",
+  "tag": "tense",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) When the Brooklyn Bridge opened in 1883, it was the longest suspension bridge in the world. (2) Its chief engineer, Washington Roebling, had fallen ill years earlier, so his wife, Emily, carries his instructions to the workers and learned enough engineering to answer their questions herself. (3) Many New Yorkers doubted that the bridge was safe until a showman led twenty-one elephants across it the following year. (4) Today tens of thousands of people cross the bridge each day, and it remains one of the most recognizable landmarks in the city.</blockquote><p>Which sentence should be revised to correct an inappropriate shift in verb tense?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 1,
+  "exp": "<p>The question asks for the sentence with an inappropriate shift in verb tense. The paragraph describes the building of the bridge in the past tense, so the present-tense verb <i>carries</i> in sentence 2 should be <i>carried</i>, matching <i>learned</i> in the same sentence.</p><p><b>A. Incorrect.</b> Sentence 1 keeps both verbs, <i>opened</i> and <i>was</i>, in the past tense.</p><p><b>B. CORRECT.</b> Sentence 2 shifts to the present tense with <i>carries</i>. Emily Roebling’s work took place during construction, so the verb should be <i>carried</i>. The past perfect <i>had fallen</i> is not the error; it correctly marks an event that came before her work.</p><p><b>C. Incorrect.</b> Sentence 3 uses the past-tense verbs <i>doubted</i>, <i>was</i>, and <i>led</i> for events of the 1880s.</p><p><b>D. Incorrect.</b> Sentence 4 changes to the present tense (<i>cross</i>, <i>remains</i>), but the word <i>Today</i> signals that the sentence describes the present, so the change is appropriate.</p>"
+ },
+ {
+  "id": "gg:tense-02",
+  "tag": "tense",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Scientists have long known that honeybees communicate through movement. (2) In the 1940s, the Austrian researcher Karl von Frisch discovered that a bee returning to the hive performs a “waggle dance” that tells other bees where food is. (3) He had spent decades watching marked bees before he was confident enough to publish his conclusions. (4) Many biologists rejected his claims at first, but later experiments confirm them, and in 1973 he shared a Nobel Prize for his work.</blockquote><p>Which sentence should be revised to correct an inappropriate shift in verb tense?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 3,
+  "exp": "<p>The question asks for the sentence with an inappropriate shift in verb tense. Sentence 4 narrates past events with <i>rejected</i> and <i>shared</i>, so the present-tense verb <i>confirm</i> between them should be <i>confirmed</i>.</p><p><b>A. Incorrect.</b> Sentence 1 uses the present perfect <i>have long known</i> for knowledge that continues today and the present-tense <i>communicate</i> for a general fact about bees.</p><p><b>B. Incorrect.</b> Sentence 2 uses the past-tense <i>discovered</i> for the event and the present-tense <i>performs</i>, <i>tells</i>, and <i>is</i> for what bees always do. A general truth stays in the present tense even when it was discovered in the past.</p><p><b>C. Incorrect.</b> Sentence 3 uses the past perfect <i>had spent</i> for the years of observation that came before he <i>was</i> confident enough to publish.</p><p><b>D. CORRECT.</b> Sentence 4 shifts to the present tense with <i>confirm</i>. The experiments took place after the first rejection and before the 1973 prize, so the verb should be <i>confirmed</i>.</p>"
+ },
+ {
+  "id": "gg:tense-03",
+  "tag": "tense",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Last spring, the seventh-grade science classes at Hudson Middle School planted a vegetable garden behind the gym, and each student chooses one crop to tend. (2) The students had tested the soil in March, so they knew that it needed more nitrogen before anything would grow. (3) In June, the garden produced enough lettuce and radishes to supply the cafeteria’s salad bar for two weeks. (4) The classes will expand the garden next year, and the school plans to add a small greenhouse as well.</blockquote><p>Which sentence should be revised to correct an inappropriate shift in verb tense?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 0,
+  "exp": "<p>The question asks for the sentence with an inappropriate shift in verb tense. Sentence 1 describes what happened last spring with <i>planted</i>, so the present-tense verb <i>chooses</i> should be <i>chose</i>.</p><p><b>A. CORRECT.</b> Sentence 1 shifts from the past-tense <i>planted</i> to the present-tense <i>chooses</i>. Both actions happened last spring, so the verb should be <i>chose</i>.</p><p><b>B. Incorrect.</b> Sentence 2 uses the past perfect <i>had tested</i> because the soil test in March came before the planting, and <i>knew</i>, <i>needed</i>, and <i>would grow</i> all fit the past time frame.</p><p><b>C. Incorrect.</b> Sentence 3 uses the past-tense <i>produced</i> for what the garden did by June.</p><p><b>D. Incorrect.</b> Sentence 4 uses the future <i>will expand</i> and the present <i>plans</i>, but the words <i>next year</i> show that the sentence describes a plan that has not yet happened, so these tenses are appropriate.</p>"
+ },
+ {
+  "id": "gg:tense-04",
+  "tag": "tense",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Before the Erie Canal opened in 1825, moving a ton of grain from Buffalo to New York City took about three weeks and cost roughly one hundred dollars. (2) Critics had mocked the project as “Clinton’s Ditch,” after Governor DeWitt Clinton, who championed it. (3) Once boats began traveling the canal, however, the cost of shipping drops by about ninety percent, and towns along the route grew rapidly. (4) Although freight now moves mostly by rail and highway, the canal still carries pleasure boats, and historians regard it as one of the most important public works in American history.</blockquote><p>Which sentence should be revised to correct an inappropriate shift in verb tense?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 2,
+  "exp": "<p>The question asks for the sentence with an inappropriate shift in verb tense. Sentence 3 describes the 1820s with <i>began</i> and <i>grew</i>, so the present-tense verb <i>drops</i> should be <i>dropped</i>.</p><p><b>A. Incorrect.</b> Sentence 1 uses the past-tense verbs <i>opened</i>, <i>took</i>, and <i>cost</i>. (<i>Cost</i> has the same form in the past and the present; here it is past.)</p><p><b>B. Incorrect.</b> Sentence 2 uses the past perfect <i>had mocked</i> because the mockery came before the canal opened, and the past-tense <i>championed</i>.</p><p><b>C. CORRECT.</b> Sentence 3 shifts to the present tense with <i>drops</i>. The fall in shipping costs happened when the boats <i>began</i> traveling and the towns <i>grew</i>, so the verb should be <i>dropped</i>.</p><p><b>D. Incorrect.</b> Sentence 4 changes to the present tense (<i>moves</i>, <i>carries</i>, <i>regard</i>), but the words <i>now</i> and <i>still</i> signal that the sentence describes the present, so the change is appropriate.</p>"
+ },
+ {
+  "id": "gg:tense-05",
+  "tag": "tense",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Sound travels as vibrations, which is why a guitar string must move in order to be heard. (2) In the 1930s, musicians in large dance bands complained that their acoustic guitars could not compete with the horns and drums. (3) Inventors had experimented with microphones attached to the instrument, but these picked up unwanted noise. (4) The solution came when engineers built a magnetic pickup that sensed the motion of the steel strings directly and sends it to an amplifier as an electrical signal.</blockquote><p>Which sentence should be revised to correct an inappropriate shift in verb tense?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 3,
+  "exp": "<p>The question asks for the sentence with an inappropriate shift in verb tense. In sentence 4 the pickup that engineers <i>built</i> did two things, and the first is in the past tense (<i>sensed</i>), so the second verb, <i>sends</i>, should be <i>sent</i>.</p><p><b>A. Incorrect.</b> Sentence 1 is in the present tense (<i>travels</i>, <i>is</i>, <i>must move</i>) because it states a scientific fact that is always true.</p><p><b>B. Incorrect.</b> Sentence 2 uses the past-tense <i>complained</i> and <i>could not compete</i> for the 1930s.</p><p><b>C. Incorrect.</b> Sentence 3 uses the past perfect <i>had experimented</i> for attempts that came before the solution in sentence 4, and the past-tense <i>picked up</i>.</p><p><b>D. CORRECT.</b> Sentence 4 shifts to the present tense with <i>sends</i>. The verbs <i>sensed</i> and <i>sends</i> share the subject <i>that</i> (the pickup) and are joined by <i>and</i>, so they must match: <i>sensed … and sent</i>.</p>"
+ },
+ {
+  "id": "gg:tense-06",
+  "tag": "tense",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Every November, the New York City Marathon draws more than 50,000 runners, who cover 26.2 miles through all five boroughs. (2) The race begins on Staten Island, crosses the Verrazzano-Narrows Bridge into Brooklyn, and wound north through Queens, Manhattan, and the Bronx before it ends in Central Park. (3) The first race, held in 1970, was far smaller: only 127 runners entered, and they ran the whole distance inside the park. (4) Organizers moved the course onto city streets in 1976, and the event has grown nearly every year since.</blockquote><p>Which sentence should be revised to correct an inappropriate shift in verb tense?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 1,
+  "exp": "<p>The question asks for the sentence with an inappropriate shift in verb tense. Sentence 2 describes the route the race follows every year in the present tense (<i>begins</i>, <i>crosses</i>, <i>ends</i>), so the past-tense verb <i>wound</i> should be <i>winds</i>.</p><p><b>A. Incorrect.</b> Sentence 1 uses the present-tense <i>draws</i> and <i>cover</i> for something that happens every November.</p><p><b>B. CORRECT.</b> Sentence 2 shifts to the past tense with <i>wound</i> in the middle of a series of present-tense verbs. The sentence should read <i>begins … crosses … and winds</i>.</p><p><b>C. Incorrect.</b> Sentence 3 changes to the past tense (<i>was</i>, <i>entered</i>, <i>ran</i>), but it describes the first race, in 1970, so the change is appropriate.</p><p><b>D. Incorrect.</b> Sentence 4 uses the past-tense <i>moved</i> for an event in 1976 and the present perfect <i>has grown</i> with <i>since</i> for growth that began then and continues today.</p>"
+ },
+ {
+  "id": "gg:tense-07",
+  "tag": "tense",
+  "html": "<p>Read this sentence.</p><blockquote>When the explorers finally reached the summit, they realize that the storm they had seen from the valley was moving toward them faster than their guide had predicted.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change <i>realize</i> to <i>realized</i>.",
+   "Change <i>had seen</i> to <i>see</i>.",
+   "Change <i>was moving</i> to <i>moves</i>.",
+   "Change <i>had predicted</i> to <i>predicts</i>."
+  ],
+  "a": 0,
+  "exp": "<p>The question asks for the edit that corrects the sentence. The sentence tells about a past event (<i>reached</i>), so the present-tense verb <i>realize</i> is an inappropriate shift and should be <i>realized</i>.</p><p><b>A. CORRECT.</b> The explorers <i>reached</i> the summit in the past, and what they understood at that moment must also be in the past: <i>they realized</i>.</p><p><b>B. Incorrect.</b> The past perfect <i>had seen</i> is correct because the explorers saw the storm from the valley before they reached the summit.</p><p><b>C. Incorrect.</b> The past progressive <i>was moving</i> is correct because the storm was in motion at the past moment the sentence describes.</p><p><b>D. Incorrect.</b> The past perfect <i>had predicted</i> is correct because the guide made the prediction earlier than the events at the summit.</p>"
+ },
+ {
+  "id": "gg:tense-08",
+  "tag": "tense",
+  "html": "<p>Read this sentence.</p><blockquote>Although the museum closed its original building in 2019, it now occupies a renovated warehouse near the river, where visitors examined fossils that scientists collected more than a century ago.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change <i>closed</i> to <i>closes</i>.",
+   "Change <i>occupies</i> to <i>occupied</i>.",
+   "Change <i>examined</i> to <i>examine</i>.",
+   "Change <i>collected</i> to <i>collect</i>."
+  ],
+  "a": 2,
+  "exp": "<p>The question asks for the edit that corrects the sentence. The main clause describes the museum as it is <i>now</i> (<i>occupies</i>), so what visitors do there should also be in the present tense: <i>examine</i>, not <i>examined</i>.</p><p><b>A. Incorrect.</b> The past-tense <i>closed</i> is correct because the closing happened in 2019.</p><p><b>B. Incorrect.</b> The present-tense <i>occupies</i> is correct because the word <i>now</i> shows that the sentence describes the museum’s current home.</p><p><b>C. CORRECT.</b> Visitors look at the fossils in the building the museum <i>now occupies</i>, so the verb must be the present-tense <i>examine</i>.</p><p><b>D. Incorrect.</b> The past-tense <i>collected</i> is correct because the scientists gathered the fossils <i>more than a century ago</i>.</p>"
+ },
+ {
+  "id": "gg:tense-09",
+  "tag": "tense",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) When New York’s first subway line opened on October 27, 1904, more than 100,000 people paid a nickel each to ride it. (2) The line ran from City Hall to 145th Street; the trip, which had taken far longer by streetcar, lasted only about twenty-six minutes. (3) City officials had expected large crowds, however, they are astonished when riders waited in lines that stretched for blocks. (4) Today the system has 472 stations, and it carries millions of passengers every weekday.</blockquote><p>Which pair of revisions need to be made in this paragraph?</p>",
+  "opts": [
+   "Sentence 1: Change <i>opened</i> to <i>opens</i> AND delete the comma after <i>1904</i>.",
+   "Sentence 2: Change the semicolon to a comma AND change <i>had taken</i> to <i>takes</i>.",
+   "Sentence 3: Change the comma after <i>crowds</i> to a semicolon AND change <i>are</i> to <i>were</i>.",
+   "Sentence 4: Change <i>has</i> to <i>had</i> AND delete the comma after <i>stations</i>."
+  ],
+  "a": 2,
+  "exp": "<p>The question asks for the pair of revisions that corrects the paragraph. Sentence 3 joins two complete sentences with only a comma before <i>however</i>, and it shifts to the present tense with <i>are</i> in a past-tense account.</p><p><b>A. Incorrect.</b> The past-tense <i>opened</i> matches the date 1904, and the comma after <i>1904</i> correctly ends the introductory clause.</p><p><b>B. Incorrect.</b> The semicolon correctly joins two complete sentences, and changing it to a comma would create a run-on. The past perfect <i>had taken</i> correctly refers to streetcar trips before the subway existed.</p><p><b>C. CORRECT.</b> <i>City officials had expected large crowds</i> and <i>they were astonished …</i> are both complete sentences, so a semicolon is needed before <i>however</i>. The officials’ reaction happened in 1904, so <i>are</i> must be <i>were</i>, matching <i>waited</i> and <i>stretched</i>.</p><p><b>D. Incorrect.</b> The word <i>Today</i> shows that sentence 4 describes the present, so <i>has</i> is correct, and the comma before <i>and</i> correctly separates two complete sentences.</p>"
+ },
+ {
+  "id": "gg:tense-10",
+  "tag": "tense",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Each autumn, millions of monarch butterflies leave the northern United States and Canada; they fly as far as 3,000 miles to reach central Mexico. (2) Scientists did not know where the insects spent the winter until 1975, when a research team finally locates the colonies in: a few high mountain forests west of Mexico City. (3) The team had relied on thousands of volunteers, who tagged butterflies and reported where the tags turned up. (4) Because the forests are now threatened by logging, conservation groups are working to protect them: the monarchs’ survival depends on these small patches of woodland.</blockquote><p>Which pair of revisions need to be made in this paragraph?</p>",
+  "opts": [
+   "Sentence 1: Change <i>leave</i> to <i>left</i> AND change the semicolon to a comma.",
+   "Sentence 2: Change <i>locates</i> to <i>located</i> AND delete the colon after <i>in</i>.",
+   "Sentence 3: Change <i>had relied</i> to <i>relies</i> AND delete the comma after <i>volunteers</i>.",
+   "Sentence 4: Change <i>are working</i> to <i>worked</i> AND change the colon to a comma."
+  ],
+  "a": 1,
+  "exp": "<p>The question asks for the pair of revisions that corrects the paragraph. Sentence 2 shifts to the present tense with <i>locates</i> for an event in 1975, and it places a colon after the preposition <i>in</i>, where no punctuation belongs.</p><p><b>A. Incorrect.</b> The present-tense <i>leave</i> is correct for something that happens <i>each autumn</i>, and the semicolon correctly joins two complete sentences; a comma there would create a run-on.</p><p><b>B. CORRECT.</b> The discovery happened in 1975, so the verb must be <i>located</i>, matching <i>did not know</i>. A colon must follow a complete sentence, and <i>a research team finally located the colonies in</i> is not complete, so the colon should be deleted.</p><p><b>C. Incorrect.</b> The past perfect <i>had relied</i> correctly describes help that came before the discovery, and the comma correctly sets off the clause beginning with <i>who</i>, which adds extra information about the volunteers.</p><p><b>D. Incorrect.</b> The word <i>now</i> shows that sentence 4 describes the present, so <i>are working</i> is correct. The colon follows a complete sentence and introduces an explanation; a comma there would create a run-on.</p>"
+ }
+]

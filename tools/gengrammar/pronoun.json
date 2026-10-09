@@ -1,0 +1,158 @@
+[
+ {
+  "id": "gg:pronoun-01",
+  "tag": "pronoun",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) In 1883 Emily Roebling became the first person to cross the Brooklyn Bridge, a structure that she had helped to complete. (2) Her husband, Washington Roebling, had taken over as chief engineer from his father, John, after he was injured in an accident at the waterfront. (3) When illness later confined Washington to his bedroom, Emily carried his instructions to the workers and studied engineering so that she could answer their questions. (4) Today a plaque on one of the bridge’s towers honors Emily and the years that she devoted to the project.</blockquote><p>Which sentence should be revised to correct a vague pronoun?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 1,
+  "exp": "<p>The question asks for the sentence in which a pronoun could refer to more than one person. In sentence 2, the pronoun <i>he</i> in <i>after he was injured</i> follows the names of two men, Washington Roebling and his father, John, so the reader cannot tell which of them was injured.</p><p><b>A. Incorrect.</b> In sentence 1, <i>she</i> can refer only to Emily Roebling, the only person named in the sentence.</p><p><b>B. CORRECT.</b> Sentence 2 names two men before the pronoun <i>he</i>, and either one could sensibly have been injured. Replacing <i>he</i> with <i>John</i> (or <i>the older man</i>) would make the sentence clear.</p><p><b>C. Incorrect.</b> Sentence 3 has several pronouns, but each has one possible antecedent: <i>his</i> refers to Washington, the only man in the sentence; <i>she</i> refers to Emily; and <i>their</i> refers to <i>the workers</i>, the only plural noun that can ask questions.</p><p><b>D. Incorrect.</b> In sentence 4, <i>she</i> can refer only to Emily.</p>"
+ },
+ {
+  "id": "gg:pronoun-02",
+  "tag": "pronoun",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) A honeybee that finds a rich patch of flowers returns to its hive and performs what scientists call a waggle dance. (2) As the bee moves in a figure eight, it shakes its body to show the other workers how far away the food is. (3) The workers crowd around the dancer, and they follow its movements with their antennae. (4) Researchers once placed a dish of sugar water near a hive, and within minutes it was covered with bees.</blockquote><p>Which sentence should be revised to correct a vague pronoun?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 3,
+  "exp": "<p>The question asks for the sentence in which a pronoun does not clearly point to one noun. In sentence 4, <i>it</i> could refer to <i>a dish of sugar water</i> or to <i>a hive</i>, since either one could be covered with bees.</p><p><b>A. Incorrect.</b> In sentence 1, <i>its</i> can refer only to <i>a honeybee</i>, the one singular noun that could have a hive.</p><p><b>B. Incorrect.</b> In sentence 2, <i>it</i> and <i>its</i> both refer to <i>the bee</i>; a figure eight cannot shake a body.</p><p><b>C. Incorrect.</b> Sentence 3 looks crowded with pronouns, but number keeps them apart: the plural <i>they</i> and <i>their</i> must refer to <i>the workers</i>, and the singular <i>its</i> must refer to <i>the dancer</i>.</p><p><b>D. CORRECT.</b> Sentence 4 places two singular nouns, <i>dish</i> and <i>hive</i>, before <i>it</i>, and the sentence makes sense with either. Replacing <i>it</i> with <i>the dish</i> would correct the problem.</p>"
+ },
+ {
+  "id": "gg:pronoun-03",
+  "tag": "pronoun",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) In the article about the new recycling plant in Brooklyn, they say that more than 800 tons of material arrive every day. (2) Trucks dump their loads onto a moving belt, which carries the material past a series of machines. (3) A powerful magnet lifts steel cans off the belt, and a blast of air pushes them into a separate bin. (4) Workers then inspect the remaining paper and remove any plastic bags that they find in it.</blockquote><p>Which sentence should be revised to correct a vague pronoun?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 0,
+  "exp": "<p>The question asks for the sentence in which a pronoun has no clear antecedent. In sentence 1, <i>they</i> does not refer to any noun at all: neither <i>the article</i> nor <i>the new recycling plant</i> is plural, and no people have been mentioned.</p><p><b>A. CORRECT.</b> Sentence 1 uses <i>they</i> for some unnamed people. The sentence should name them, as in <i>The article about the new recycling plant in Brooklyn says that</i> or <i>the reporters say that</i>.</p><p><b>B. Incorrect.</b> In sentence 2, <i>their</i> can refer only to <i>trucks</i>, and <i>which</i> directly follows <i>a moving belt</i>, the noun it describes.</p><p><b>C. Incorrect.</b> In sentence 3, <i>them</i> is plural, and <i>steel cans</i> is the only plural noun in the sentence.</p><p><b>D. Incorrect.</b> Sentence 4 has two pronouns, but each is clear: <i>they</i> refers to <i>workers</i>, since plastic bags cannot find anything, and the singular <i>it</i> refers to <i>the remaining paper</i>.</p>"
+ },
+ {
+  "id": "gg:pronoun-04",
+  "tag": "pronoun",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Matthew Henson was working in a Washington hat shop in 1887 when he met the explorer Robert Peary. (2) Peary soon hired the young man for a surveying trip to Nicaragua, and the two later made several voyages to the Arctic, where they spent years searching for a route to the North Pole. (3) During these voyages Henson told Peary that he should learn to drive a dogsled as the Inuit hunters did. (4) In 1909 the members of the final expedition reached what they believed to be the pole.</blockquote><p>Which sentence should be revised to correct a vague pronoun?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 2,
+  "exp": "<p>The question asks for the sentence in which a pronoun could refer to more than one person. In sentence 3, <i>he</i> could refer to Henson or to Peary: Henson may have been speaking about his own need to learn or giving advice to Peary.</p><p><b>A. Incorrect.</b> In sentence 1, <i>he</i> comes after only one name, Matthew Henson; Peary has not yet been mentioned, and he is the person being met.</p><p><b>B. Incorrect.</b> In sentence 2, <i>they</i> refers to <i>the two</i>, the men who made the voyages together. No other plural noun could search for a route.</p><p><b>C. CORRECT.</b> Sentence 3 names both men before <i>he</i>, and nothing in the sentence shows which one should learn to drive a dogsled. Replacing <i>he</i> with a name would correct the problem.</p><p><b>D. Incorrect.</b> In sentence 4, <i>they</i> can refer only to <i>the members of the final expedition</i>.</p>"
+ },
+ {
+  "id": "gg:pronoun-05",
+  "tag": "pronoun",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) When New York’s first subway line opened in 1904, it ran about nine miles from City Hall to 145th Street. (2) Mayor George McClellan stood beside the motorman on the first train, and he drove it most of the way to Harlem. (3) More than 100,000 people paid a nickel that evening so that they could ride the new trains. (4) Although the fare has risen many times since then, the subway still carries millions of riders to their jobs each day.</blockquote><p>Which sentence should be revised to correct a vague pronoun?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 1,
+  "exp": "<p>The question asks for the sentence in which a pronoun could refer to more than one noun. In sentence 2, <i>he</i> could refer to <i>Mayor George McClellan</i> or to <i>the motorman</i>, so the reader cannot tell who drove the train.</p><p><b>A. Incorrect.</b> In sentence 1, <i>it</i> refers to <i>New York’s first subway line</i>, the only thing in the sentence that could run from one place to another.</p><p><b>B. CORRECT.</b> Sentence 2 mentions two men before <i>he</i>. Driving a train is a motorman’s job, but the mayor is the subject of the sentence, so either reading is reasonable. (The pronoun <i>it</i> is clear, since it can refer only to <i>the first train</i>.) Replacing <i>he</i> with <i>the mayor</i> would correct the problem.</p><p><b>C. Incorrect.</b> In sentence 3, <i>they</i> can refer only to <i>people</i>.</p><p><b>D. Incorrect.</b> In sentence 4, <i>their</i> refers to <i>riders</i>; the singular nouns <i>fare</i> and <i>subway</i> cannot be the antecedent of a plural pronoun.</p>"
+ },
+ {
+  "id": "gg:pronoun-06",
+  "tag": "pronoun",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) The sculptor Augusta Savage opened a studio in Harlem in the 1930s, and she offered free art classes there to anyone who wanted them. (2) One of her students, Jacob Lawrence, later became famous for the paintings that he made of the Great Migration. (3) Savage created a sixteen-foot sculpture for the 1939 World’s Fair, where it was seen by millions of visitors. (4) After the fair closed, workers removed the sculpture from the pavilion and demolished it.</blockquote><p>Which sentence should be revised to correct a vague pronoun?</p>",
+  "opts": [
+   "sentence 1",
+   "sentence 2",
+   "sentence 3",
+   "sentence 4"
+  ],
+  "a": 3,
+  "exp": "<p>The question asks for the sentence in which a pronoun could refer to more than one noun. In sentence 4, <i>it</i> could refer to <i>the sculpture</i> or to <i>the pavilion</i>, since workers could have demolished either one.</p><p><b>A. Incorrect.</b> In sentence 1, <i>she</i> refers to Augusta Savage, and the plural <i>them</i> refers to <i>free art classes</i>, the only plural noun that someone could want.</p><p><b>B. Incorrect.</b> In sentence 2, <i>her</i> refers to Savage, the only woman mentioned in the paragraph, and <i>he</i> refers to Jacob Lawrence.</p><p><b>C. Incorrect.</b> In sentence 3, <i>it</i> refers to the <i>sculpture</i>; the fair is the place where the object was seen, so it cannot be the thing seen there.</p><p><b>D. CORRECT.</b> Sentence 4 places two singular nouns, <i>sculpture</i> and <i>pavilion</i>, before <i>it</i>, and both are things that can be demolished. Replacing <i>it</i> with <i>the artwork</i> would correct the problem.</p>"
+ },
+ {
+  "id": "gg:pronoun-07",
+  "tag": "pronoun",
+  "html": "<p>Read this sentence.</p><blockquote>Each of the bridges that cross the East River was praised as an engineering marvel when their roadway first opened to traffic.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change <i>cross</i> to <i>crosses</i>.",
+   "Change <i>was</i> to <i>were</i>.",
+   "Change <i>their</i> to <i>its</i>.",
+   "Change <i>opened</i> to <i>opens</i>."
+  ],
+  "a": 2,
+  "exp": "<p>The question asks for the edit that corrects an error in pronoun-antecedent agreement. The subject of the sentence is the singular pronoun <i>Each</i>, so the pronoun that refers back to it must be the singular <i>its</i>, not the plural <i>their</i>.</p><p><b>A. Incorrect.</b> The verb <i>cross</i> belongs to the clause <i>that cross the East River</i>, in which <i>that</i> stands for the plural noun <i>bridges</i>. The plural verb is correct.</p><p><b>B. Incorrect.</b> The verb <i>was</i> agrees with the singular subject <i>Each</i>, not with the nearby plural noun <i>bridges</i>. Changing it would create an agreement error.</p><p><b>C. CORRECT.</b> <i>Each</i> is singular, as the verb <i>was</i> confirms, so the sentence should say that each bridge was praised when <i>its</i> roadway opened.</p><p><b>D. Incorrect.</b> The sentence describes past events, so the past-tense verb <i>opened</i> is correct.</p>"
+ },
+ {
+  "id": "gg:pronoun-08",
+  "tag": "pronoun",
+  "html": "<p>Read this sentence.</p><blockquote>The committee that reviews applications for the city’s summer internships has posted its schedule, and they will announce the winners in May.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change <i>they</i> to <i>it</i>.",
+   "Change <i>its</i> to <i>their</i>.",
+   "Change <i>reviews</i> to <i>review</i>.",
+   "Change <i>has</i> to <i>have</i>."
+  ],
+  "a": 0,
+  "exp": "<p>The question asks for the edit that corrects an error in pronoun-antecedent agreement. The collective noun <i>committee</i> is treated as a single unit throughout the sentence (<i>reviews</i>, <i>has posted</i>, <i>its schedule</i>), so the plural pronoun <i>they</i> must be changed to <i>it</i>.</p><p><b>A. CORRECT.</b> <i>They</i> refers to <i>the committee</i>, which the sentence treats as singular. Changing <i>they</i> to <i>it</i> makes every verb and pronoun agree.</p><p><b>B. Incorrect.</b> <i>Its</i> correctly matches the singular verbs <i>reviews</i> and <i>has</i>. Changing it to <i>their</i> would add a second mismatched pronoun instead of fixing the first.</p><p><b>C. Incorrect.</b> The verb <i>reviews</i> agrees with <i>committee</i>, a singular noun. The plural noun <i>applications</i> is the object of the verb, not its subject.</p><p><b>D. Incorrect.</b> The verb <i>has</i> agrees with the singular subject <i>committee</i>, not with the plural noun <i>internships</i> that comes just before it.</p>"
+ },
+ {
+  "id": "gg:pronoun-09",
+  "tag": "pronoun",
+  "html": "<p>Read this sentence.</p><blockquote>The red-tailed hawk, like many other birds of prey that hunt in the city’s parks, often returns to the same nest that they built the year before.</blockquote><p>Which edit should be made to correct this sentence?</p>",
+  "opts": [
+   "Change <i>returns</i> to <i>return</i>.",
+   "Change <i>hunt</i> to <i>hunts</i>.",
+   "Change <i>built</i> to <i>build</i>.",
+   "Change <i>they</i> to <i>it</i>."
+  ],
+  "a": 3,
+  "exp": "<p>The question asks for the edit that corrects an error in pronoun-antecedent agreement. The pronoun <i>they</i> refers to the subject, <i>the red-tailed hawk</i>, which is singular, so the pronoun must be the singular <i>it</i>.</p><p><b>A. Incorrect.</b> The subject of <i>returns</i> is the singular <i>hawk</i>. The phrase <i>like many other birds of prey</i> is set off by commas and does not make the subject plural.</p><p><b>B. Incorrect.</b> The verb <i>hunt</i> belongs to the clause <i>that hunt in the city’s parks</i>, in which <i>that</i> stands for the plural <i>birds of prey</i>. The plural verb is correct.</p><p><b>C. Incorrect.</b> The nest was made <i>the year before</i>, so the past-tense verb <i>built</i> is correct.</p><p><b>D. CORRECT.</b> The hawk that returns is the one that made the nest. Because <i>hawk</i> is singular (<i>returns</i>), the sentence should read <i>the same nest that it built the year before</i>.</p>"
+ },
+ {
+  "id": "gg:pronoun-10",
+  "tag": "pronoun",
+  "html": "<p>Read this sentence.</p><blockquote>When the curator showed the photographer the damaged print, she offered to restore it at no charge.</blockquote><p>Which revision corrects the vague pronoun?</p>",
+  "opts": [
+   "When she showed the photographer the damaged print, she offered to restore it at no charge.",
+   "When the curator showed the photographer the damaged print, the photographer offered to restore it at no charge.",
+   "When the curator showed her the damaged print, she offered to restore it at no charge.",
+   "The curator showed the photographer the damaged print, the photographer offered to restore it at no charge."
+  ],
+  "a": 1,
+  "exp": "<p>The question asks for the revision that makes clear who offered to restore the print. In the original sentence, <i>she</i> could refer to <i>the curator</i> or to <i>the photographer</i>. Option B replaces <i>she</i> with <i>the photographer</i> and leaves the rest of the sentence correct.</p><p><b>A. Incorrect.</b> This revision replaces <i>the curator</i> with a second <i>she</i>, so now neither pronoun has a clear antecedent.</p><p><b>B. CORRECT.</b> Naming <i>the photographer</i> removes the doubt. The remaining pronoun, <i>it</i>, can refer only to <i>the damaged print</i>.</p><p><b>C. Incorrect.</b> This revision replaces <i>the photographer</i> with <i>her</i>, which has no antecedent, and <i>she</i> is still unclear.</p><p><b>D. Incorrect.</b> This revision names the photographer, but it joins two complete sentences with only a comma, which creates a run-on.</p>"
+ },
+ {
+  "id": "gg:pronoun-11",
+  "tag": "pronoun",
+  "html": "<p>Read this sentence.</p><blockquote>The technicians lifted the mirror out of the telescope so that it could be cleaned.</blockquote><p>Which revision corrects the vague pronoun?</p>",
+  "opts": [
+   "The technicians lifted the mirror out of the telescope so that this could be cleaned.",
+   "So that it could be cleaned, the technicians lifted the mirror out of the telescope.",
+   "The technicians lifted the mirror out of the telescope so that the mirror could be cleaned.",
+   "The technicians lifted the mirror out of the telescope so that they could be cleaned."
+  ],
+  "a": 2,
+  "exp": "<p>The question asks for the revision that makes clear what was to be cleaned. In the original sentence, <i>it</i> could refer to <i>the mirror</i> or to <i>the telescope</i>. Option C replaces <i>it</i> with <i>the mirror</i>.</p><p><b>A. Incorrect.</b> <i>This</i> is no clearer than <i>it</i>; the word could still point to the mirror or to the telescope.</p><p><b>B. Incorrect.</b> Moving the clause to the front of the sentence does not help. <i>It</i> still has two possible antecedents, and now it comes before both of them.</p><p><b>C. CORRECT.</b> Repeating the noun <i>the mirror</i> tells the reader exactly what was cleaned, and the revision adds no new error.</p><p><b>D. Incorrect.</b> The only plural noun that <i>they</i> can refer to is <i>the technicians</i>, so this revision changes the meaning of the sentence.</p>"
+ },
+ {
+  "id": "gg:pronoun-12",
+  "tag": "pronoun",
+  "html": "<p>Read this sentence.</p><blockquote>Although the governor and the senator disagreed about the new bridge, he promised to support the project.</blockquote><p>Which revision corrects the vague pronoun?</p>",
+  "opts": [
+   "Although the governor and the senator disagreed about the new bridge, the senator promised to support the project.",
+   "Although he and the senator disagreed about the new bridge, he promised to support the project.",
+   "The governor and the senator disagreed about the new bridge, however, the senator promised to support the project.",
+   "Although the governor and the senator disagreed about the new bridge, that one promised to support the project."
+  ],
+  "a": 0,
+  "exp": "<p>The question asks for the revision that makes clear who made the promise. In the original sentence, <i>he</i> could refer to <i>the governor</i> or to <i>the senator</i>. Option A replaces <i>he</i> with <i>the senator</i> and changes nothing else.</p><p><b>A. CORRECT.</b> Naming <i>the senator</i> removes the doubt, and the sentence is still correctly built: a dependent clause beginning with <i>Although</i>, a comma, and an independent clause.</p><p><b>B. Incorrect.</b> This revision removes <i>the governor</i>, so the first <i>he</i> has no antecedent, and the second <i>he</i> is as unclear as before.</p><p><b>C. Incorrect.</b> This revision names the senator, but it creates a run-on. When <i>however</i> joins two complete sentences, it needs a semicolon or a period before it, not a comma.</p><p><b>D. Incorrect.</b> <i>That one</i> does not tell the reader which of the two men is meant.</p>"
+ }
+]

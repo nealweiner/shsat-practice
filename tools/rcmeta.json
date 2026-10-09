@@ -1,0 +1,2170 @@
+{
+"2018A:21": {
+"g": "science",
+"t": "main-idea"
+},
+"2018A:22": {
+"g": "science",
+"t": "inference"
+},
+"2018A:23": {
+"g": "science",
+"t": "inference"
+},
+"2018A:24": {
+"g": "science",
+"t": "vocab"
+},
+"2018A:25": {
+"g": "science",
+"t": "function"
+},
+"2018A:26": {
+"g": "science",
+"t": "detail"
+},
+"2018A:27": {
+"g": "science",
+"t": "function"
+},
+"2018A:28": {
+"g": "history",
+"t": "main-idea"
+},
+"2018A:29": {
+"g": "history",
+"t": "function"
+},
+"2018A:30": {
+"g": "history",
+"t": "inference"
+},
+"2018A:31": {
+"g": "history",
+"t": "inference"
+},
+"2018A:32": {
+"g": "history",
+"t": "inference"
+},
+"2018A:33": {
+"g": "history",
+"t": "detail"
+},
+"2018A:34": {
+"g": "science",
+"t": "main-idea"
+},
+"2018A:35": {
+"g": "science",
+"t": "detail"
+},
+"2018A:36": {
+"g": "science",
+"t": "inference"
+},
+"2018A:37": {
+"g": "science",
+"t": "function"
+},
+"2018A:38": {
+"g": "science",
+"t": "function"
+},
+"2018A:39": {
+"g": "science",
+"t": "function"
+},
+"2018A:40": {
+"g": "history",
+"t": "main-idea"
+},
+"2018A:41": {
+"g": "history",
+"t": "detail"
+},
+"2018A:42": {
+"g": "history",
+"t": "detail"
+},
+"2018A:43": {
+"g": "history",
+"t": "inference"
+},
+"2018A:44": {
+"g": "history",
+"t": "detail"
+},
+"2018A:45": {
+"g": "history",
+"t": "detail"
+},
+"2018A:46": {
+"g": "science",
+"t": "main-idea"
+},
+"2018A:47": {
+"g": "science",
+"t": "vocab"
+},
+"2018A:48": {
+"g": "science",
+"t": "inference"
+},
+"2018A:49": {
+"g": "science",
+"t": "evidence"
+},
+"2018A:50": {
+"g": "science",
+"t": "function"
+},
+"2018A:51": {
+"g": "science",
+"t": "vocab"
+},
+"2018A:52": {
+"g": "history",
+"t": "main-idea"
+},
+"2018A:53": {
+"g": "history",
+"t": "inference"
+},
+"2018A:54": {
+"g": "history",
+"t": "vocab"
+},
+"2018A:55": {
+"g": "history",
+"t": "detail"
+},
+"2018A:56": {
+"g": "history",
+"t": "inference"
+},
+"2018A:57": {
+"g": "history",
+"t": "detail"
+},
+"2018B:21": {
+"g": "history",
+"t": "main-idea"
+},
+"2018B:22": {
+"g": "history",
+"t": "inference"
+},
+"2018B:23": {
+"g": "history",
+"t": "detail"
+},
+"2018B:24": {
+"g": "history",
+"t": "detail"
+},
+"2018B:25": {
+"g": "history",
+"t": "evidence"
+},
+"2018B:26": {
+"g": "history",
+"t": "detail"
+},
+"2018B:27": {
+"g": "science",
+"t": "main-idea"
+},
+"2018B:28": {
+"g": "science",
+"t": "function"
+},
+"2018B:29": {
+"g": "science",
+"t": "detail"
+},
+"2018B:30": {
+"g": "science",
+"t": "function"
+},
+"2018B:31": {
+"g": "science",
+"t": "detail"
+},
+"2018B:32": {
+"g": "science",
+"t": "detail"
+},
+"2018B:33": {
+"g": "science",
+"t": "function"
+},
+"2018B:34": {
+"g": "history",
+"t": "main-idea"
+},
+"2018B:35": {
+"g": "history",
+"t": "detail"
+},
+"2018B:36": {
+"g": "history",
+"t": "craft"
+},
+"2018B:37": {
+"g": "history",
+"t": "evidence"
+},
+"2018B:38": {
+"g": "history",
+"t": "evidence"
+},
+"2018B:39": {
+"g": "history",
+"t": "detail"
+},
+"2018B:40": {
+"g": "science",
+"t": "main-idea"
+},
+"2018B:41": {
+"g": "science",
+"t": "evidence"
+},
+"2018B:42": {
+"g": "science",
+"t": "function"
+},
+"2018B:43": {
+"g": "science",
+"t": "detail"
+},
+"2018B:44": {
+"g": "science",
+"t": "inference"
+},
+"2018B:45": {
+"g": "science",
+"t": "detail"
+},
+"2018B:46": {
+"g": "science",
+"t": "main-idea"
+},
+"2018B:47": {
+"g": "science",
+"t": "detail"
+},
+"2018B:48": {
+"g": "science",
+"t": "function"
+},
+"2018B:49": {
+"g": "science",
+"t": "evidence"
+},
+"2018B:50": {
+"g": "science",
+"t": "detail"
+},
+"2018B:51": {
+"g": "science",
+"t": "detail"
+},
+"2018B:52": {
+"g": "history",
+"t": "detail"
+},
+"2018B:53": {
+"g": "history",
+"t": "inference"
+},
+"2018B:54": {
+"g": "history",
+"t": "detail"
+},
+"2018B:55": {
+"g": "history",
+"t": "function"
+},
+"2018B:56": {
+"g": "history",
+"t": "vocab"
+},
+"2018B:57": {
+"g": "history",
+"t": "inference"
+},
+"2019A:10": {
+"g": "history",
+"t": "main-idea"
+},
+"2019A:11": {
+"g": "history",
+"t": "detail"
+},
+"2019A:12": {
+"g": "history",
+"t": "craft"
+},
+"2019A:13": {
+"g": "history",
+"t": "evidence"
+},
+"2019A:14": {
+"g": "history",
+"t": "evidence"
+},
+"2019A:15": {
+"g": "history",
+"t": "detail"
+},
+"2019A:16": {
+"g": "history",
+"t": "inference"
+},
+"2019A:17": {
+"g": "history",
+"t": "main-idea"
+},
+"2019A:18": {
+"g": "history",
+"t": "function"
+},
+"2019A:19": {
+"g": "history",
+"t": "evidence"
+},
+"2019A:20": {
+"g": "history",
+"t": "craft"
+},
+"2019A:21": {
+"g": "history",
+"t": "function"
+},
+"2019A:22": {
+"g": "history",
+"t": "function"
+},
+"2019A:23": {
+"g": "history",
+"t": "detail"
+},
+"2019A:24": {
+"g": "history",
+"t": "evidence"
+},
+"2019A:25": {
+"g": "history",
+"t": "graphic"
+},
+"2019A:26": {
+"g": "literary",
+"t": "inference"
+},
+"2019A:27": {
+"g": "literary",
+"t": "evidence"
+},
+"2019A:28": {
+"g": "literary",
+"t": "craft"
+},
+"2019A:29": {
+"g": "literary",
+"t": "inference"
+},
+"2019A:30": {
+"g": "literary",
+"t": "evidence"
+},
+"2019A:31": {
+"g": "literary",
+"t": "function"
+},
+"2019A:32": {
+"g": "literary",
+"t": "evidence"
+},
+"2019A:33": {
+"g": "literary",
+"t": "function"
+},
+"2019A:34": {
+"g": "literary",
+"t": "craft"
+},
+"2019A:35": {
+"g": "literary",
+"t": "inference"
+},
+"2019A:36": {
+"g": "history",
+"t": "main-idea"
+},
+"2019A:37": {
+"g": "history",
+"t": "detail"
+},
+"2019A:38": {
+"g": "history",
+"t": "detail"
+},
+"2019A:39": {
+"g": "history",
+"t": "detail"
+},
+"2019A:40": {
+"g": "history",
+"t": "inference"
+},
+"2019A:41": {
+"g": "history",
+"t": "detail"
+},
+"2019A:42": {
+"g": "poetry",
+"t": "craft"
+},
+"2019A:43": {
+"g": "poetry",
+"t": "function"
+},
+"2019A:44": {
+"g": "poetry",
+"t": "function"
+},
+"2019A:45": {
+"g": "poetry",
+"t": "craft"
+},
+"2019A:46": {
+"g": "poetry",
+"t": "craft"
+},
+"2019A:47": {
+"g": "poetry",
+"t": "function"
+},
+"2019A:48": {
+"g": "poetry",
+"t": "evidence"
+},
+"2019A:49": {
+"g": "poetry",
+"t": "craft"
+},
+"2019A:50": {
+"g": "poetry",
+"t": "craft"
+},
+"2019A:51": {
+"g": "science",
+"t": "main-idea"
+},
+"2019A:52": {
+"g": "science",
+"t": "inference"
+},
+"2019A:53": {
+"g": "science",
+"t": "inference"
+},
+"2019A:54": {
+"g": "science",
+"t": "function"
+},
+"2019A:55": {
+"g": "science",
+"t": "function"
+},
+"2019A:56": {
+"g": "science",
+"t": "vocab"
+},
+"2019A:57": {
+"g": "science",
+"t": "detail"
+},
+"2019B:10": {
+"g": "science",
+"t": "detail"
+},
+"2019B:11": {
+"g": "science",
+"t": "detail"
+},
+"2019B:12": {
+"g": "science",
+"t": "detail"
+},
+"2019B:13": {
+"g": "science",
+"t": "inference"
+},
+"2019B:14": {
+"g": "science",
+"t": "function"
+},
+"2019B:15": {
+"g": "science",
+"t": "function"
+},
+"2019B:16": {
+"g": "literary",
+"t": "craft"
+},
+"2019B:17": {
+"g": "literary",
+"t": "evidence"
+},
+"2019B:18": {
+"g": "literary",
+"t": "function"
+},
+"2019B:19": {
+"g": "literary",
+"t": "craft"
+},
+"2019B:20": {
+"g": "literary",
+"t": "craft"
+},
+"2019B:21": {
+"g": "literary",
+"t": "function"
+},
+"2019B:22": {
+"g": "literary",
+"t": "craft"
+},
+"2019B:23": {
+"g": "literary",
+"t": "function"
+},
+"2019B:24": {
+"g": "literary",
+"t": "function"
+},
+"2019B:25": {
+"g": "literary",
+"t": "evidence"
+},
+"2019B:26": {
+"g": "literary",
+"t": "craft"
+},
+"2019B:27": {
+"g": "literary",
+"t": "function"
+},
+"2019B:28": {
+"g": "literary",
+"t": "evidence"
+},
+"2019B:29": {
+"g": "literary",
+"t": "function"
+},
+"2019B:30": {
+"g": "literary",
+"t": "evidence"
+},
+"2019B:31": {
+"g": "literary",
+"t": "inference"
+},
+"2019B:32": {
+"g": "history",
+"t": "detail"
+},
+"2019B:33": {
+"g": "history",
+"t": "inference"
+},
+"2019B:34": {
+"g": "history",
+"t": "function"
+},
+"2019B:35": {
+"g": "history",
+"t": "inference"
+},
+"2019B:36": {
+"g": "history",
+"t": "detail"
+},
+"2019B:37": {
+"g": "history",
+"t": "function"
+},
+"2019B:38": {
+"g": "poetry",
+"t": "function"
+},
+"2019B:39": {
+"g": "poetry",
+"t": "craft"
+},
+"2019B:40": {
+"g": "poetry",
+"t": "function"
+},
+"2019B:41": {
+"g": "poetry",
+"t": "craft"
+},
+"2019B:42": {
+"g": "poetry",
+"t": "craft"
+},
+"2019B:43": {
+"g": "poetry",
+"t": "evidence"
+},
+"2019B:44": {
+"g": "poetry",
+"t": "evidence"
+},
+"2019B:45": {
+"g": "poetry",
+"t": "function"
+},
+"2019B:46": {
+"g": "poetry",
+"t": "inference"
+},
+"2019B:47": {
+"g": "poetry",
+"t": "craft"
+},
+"2019B:48": {
+"g": "history",
+"t": "function"
+},
+"2019B:49": {
+"g": "history",
+"t": "function"
+},
+"2019B:50": {
+"g": "history",
+"t": "craft"
+},
+"2019B:51": {
+"g": "history",
+"t": "evidence"
+},
+"2019B:52": {
+"g": "history",
+"t": "function"
+},
+"2019B:53": {
+"g": "history",
+"t": "graphic"
+},
+"2019B:54": {
+"g": "history",
+"t": "main-idea"
+},
+"2019B:55": {
+"g": "history",
+"t": "graphic"
+},
+"2019B:56": {
+"g": "history",
+"t": "evidence"
+},
+"2019B:57": {
+"g": "history",
+"t": "inference"
+},
+"2020A:10": {
+"g": "history",
+"t": "craft"
+},
+"2020A:11": {
+"g": "history",
+"t": "detail"
+},
+"2020A:12": {
+"g": "history",
+"t": "evidence"
+},
+"2020A:13": {
+"g": "history",
+"t": "evidence"
+},
+"2020A:14": {
+"g": "history",
+"t": "vocab"
+},
+"2020A:15": {
+"g": "history",
+"t": "detail"
+},
+"2020A:16": {
+"g": "history",
+"t": "function"
+},
+"2020A:17": {
+"g": "history",
+"t": "function"
+},
+"2020A:18": {
+"g": "poetry",
+"t": "craft"
+},
+"2020A:19": {
+"g": "poetry",
+"t": "craft"
+},
+"2020A:20": {
+"g": "poetry",
+"t": "craft"
+},
+"2020A:21": {
+"g": "poetry",
+"t": "craft"
+},
+"2020A:22": {
+"g": "poetry",
+"t": "craft"
+},
+"2020A:23": {
+"g": "poetry",
+"t": "craft"
+},
+"2020A:24": {
+"g": "poetry",
+"t": "inference"
+},
+"2020A:25": {
+"g": "science",
+"t": "function"
+},
+"2020A:26": {
+"g": "science",
+"t": "vocab"
+},
+"2020A:27": {
+"g": "science",
+"t": "function"
+},
+"2020A:28": {
+"g": "science",
+"t": "main-idea"
+},
+"2020A:29": {
+"g": "science",
+"t": "function"
+},
+"2020A:30": {
+"g": "science",
+"t": "evidence"
+},
+"2020A:31": {
+"g": "science",
+"t": "detail"
+},
+"2020A:32": {
+"g": "science",
+"t": "evidence"
+},
+"2020A:33": {
+"g": "history",
+"t": "function"
+},
+"2020A:34": {
+"g": "history",
+"t": "function"
+},
+"2020A:35": {
+"g": "history",
+"t": "craft"
+},
+"2020A:36": {
+"g": "history",
+"t": "inference"
+},
+"2020A:37": {
+"g": "history",
+"t": "function"
+},
+"2020A:38": {
+"g": "history",
+"t": "evidence"
+},
+"2020A:39": {
+"g": "history",
+"t": "function"
+},
+"2020A:40": {
+"g": "literary",
+"t": "function"
+},
+"2020A:41": {
+"g": "literary",
+"t": "inference"
+},
+"2020A:42": {
+"g": "literary",
+"t": "function"
+},
+"2020A:43": {
+"g": "literary",
+"t": "inference"
+},
+"2020A:44": {
+"g": "literary",
+"t": "function"
+},
+"2020A:45": {
+"g": "literary",
+"t": "craft"
+},
+"2020A:46": {
+"g": "literary",
+"t": "function"
+},
+"2020A:47": {
+"g": "literary",
+"t": "evidence"
+},
+"2020A:48": {
+"g": "literary",
+"t": "evidence"
+},
+"2020A:49": {
+"g": "history",
+"t": "main-idea"
+},
+"2020A:50": {
+"g": "history",
+"t": "evidence"
+},
+"2020A:51": {
+"g": "history",
+"t": "function"
+},
+"2020A:52": {
+"g": "history",
+"t": "function"
+},
+"2020A:53": {
+"g": "history",
+"t": "detail"
+},
+"2020A:54": {
+"g": "history",
+"t": "detail"
+},
+"2020A:55": {
+"g": "history",
+"t": "evidence"
+},
+"2020A:56": {
+"g": "history",
+"t": "inference"
+},
+"2020A:57": {
+"g": "history",
+"t": "graphic"
+},
+"2020B:10": {
+"g": "science",
+"t": "function"
+},
+"2020B:11": {
+"g": "science",
+"t": "craft"
+},
+"2020B:12": {
+"g": "science",
+"t": "evidence"
+},
+"2020B:13": {
+"g": "science",
+"t": "evidence"
+},
+"2020B:14": {
+"g": "science",
+"t": "function"
+},
+"2020B:15": {
+"g": "science",
+"t": "inference"
+},
+"2020B:16": {
+"g": "science",
+"t": "function"
+},
+"2020B:17": {
+"g": "science",
+"t": "craft"
+},
+"2020B:18": {
+"g": "science",
+"t": "function"
+},
+"2020B:19": {
+"g": "science",
+"t": "function"
+},
+"2020B:20": {
+"g": "science",
+"t": "craft"
+},
+"2020B:21": {
+"g": "science",
+"t": "function"
+},
+"2020B:22": {
+"g": "science",
+"t": "craft"
+},
+"2020B:23": {
+"g": "science",
+"t": "craft"
+},
+"2020B:24": {
+"g": "science",
+"t": "function"
+},
+"2020B:25": {
+"g": "science",
+"t": "main-idea"
+},
+"2020B:26": {
+"g": "science",
+"t": "inference"
+},
+"2020B:27": {
+"g": "literary",
+"t": "evidence"
+},
+"2020B:28": {
+"g": "literary",
+"t": "function"
+},
+"2020B:29": {
+"g": "literary",
+"t": "function"
+},
+"2020B:30": {
+"g": "literary",
+"t": "evidence"
+},
+"2020B:31": {
+"g": "literary",
+"t": "function"
+},
+"2020B:32": {
+"g": "literary",
+"t": "function"
+},
+"2020B:33": {
+"g": "literary",
+"t": "vocab"
+},
+"2020B:34": {
+"g": "literary",
+"t": "function"
+},
+"2020B:35": {
+"g": "science",
+"t": "evidence"
+},
+"2020B:36": {
+"g": "science",
+"t": "function"
+},
+"2020B:37": {
+"g": "science",
+"t": "function"
+},
+"2020B:38": {
+"g": "science",
+"t": "detail"
+},
+"2020B:39": {
+"g": "science",
+"t": "evidence"
+},
+"2020B:40": {
+"g": "science",
+"t": "function"
+},
+"2020B:41": {
+"g": "science",
+"t": "evidence"
+},
+"2020B:42": {
+"g": "science",
+"t": "graphic"
+},
+"2020B:43": {
+"g": "history",
+"t": "function"
+},
+"2020B:44": {
+"g": "history",
+"t": "craft"
+},
+"2020B:45": {
+"g": "history",
+"t": "evidence"
+},
+"2020B:46": {
+"g": "history",
+"t": "craft"
+},
+"2020B:47": {
+"g": "history",
+"t": "function"
+},
+"2020B:48": {
+"g": "history",
+"t": "craft"
+},
+"2020B:49": {
+"g": "history",
+"t": "craft"
+},
+"2020B:50": {
+"g": "history",
+"t": "function"
+},
+"2020B:51": {
+"g": "history",
+"t": "function"
+},
+"2020B:52": {
+"g": "history",
+"t": "evidence"
+},
+"2020B:53": {
+"g": "history",
+"t": "function"
+},
+"2020B:54": {
+"g": "history",
+"t": "main-idea"
+},
+"2020B:55": {
+"g": "history",
+"t": "function"
+},
+"2020B:56": {
+"g": "history",
+"t": "evidence"
+},
+"2020B:57": {
+"g": "history",
+"t": "evidence"
+},
+"2021A:16": {
+"g": "history",
+"t": "inference"
+},
+"2021A:17": {
+"g": "history",
+"t": "main-idea"
+},
+"2021A:18": {
+"g": "history",
+"t": "craft"
+},
+"2021A:19": {
+"g": "history",
+"t": "function"
+},
+"2021A:20": {
+"g": "history",
+"t": "evidence"
+},
+"2021A:21": {
+"g": "history",
+"t": "function"
+},
+"2021A:22": {
+"g": "history",
+"t": "evidence"
+},
+"2021A:23": {
+"g": "history",
+"t": "evidence"
+},
+"2021A:24": {
+"g": "history",
+"t": "graphic"
+},
+"2021A:25": {
+"g": "science",
+"t": "function"
+},
+"2021A:26": {
+"g": "science",
+"t": "evidence"
+},
+"2021A:27": {
+"g": "science",
+"t": "function"
+},
+"2021A:28": {
+"g": "science",
+"t": "main-idea"
+},
+"2021A:29": {
+"g": "science",
+"t": "evidence"
+},
+"2021A:30": {
+"g": "science",
+"t": "evidence"
+},
+"2021A:31": {
+"g": "science",
+"t": "evidence"
+},
+"2021A:32": {
+"g": "poetry",
+"t": "function"
+},
+"2021A:33": {
+"g": "poetry",
+"t": "function"
+},
+"2021A:34": {
+"g": "poetry",
+"t": "craft"
+},
+"2021A:35": {
+"g": "poetry",
+"t": "craft"
+},
+"2021A:36": {
+"g": "poetry",
+"t": "evidence"
+},
+"2021A:37": {
+"g": "poetry",
+"t": "evidence"
+},
+"2021A:38": {
+"g": "poetry",
+"t": "function"
+},
+"2021A:39": {
+"g": "poetry",
+"t": "inference"
+},
+"2021A:40": {
+"g": "poetry",
+"t": "craft"
+},
+"2021A:41": {
+"g": "literary",
+"t": "craft"
+},
+"2021A:42": {
+"g": "literary",
+"t": "evidence"
+},
+"2021A:43": {
+"g": "literary",
+"t": "craft"
+},
+"2021A:44": {
+"g": "literary",
+"t": "function"
+},
+"2021A:45": {
+"g": "literary",
+"t": "craft"
+},
+"2021A:46": {
+"g": "literary",
+"t": "function"
+},
+"2021A:47": {
+"g": "literary",
+"t": "craft"
+},
+"2021A:48": {
+"g": "literary",
+"t": "function"
+},
+"2021A:49": {
+"g": "history",
+"t": "function"
+},
+"2021A:50": {
+"g": "history",
+"t": "function"
+},
+"2021A:51": {
+"g": "history",
+"t": "function"
+},
+"2021A:52": {
+"g": "history",
+"t": "craft"
+},
+"2021A:53": {
+"g": "history",
+"t": "main-idea"
+},
+"2021A:54": {
+"g": "history",
+"t": "evidence"
+},
+"2021A:55": {
+"g": "history",
+"t": "inference"
+},
+"2021A:56": {
+"g": "history",
+"t": "graphic"
+},
+"2021A:57": {
+"g": "history",
+"t": "graphic"
+},
+"2021B:10": {
+"g": "history",
+"t": "function"
+},
+"2021B:11": {
+"g": "history",
+"t": "evidence"
+},
+"2021B:12": {
+"g": "history",
+"t": "function"
+},
+"2021B:13": {
+"g": "history",
+"t": "function"
+},
+"2021B:14": {
+"g": "history",
+"t": "main-idea"
+},
+"2021B:15": {
+"g": "history",
+"t": "evidence"
+},
+"2021B:16": {
+"g": "history",
+"t": "evidence"
+},
+"2021B:17": {
+"g": "literary",
+"t": "inference"
+},
+"2021B:18": {
+"g": "literary",
+"t": "craft"
+},
+"2021B:19": {
+"g": "literary",
+"t": "function"
+},
+"2021B:20": {
+"g": "literary",
+"t": "inference"
+},
+"2021B:21": {
+"g": "literary",
+"t": "evidence"
+},
+"2021B:22": {
+"g": "literary",
+"t": "inference"
+},
+"2021B:23": {
+"g": "literary",
+"t": "evidence"
+},
+"2021B:24": {
+"g": "literary",
+"t": "function"
+},
+"2021B:25": {
+"g": "literary",
+"t": "evidence"
+},
+"2021B:26": {
+"g": "science",
+"t": "detail"
+},
+"2021B:27": {
+"g": "science",
+"t": "detail"
+},
+"2021B:28": {
+"g": "science",
+"t": "function"
+},
+"2021B:29": {
+"g": "science",
+"t": "evidence"
+},
+"2021B:30": {
+"g": "science",
+"t": "evidence"
+},
+"2021B:31": {
+"g": "science",
+"t": "craft"
+},
+"2021B:32": {
+"g": "science",
+"t": "inference"
+},
+"2021B:33": {
+"g": "science",
+"t": "graphic"
+},
+"2021B:34": {
+"g": "poetry",
+"t": "craft"
+},
+"2021B:35": {
+"g": "poetry",
+"t": "function"
+},
+"2021B:36": {
+"g": "poetry",
+"t": "craft"
+},
+"2021B:37": {
+"g": "poetry",
+"t": "craft"
+},
+"2021B:38": {
+"g": "poetry",
+"t": "function"
+},
+"2021B:39": {
+"g": "poetry",
+"t": "evidence"
+},
+"2021B:40": {
+"g": "poetry",
+"t": "craft"
+},
+"2021B:41": {
+"g": "poetry",
+"t": "craft"
+},
+"2021B:42": {
+"g": "literary",
+"t": "craft"
+},
+"2021B:43": {
+"g": "literary",
+"t": "craft"
+},
+"2021B:44": {
+"g": "literary",
+"t": "function"
+},
+"2021B:45": {
+"g": "literary",
+"t": "function"
+},
+"2021B:46": {
+"g": "literary",
+"t": "main-idea"
+},
+"2021B:47": {
+"g": "literary",
+"t": "evidence"
+},
+"2021B:48": {
+"g": "literary",
+"t": "craft"
+},
+"2021B:49": {
+"g": "literary",
+"t": "function"
+},
+"2021B:50": {
+"g": "literary",
+"t": "graphic"
+},
+"2021B:51": {
+"g": "literary",
+"t": "evidence"
+},
+"2021B:52": {
+"g": "literary",
+"t": "craft"
+},
+"2021B:53": {
+"g": "literary",
+"t": "function"
+},
+"2021B:54": {
+"g": "literary",
+"t": "evidence"
+},
+"2021B:55": {
+"g": "literary",
+"t": "function"
+},
+"2021B:56": {
+"g": "literary",
+"t": "evidence"
+},
+"2021B:57": {
+"g": "literary",
+"t": "inference"
+},
+"2024A:10": {
+"g": "science",
+"t": "function"
+},
+"2024A:11": {
+"g": "science",
+"t": "function"
+},
+"2024A:12": {
+"g": "science",
+"t": "function"
+},
+"2024A:13": {
+"g": "science",
+"t": "detail"
+},
+"2024A:14": {
+"g": "science",
+"t": "evidence"
+},
+"2024A:15": {
+"g": "science",
+"t": "evidence"
+},
+"2024A:16": {
+"g": "science",
+"t": "evidence"
+},
+"2024A:17": {
+"g": "science",
+"t": "graphic"
+},
+"2024A:18": {
+"g": "poetry",
+"t": "craft"
+},
+"2024A:19": {
+"g": "poetry",
+"t": "evidence"
+},
+"2024A:20": {
+"g": "poetry",
+"t": "function"
+},
+"2024A:21": {
+"g": "poetry",
+"t": "craft"
+},
+"2024A:22": {
+"g": "poetry",
+"t": "function"
+},
+"2024A:23": {
+"g": "poetry",
+"t": "craft"
+},
+"2024A:24": {
+"g": "poetry",
+"t": "function"
+},
+"2024A:25": {
+"g": "poetry",
+"t": "main-idea"
+},
+"2024A:26": {
+"g": "poetry",
+"t": "craft"
+},
+"2024A:27": {
+"g": "literary",
+"t": "function"
+},
+"2024A:28": {
+"g": "literary",
+"t": "detail"
+},
+"2024A:29": {
+"g": "literary",
+"t": "function"
+},
+"2024A:30": {
+"g": "literary",
+"t": "craft"
+},
+"2024A:31": {
+"g": "literary",
+"t": "function"
+},
+"2024A:32": {
+"g": "literary",
+"t": "craft"
+},
+"2024A:33": {
+"g": "literary",
+"t": "evidence"
+},
+"2024A:34": {
+"g": "literary",
+"t": "inference"
+},
+"2024A:35": {
+"g": "literary",
+"t": "function"
+},
+"2024A:36": {
+"g": "science",
+"t": "detail"
+},
+"2024A:37": {
+"g": "science",
+"t": "detail"
+},
+"2024A:38": {
+"g": "science",
+"t": "function"
+},
+"2024A:39": {
+"g": "science",
+"t": "evidence"
+},
+"2024A:40": {
+"g": "science",
+"t": "evidence"
+},
+"2024A:41": {
+"g": "science",
+"t": "craft"
+},
+"2024A:42": {
+"g": "science",
+"t": "inference"
+},
+"2024A:43": {
+"g": "science",
+"t": "graphic"
+},
+"2024A:44": {
+"g": "literary",
+"t": "function"
+},
+"2024A:45": {
+"g": "literary",
+"t": "function"
+},
+"2024A:46": {
+"g": "literary",
+"t": "vocab"
+},
+"2024A:47": {
+"g": "literary",
+"t": "craft"
+},
+"2024A:48": {
+"g": "literary",
+"t": "evidence"
+},
+"2024A:49": {
+"g": "literary",
+"t": "function"
+},
+"2024A:50": {
+"g": "literary",
+"t": "function"
+},
+"2024A:51": {
+"g": "literary",
+"t": "evidence"
+},
+"2024A:52": {
+"g": "science",
+"t": "function"
+},
+"2024A:53": {
+"g": "science",
+"t": "function"
+},
+"2024A:54": {
+"g": "science",
+"t": "vocab"
+},
+"2024A:55": {
+"g": "science",
+"t": "craft"
+},
+"2024A:56": {
+"g": "science",
+"t": "evidence"
+},
+"2024A:57": {
+"g": "science",
+"t": "detail"
+},
+"2024B:10": {
+"g": "history",
+"t": "craft"
+},
+"2024B:11": {
+"g": "history",
+"t": "function"
+},
+"2024B:12": {
+"g": "history",
+"t": "function"
+},
+"2024B:13": {
+"g": "history",
+"t": "function"
+},
+"2024B:14": {
+"g": "history",
+"t": "inference"
+},
+"2024B:15": {
+"g": "history",
+"t": "evidence"
+},
+"2024B:16": {
+"g": "history",
+"t": "main-idea"
+},
+"2024B:17": {
+"g": "history",
+"t": "graphic"
+},
+"2024B:18": {
+"g": "literary",
+"t": "function"
+},
+"2024B:19": {
+"g": "literary",
+"t": "inference"
+},
+"2024B:20": {
+"g": "literary",
+"t": "function"
+},
+"2024B:21": {
+"g": "literary",
+"t": "inference"
+},
+"2024B:22": {
+"g": "literary",
+"t": "function"
+},
+"2024B:23": {
+"g": "literary",
+"t": "evidence"
+},
+"2024B:24": {
+"g": "literary",
+"t": "function"
+},
+"2024B:25": {
+"g": "literary",
+"t": "evidence"
+},
+"2024B:26": {
+"g": "literary",
+"t": "craft"
+},
+"2024B:27": {
+"g": "history",
+"t": "function"
+},
+"2024B:28": {
+"g": "history",
+"t": "function"
+},
+"2024B:29": {
+"g": "history",
+"t": "inference"
+},
+"2024B:30": {
+"g": "history",
+"t": "function"
+},
+"2024B:31": {
+"g": "history",
+"t": "function"
+},
+"2024B:32": {
+"g": "history",
+"t": "function"
+},
+"2024B:33": {
+"g": "history",
+"t": "craft"
+},
+"2024B:34": {
+"g": "history",
+"t": "evidence"
+},
+"2024B:35": {
+"g": "history",
+"t": "function"
+},
+"2024B:36": {
+"g": "poetry",
+"t": "craft"
+},
+"2024B:37": {
+"g": "poetry",
+"t": "function"
+},
+"2024B:38": {
+"g": "poetry",
+"t": "craft"
+},
+"2024B:39": {
+"g": "poetry",
+"t": "craft"
+},
+"2024B:40": {
+"g": "poetry",
+"t": "function"
+},
+"2024B:41": {
+"g": "poetry",
+"t": "evidence"
+},
+"2024B:42": {
+"g": "poetry",
+"t": "craft"
+},
+"2024B:43": {
+"g": "poetry",
+"t": "craft"
+},
+"2024B:44": {
+"g": "history",
+"t": "evidence"
+},
+"2024B:45": {
+"g": "history",
+"t": "function"
+},
+"2024B:46": {
+"g": "history",
+"t": "main-idea"
+},
+"2024B:47": {
+"g": "history",
+"t": "inference"
+},
+"2024B:48": {
+"g": "history",
+"t": "detail"
+},
+"2024B:49": {
+"g": "history",
+"t": "graphic"
+},
+"2024B:50": {
+"g": "history",
+"t": "inference"
+},
+"2024B:51": {
+"g": "literary",
+"t": "evidence"
+},
+"2024B:52": {
+"g": "literary",
+"t": "craft"
+},
+"2024B:53": {
+"g": "literary",
+"t": "function"
+},
+"2024B:54": {
+"g": "literary",
+"t": "evidence"
+},
+"2024B:55": {
+"g": "literary",
+"t": "function"
+},
+"2024B:56": {
+"g": "literary",
+"t": "evidence"
+},
+"2024B:57": {
+"g": "literary",
+"t": "inference"
+},
+"2025A:10": {
+"g": "literary",
+"t": "craft"
+},
+"2025A:11": {
+"g": "literary",
+"t": "function"
+},
+"2025A:12": {
+"g": "literary",
+"t": "craft"
+},
+"2025A:13": {
+"g": "literary",
+"t": "function"
+},
+"2025A:14": {
+"g": "literary",
+"t": "craft"
+},
+"2025A:15": {
+"g": "literary",
+"t": "function"
+},
+"2025A:16": {
+"g": "literary",
+"t": "main-idea"
+},
+"2025A:17": {
+"g": "literary",
+"t": "evidence"
+},
+"2025A:18": {
+"g": "literary",
+"t": "graphic"
+},
+"2025A:19": {
+"g": "poetry",
+"t": "evidence"
+},
+"2025A:20": {
+"g": "poetry",
+"t": "craft"
+},
+"2025A:21": {
+"g": "poetry",
+"t": "function"
+},
+"2025A:22": {
+"g": "poetry",
+"t": "craft"
+},
+"2025A:23": {
+"g": "poetry",
+"t": "craft"
+},
+"2025A:24": {
+"g": "poetry",
+"t": "inference"
+},
+"2025A:25": {
+"g": "poetry",
+"t": "craft"
+},
+"2025A:26": {
+"g": "history",
+"t": "inference"
+},
+"2025A:27": {
+"g": "history",
+"t": "craft"
+},
+"2025A:28": {
+"g": "history",
+"t": "function"
+},
+"2025A:29": {
+"g": "history",
+"t": "evidence"
+},
+"2025A:30": {
+"g": "history",
+"t": "function"
+},
+"2025A:31": {
+"g": "history",
+"t": "evidence"
+},
+"2025A:32": {
+"g": "history",
+"t": "main-idea"
+},
+"2025A:33": {
+"g": "history",
+"t": "evidence"
+},
+"2025A:34": {
+"g": "history",
+"t": "graphic"
+},
+"2025A:35": {
+"g": "science",
+"t": "function"
+},
+"2025A:36": {
+"g": "science",
+"t": "evidence"
+},
+"2025A:37": {
+"g": "science",
+"t": "evidence"
+},
+"2025A:38": {
+"g": "science",
+"t": "function"
+},
+"2025A:39": {
+"g": "science",
+"t": "evidence"
+},
+"2025A:40": {
+"g": "science",
+"t": "function"
+},
+"2025A:41": {
+"g": "science",
+"t": "evidence"
+},
+"2025A:42": {
+"g": "science",
+"t": "main-idea"
+},
+"2025A:43": {
+"g": "literary",
+"t": "vocab"
+},
+"2025A:44": {
+"g": "literary",
+"t": "function"
+},
+"2025A:45": {
+"g": "literary",
+"t": "inference"
+},
+"2025A:46": {
+"g": "literary",
+"t": "inference"
+},
+"2025A:47": {
+"g": "literary",
+"t": "evidence"
+},
+"2025A:48": {
+"g": "literary",
+"t": "inference"
+},
+"2025A:49": {
+"g": "literary",
+"t": "craft"
+},
+"2025A:50": {
+"g": "literary",
+"t": "craft"
+},
+"2025A:51": {
+"g": "science",
+"t": "evidence"
+},
+"2025A:52": {
+"g": "science",
+"t": "evidence"
+},
+"2025A:53": {
+"g": "science",
+"t": "function"
+},
+"2025A:54": {
+"g": "science",
+"t": "evidence"
+},
+"2025A:55": {
+"g": "science",
+"t": "function"
+},
+"2025A:56": {
+"g": "science",
+"t": "detail"
+},
+"2025A:57": {
+"g": "science",
+"t": "graphic"
+},
+"2025B:16": {
+"g": "science",
+"t": "function"
+},
+"2025B:17": {
+"g": "science",
+"t": "function"
+},
+"2025B:18": {
+"g": "science",
+"t": "main-idea"
+},
+"2025B:19": {
+"g": "science",
+"t": "detail"
+},
+"2025B:20": {
+"g": "science",
+"t": "evidence"
+},
+"2025B:21": {
+"g": "science",
+"t": "inference"
+},
+"2025B:22": {
+"g": "science",
+"t": "evidence"
+},
+"2025B:23": {
+"g": "literary",
+"t": "function"
+},
+"2025B:24": {
+"g": "literary",
+"t": "detail"
+},
+"2025B:25": {
+"g": "literary",
+"t": "function"
+},
+"2025B:26": {
+"g": "literary",
+"t": "craft"
+},
+"2025B:27": {
+"g": "literary",
+"t": "function"
+},
+"2025B:28": {
+"g": "literary",
+"t": "craft"
+},
+"2025B:29": {
+"g": "literary",
+"t": "evidence"
+},
+"2025B:30": {
+"g": "literary",
+"t": "inference"
+},
+"2025B:31": {
+"g": "literary",
+"t": "function"
+},
+"2025B:32": {
+"g": "history",
+"t": "function"
+},
+"2025B:33": {
+"g": "history",
+"t": "function"
+},
+"2025B:34": {
+"g": "history",
+"t": "function"
+},
+"2025B:35": {
+"g": "history",
+"t": "main-idea"
+},
+"2025B:36": {
+"g": "history",
+"t": "craft"
+},
+"2025B:37": {
+"g": "history",
+"t": "graphic"
+},
+"2025B:38": {
+"g": "history",
+"t": "evidence"
+},
+"2025B:39": {
+"g": "history",
+"t": "inference"
+},
+"2025B:40": {
+"g": "history",
+"t": "graphic"
+},
+"2025B:41": {
+"g": "poetry",
+"t": "function"
+},
+"2025B:42": {
+"g": "poetry",
+"t": "function"
+},
+"2025B:43": {
+"g": "poetry",
+"t": "craft"
+},
+"2025B:44": {
+"g": "poetry",
+"t": "evidence"
+},
+"2025B:45": {
+"g": "poetry",
+"t": "craft"
+},
+"2025B:46": {
+"g": "poetry",
+"t": "evidence"
+},
+"2025B:47": {
+"g": "poetry",
+"t": "inference"
+},
+"2025B:48": {
+"g": "poetry",
+"t": "function"
+},
+"2025B:49": {
+"g": "poetry",
+"t": "craft"
+},
+"2025B:50": {
+"g": "science",
+"t": "craft"
+},
+"2025B:51": {
+"g": "science",
+"t": "evidence"
+},
+"2025B:52": {
+"g": "science",
+"t": "function"
+},
+"2025B:53": {
+"g": "science",
+"t": "inference"
+},
+"2025B:54": {
+"g": "science",
+"t": "craft"
+},
+"2025B:55": {
+"g": "science",
+"t": "function"
+},
+"2025B:56": {
+"g": "science",
+"t": "main-idea"
+},
+"2025B:57": {
+"g": "science",
+"t": "craft"
+}
+}

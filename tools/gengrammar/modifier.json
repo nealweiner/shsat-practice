@@ -1,0 +1,91 @@
+[
+ {
+  "id": "gg:modifier-01",
+  "tag": "modifier",
+  "html": "<p>Read this sentence.</p><blockquote>Buried beneath volcanic ash for nearly 1,700 years, archaeologists found the buildings of Pompeii remarkably well preserved.</blockquote><p>How should this sentence be revised?</p>",
+  "opts": [
+   "Having been buried beneath volcanic ash for nearly 1,700 years, archaeologists found that the buildings of Pompeii were remarkably well preserved.",
+   "Buried beneath volcanic ash for nearly 1,700 years, the buildings of Pompeii were remarkably well preserved when archaeologists found them.",
+   "Archaeologists, buried beneath volcanic ash for nearly 1,700 years, found the buildings of Pompeii remarkably well preserved.",
+   "Remarkably well preserved, archaeologists found the buildings of Pompeii buried beneath volcanic ash for nearly 1,700 years."
+  ],
+  "a": 1,
+  "exp": "<p>The question asks for the correct revision of the sentence in the box. The sentence is incorrect because the opening phrase <i>Buried beneath volcanic ash for nearly 1,700 years</i> is followed by <i>archaeologists</i>, so the sentence says that the archaeologists were buried. An opening phrase of this kind describes the subject that comes right after the comma.</p><p><b>A. Incorrect.</b> Changing <i>Buried</i> to <i>Having been buried</i> does not change what the phrase describes. The subject after the comma is still <i>archaeologists</i>.</p><p><b>B. CORRECT.</b> The subject after the comma is now <i>the buildings of Pompeii</i>, which is what was buried, and the rest of the sentence keeps the original meaning.</p><p><b>C. Incorrect.</b> Placing the phrase directly after <i>Archaeologists</i> states even more plainly that the archaeologists were buried.</p><p><b>D. Incorrect.</b> The new opening phrase, <i>Remarkably well preserved</i>, now describes <i>archaeologists</i>, which creates a second modifier error in place of the first.</p>"
+ },
+ {
+  "id": "gg:modifier-02",
+  "tag": "modifier",
+  "html": "<p>Read this sentence.</p><blockquote>To measure the height of a distant mountain, a device called a theodolite was relied on by nineteenth-century surveyors.</blockquote><p>How should this sentence be revised?</p>",
+  "opts": [
+   "To measure the height of a distant mountain, a device called a theodolite was what nineteenth-century surveyors relied on.",
+   "A device called a theodolite, to measure the height of a distant mountain, was relied on by nineteenth-century surveyors.",
+   "To measure the height of a distant mountain, the reliance of nineteenth-century surveyors was on a device called a theodolite.",
+   "To measure the height of a distant mountain, nineteenth-century surveyors relied on a device called a theodolite."
+  ],
+  "a": 3,
+  "exp": "<p>The question asks for the correct revision of the sentence in the box. The sentence is incorrect because the opening phrase <i>To measure the height of a distant mountain</i> names a purpose that belongs to the surveyors, but the subject that follows the comma is <i>a device called a theodolite</i>.</p><p><b>A. Incorrect.</b> The subject after the comma is still <i>a device called a theodolite</i>, so the phrase still does not attach to the people doing the measuring, and <i>was what ... relied on</i> is wordy.</p><p><b>B. Incorrect.</b> Moving the phrase to the middle interrupts the main clause awkwardly and still leaves the sentence in the passive voice with the surveyors at the end, far from the phrase that describes their purpose.</p><p><b>C. Incorrect.</b> The subject after the comma is now <i>the reliance</i>, and a reliance cannot measure a mountain.</p><p><b>D. CORRECT.</b> The subject after the comma is <i>nineteenth-century surveyors</i>, the people who measure, and the active verb <i>relied on</i> makes the sentence direct.</p>"
+ },
+ {
+  "id": "gg:modifier-03",
+  "tag": "modifier",
+  "html": "<p>Read this sentence.</p><blockquote>A hiker spotted a bald eagle with binoculars that was perched on a dead pine near the reservoir.</blockquote><p>How should this sentence be revised?</p>",
+  "opts": [
+   "Using binoculars, a hiker spotted a bald eagle that was perched on a dead pine near the reservoir.",
+   "A hiker spotted a bald eagle that was perched on a dead pine near the reservoir using binoculars.",
+   "Perched on a dead pine near the reservoir, a hiker using binoculars spotted a bald eagle.",
+   "A hiker spotted a bald eagle near the reservoir with binoculars that was perched on a dead pine."
+  ],
+  "a": 0,
+  "exp": "<p>The question asks for the correct revision of the sentence in the box. The sentence is incorrect because <i>with binoculars</i> sits next to <i>a bald eagle</i>, as if the eagle had the binoculars, and because the clause <i>that was perched on a dead pine</i> follows <i>binoculars</i>, as if the binoculars were perched in the tree.</p><p><b>A. CORRECT.</b> <i>Using binoculars</i> comes directly before <i>a hiker</i>, the person using them, and <i>that was perched on a dead pine</i> comes directly after <i>a bald eagle</i>.</p><p><b>B. Incorrect.</b> The clause now follows <i>eagle</i>, but <i>using binoculars</i> is stranded at the end next to <i>the reservoir</i>, far from the hiker it describes.</p><p><b>C. Incorrect.</b> The opening phrase <i>Perched on a dead pine near the reservoir</i> describes the subject after the comma, <i>a hiker</i>, so the sentence says that the hiker was perched in the tree.</p><p><b>D. Incorrect.</b> The clause <i>that was perched on a dead pine</i> still follows <i>binoculars</i>, and the sentence now says that the reservoir has the binoculars.</p>"
+ },
+ {
+  "id": "gg:modifier-04",
+  "tag": "modifier",
+  "html": "<p>Read this sentence.</p><blockquote>While restoring the old subway station, a mosaic hidden since 1945 was uncovered behind a tiled wall by workers.</blockquote><p>How should this sentence be revised?</p>",
+  "opts": [
+   "While restoring the old subway station, workers’ efforts uncovered a mosaic that had been hidden behind a tiled wall since 1945.",
+   "While restoring the old subway station, behind a tiled wall a mosaic hidden since 1945 was uncovered by workers.",
+   "While restoring the old subway station, workers uncovered a mosaic that had been hidden behind a tiled wall since 1945.",
+   "Workers uncovered a mosaic while restoring the old subway station that had been hidden behind a tiled wall since 1945."
+  ],
+  "a": 2,
+  "exp": "<p>The question asks for the correct revision of the sentence in the box. The sentence is incorrect because the opening phrase <i>While restoring the old subway station</i> is followed by <i>a mosaic</i>, so the sentence says that the mosaic was restoring the station.</p><p><b>A. Incorrect.</b> The subject after the comma is <i>efforts</i>, not <i>workers</i>. The possessive <i>workers’</i> only describes the efforts, so the sentence says that the efforts were restoring the station.</p><p><b>B. Incorrect.</b> Inserting <i>behind a tiled wall</i> after the comma does not change the subject, which is still <i>a mosaic</i>.</p><p><b>C. CORRECT.</b> The subject after the comma is <i>workers</i>, the people doing the restoring, and <i>that had been hidden behind a tiled wall since 1945</i> directly follows <i>a mosaic</i>.</p><p><b>D. Incorrect.</b> The clause <i>that had been hidden behind a tiled wall since 1945</i> now follows <i>the old subway station</i>, so the sentence says that the station, not the mosaic, had been hidden.</p>"
+ },
+ {
+  "id": "gg:modifier-05",
+  "tag": "modifier",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Completed in 1825, the Erie Canal connected the Hudson River at Albany with Lake Erie at Buffalo. (2) Before the canal opened, moving a ton of grain overland from Buffalo to New York City had taken roughly three weeks and had cost about one hundred dollars. (3) Traveling by canal boat instead, the cost of the same shipment fell to less than ten dollars. (4) To pay for the project, New York State collected tolls from every boat that used the waterway.</blockquote><p>Which sentence contains an error in its construction and should be revised?</p>",
+  "opts": ["sentence 1", "sentence 2", "sentence 3", "sentence 4"],
+  "a": 2,
+  "exp": "<p>The question asks for the identification of the sentence that contains an error in its construction. An opening descriptive phrase must describe the subject that follows the comma.</p><p><b>A. Incorrect.</b> In sentence 1, <i>Completed in 1825</i> correctly describes the subject, <i>the Erie Canal</i>.</p><p><b>B. Incorrect.</b> Sentence 2 opens with a full clause, <i>Before the canal opened</i>, which has its own subject. The past perfect verbs <i>had taken</i> and <i>had cost</i> are correct for a time before the canal opened.</p><p><b>C. CORRECT.</b> In sentence 3, <i>Traveling by canal boat instead</i> is followed by the subject <i>the cost</i>, but a cost does not travel by boat; the shipment does. A revised version might read: <i>When the same shipment traveled by canal boat instead, its cost fell to less than ten dollars.</i></p><p><b>D. Incorrect.</b> In sentence 4, <i>To pay for the project</i> correctly describes the purpose of the subject, <i>New York State</i>, which collected the tolls.</p>"
+ },
+ {
+  "id": "gg:modifier-06",
+  "tag": "modifier",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Weighing less than a paper clip, scientists are still amazed that a monarch butterfly can fly as far as 3,000 miles to reach its winter home in central Mexico. (2) Guided by the position of the sun, the butterflies hold a steady southwesterly course for weeks. (3) To conserve energy, they glide on rising columns of warm air whenever conditions allow. (4) The monarchs that complete the journey have never seen the mountain forests where they will spend the winter, for they hatched long after the previous year’s migrants had left Mexico.</blockquote><p>Which sentence contains an error in its construction and should be revised?</p>",
+  "opts": ["sentence 1", "sentence 2", "sentence 3", "sentence 4"],
+  "a": 0,
+  "exp": "<p>The question asks for the identification of the sentence that contains an error in its construction. An opening descriptive phrase must describe the subject that follows the comma.</p><p><b>A. CORRECT.</b> In sentence 1, <i>Weighing less than a paper clip</i> is followed by the subject <i>scientists</i>, so the sentence says that the scientists weigh less than a paper clip. The butterfly is mentioned only later, inside the clause beginning with <i>that</i>. A revised version might read: <i>Scientists are still amazed that a monarch butterfly, weighing less than a paper clip, can fly as far as 3,000 miles ...</i></p><p><b>B. Incorrect.</b> In sentence 2, <i>Guided by the position of the sun</i> correctly describes the subject, <i>the butterflies</i>.</p><p><b>C. Incorrect.</b> In sentence 3, <i>To conserve energy</i> correctly gives the purpose of the subject, <i>they</i>, which refers to the butterflies.</p><p><b>D. Incorrect.</b> Sentence 4 is long, but each clause follows the noun it describes: <i>that complete the journey</i> follows <i>monarchs</i>, and <i>where they will spend the winter</i> follows <i>forests</i>. The comma before <i>for</i> correctly joins two complete clauses.</p>"
+ },
+ {
+  "id": "gg:modifier-07",
+  "tag": "modifier",
+  "html": "<p>Read this paragraph.</p><blockquote>(1) Opened in 1883, the Brooklyn Bridge was the first fixed crossing over the East River. (2) Injured in an accident while surveying the site, John Roebling, the bridge’s designer, died before construction began. (3) His son Washington took charge of the project, but an illness caused by working in the pressurized chambers beneath the river soon confined him to his apartment. (4) Watching the work through a telescope from his window, Washington’s instructions were carried to the engineers each day by his wife, Emily.</blockquote><p>Which sentence contains an error in its construction and should be revised?</p>",
+  "opts": ["sentence 1", "sentence 2", "sentence 3", "sentence 4"],
+  "a": 3,
+  "exp": "<p>The question asks for the identification of the sentence that contains an error in its construction. An opening descriptive phrase must describe the subject that follows the comma.</p><p><b>A. Incorrect.</b> In sentence 1, <i>Opened in 1883</i> correctly describes the subject, <i>the Brooklyn Bridge</i>.</p><p><b>B. Incorrect.</b> In sentence 2, <i>Injured in an accident while surveying the site</i> correctly describes the subject, <i>John Roebling</i>. The phrase <i>the bridge’s designer</i> is correctly set off by commas as extra information about him.</p><p><b>C. Incorrect.</b> In sentence 3, <i>caused by working in the pressurized chambers beneath the river</i> directly follows <i>an illness</i>, the noun it describes.</p><p><b>D. CORRECT.</b> In sentence 4, <i>Watching the work through a telescope from his window</i> is followed by the subject <i>instructions</i>. The possessive <i>Washington’s</i> only describes the instructions, so the sentence says that the instructions were watching through a telescope. A revised version might read: <i>Watching the work through a telescope from his window, Washington gave instructions that his wife, Emily, carried to the engineers each day.</i></p>"
+ },
+ {
+  "id": "gg:modifier-08",
+  "tag": "modifier",
+  "html": "<p>A sportswriter wants to state that, in its first season, a new team was defeated in all but a few of the games it played. Which sentence expresses this meaning correctly?</p>",
+  "opts": [
+   "The team nearly lost every game it played in its first season.",
+   "The team lost nearly every game it played in its first season.",
+   "The team lost every game it nearly played in its first season.",
+   "The team lost every game it played in nearly its first season."
+  ],
+  "a": 1,
+  "exp": "<p>The question asks which placement of the limiting word <i>nearly</i> gives the intended meaning, that the team lost all but a few of its games. A word such as <i>nearly</i>, <i>almost</i>, or <i>only</i> limits the word or phrase that comes right after it.</p><p><b>A. Incorrect.</b> Here <i>nearly</i> comes before <i>lost</i>, so the sentence says that the team came close to losing every game, which could mean that it did not actually lose any of them.</p><p><b>B. CORRECT.</b> Here <i>nearly</i> comes before <i>every game</i>, so the sentence says that the number of games the team lost was close to all of them.</p><p><b>C. Incorrect.</b> Here <i>nearly</i> comes before <i>played</i>, so the sentence says that the team lost games that it came close to playing but did not play.</p><p><b>D. Incorrect.</b> Here <i>nearly</i> comes before <i>its first season</i>, so the sentence refers to a period that was not quite the first season and says that the team lost every game in it.</p>"
+ }
+]
