@@ -46,6 +46,7 @@
 <script src="gengrammar.js"></script>
 <script src="rcmeta.js"></script>
 <script src="concepts.js"></script>
+<script src="dups.js"></script>
 <script src="mathmeta.js"></script>
 <script src="genmath.js"></script>
 <script>
@@ -77,7 +78,7 @@ async function rows(){
 
 /* difficulty of a logged math answer, from the same ranking the app uses (0-100) */
 const FORMID = {}; BANK.forEach(f => { FORMID[f.id.slice(0,4) + ' Form ' + f.id.slice(4)] = f.id; });
-function diff(e){ const id = e.form === 'Extra' ? 'gen:' + e.n : (FORMID[e.form] || '') + ':' + e.n; const m = MATHMETA[id]; return m ? Math.round(m.d * 100) : null; }
+function diff(e){ const id = e.form === 'Extra' ? 'gen:' + e.n : (FORMID[e.form] || '') + ':' + e.n; const m = MATHMETA[id] || MATHMETA[DUPS[id]]; return m ? Math.round(m.d * 100) : null; }
 /* question text lookups, so a miss can be read without opening the test */
 const FORMS = {}; BANK.forEach(f => { FORMS[f.id.slice(0,4) + ' Form ' + f.id.slice(4)] = f; });
 function questionHTML(e){

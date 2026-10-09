@@ -24,6 +24,9 @@ def tag(stem, opts, exp):
     for name, rx in RULES:
         if re.search(rx, exp): return name
     return 'organization'
+dups = {}
+dp = os.path.join(os.path.dirname(__file__), '..', 'dups.js')
+if os.path.exists(dp): t = open(dp).read(); dups = json.loads(t[t.index('{'): t.rindex('}') + 1])
 items, passages, cnt = [], {}, collections.Counter()
 for f in bank:
     label = f['id'][:4] + ' Form ' + f['id'][4:]
@@ -34,6 +37,7 @@ for f in bank:
                 pid = f['id'] + ':' + str(gi)
                 passages[pid] = dict(title=g['passage']['title'], html=g['passage']['html'])
             for q in g['questions']:
+                if f['id'] + ':' + str(q['n']) in dups: continue      # same question as one already in the bank
                 stem = re.sub('<[^>]+>', ' ', q['html']).lower()
                 t = tag(stem, ' '.join(q['opts']).lower(), re.sub('<[^>]+>', ' ', q['exp']).lower())
                 cnt[t] += 1

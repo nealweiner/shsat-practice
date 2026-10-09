@@ -131,6 +131,7 @@
 <script src="config.js"></script>
 <script src="log.js?v=2"></script>
 <script src="bank.js"></script>
+<script src="dups.js"></script>
 <script src="mathmeta.js"></script>
 <script src="genmath.js"></script>
 <script>
@@ -250,7 +251,7 @@ function home(){
     <h2>Full tests</h2>
     <div class="card">
       <p class="meta" style="margin:0 0 10px">Each official sample test under test conditions: a 3-hour clock, one question at a time, a passage set at a time with no going back once it is submitted, a break between sections, and the score only at the end. A section alone is 90 minutes.</p>
-      <p class="meta" style="margin:0 0 8px">Highlighted tests have no score yet. "Seen" counts questions from that form he has already met in drills and lessons, so the lowest counts make the cleanest full tests. <a href="strategy.html">How to take the test &rarr;</a></p>
+      <p class="meta" style="margin:0 0 8px">Highlighted tests have no score yet. "Seen" counts questions from that form he has already met anywhere, including the same question printed in another form, since the DOE reuses math sections and passages across forms. Lower counts make cleaner full tests. <a href="strategy.html">How to take the test &rarr;</a></p>
       <table class="tests"><tr><th>Test</th><th>Last result</th><th></th></tr>
       ${FORMS.map(f => { const r = tests[f.id] || {}; const cell = k => r[k] ? `<span class="meta">${k==='all'?'Full':k==='ela'?'ELA':'Math'}: </span>${r[k].ela?'ELA '+r[k].ela:''}${r[k].ela&&r[k].math?' &middot; ':''}${r[k].math?'Math '+r[k].math:''}${r[k].est ? ' <b>&asymp; ' + r[k].est + '</b>' : ''} <span class="meta">${r[k].date}</span>` : '';
         const last = ['all','ela','math'].map(cell).filter(Boolean).join('<br>');
@@ -281,14 +282,21 @@ function home(){
 }
 /* how many questions of each form he has already met, from the shared log when it is reachable */
 let SEEN = null;
+// forms that carry another form's math section (dups.js): say so in the test table
+const SHARES = {};
+Object.keys(DUPS).forEach(d => { const [fb, n] = d.split(':'), fa = DUPS[d].split(':')[0]; if (+n >= 58 && fa !== fb) { SHARES[fb] = SHARES[fb] || {}; SHARES[fb][fa] = (SHARES[fb][fa] || 0) + 1; } });
+Object.keys(SHARES).forEach(fb => { const best = Object.keys(SHARES[fb]).sort((a,b) => SHARES[fb][b] - SHARES[fb][a])[0]; SHARES[fb] = SHARES[fb][best] >= 45 ? (FORMS.find(f => f.id === best) || {}).label : null; });
 async function markSeen(){
   if (!SEEN) {
     SEEN = {};
     let rows = load('log', []);
     if (LOG_URL) { try { rows = await (await fetch(LOG_URL)).json(); } catch (e) {} }
-    rows.forEach(e => { if (e.kind === 'answer' && e.form) SEEN[e.form] = (SEEN[e.form] || 0) + 1; });
+    const byLabel = {}; FORMS.forEach(f => byLabel[f.label] = f.id);
+    const seenIds = new Set();
+    rows.forEach(e => { if (e.kind === 'answer' && e.form && byLabel[e.form]) { const id = byLabel[e.form] + ':' + e.n; seenIds.add(DUPS[id] || id); } });
+    FORMS.forEach(f => { let n = 0; for (let q = 1; q <= 114; q++) { const id = f.id + ':' + q; if (seenIds.has(DUPS[id] || id)) n++; } SEEN[f.label] = n; });
   }
-  FORMS.forEach(f => { const el = document.getElementById('seen_' + f.id); if (el) el.textContent = (SEEN[f.label] || 0) + ' of 114 seen'; });
+  FORMS.forEach(f => { const el = document.getElementById('seen_' + f.id); if (el) el.textContent = (SEEN[f.label] || 0) + ' of 114 seen' + (SHARES[f.id] ? ' \u00b7 same math section as ' + SHARES[f.id] : ''); });
 }
 function drillRow(b, s){
   const tag = b.kind in NEW_TO_ISEE ? '<span class="tag">not on ISEE</span>' : '';
@@ -687,13 +695,15 @@ window.clearReport = function(){ if(confirm('Clear the review sheet?')){ save('m
    problem comes from the band just above theta, after a wrong one from just below; theta
    moves by an Elo step each answer. Problems are not repeated within a week. */
 const ADAPT_N = 12, BAND = 0.15, SLOPE = 8;
-const MATHQ = FORMS.flatMap(f => f.math.flatMap(b => b.questions.map(q => {
+const ALIAS = {};   // canonical id -> every id that is the same problem
+Object.keys(DUPS).forEach(d => { (ALIAS[DUPS[d]] = ALIAS[DUPS[d]] || [DUPS[d]]).push(d); });
+const MATHQ = FORMS.flatMap(f => f.math.flatMap(b => b.questions.filter(q => !DUPS[q.id]).map(q => {
   const m = (typeof MATHMETA !== 'undefined' && MATHMETA[q.id]) || {};
-  return { ...q, formLabel: f.label, d: m.d == null ? 0.5 : m.d, topic: m.t || 'math' };
+  return { ...q, formLabel: f.label, d: m.d == null ? 0.5 : m.d, topic: m.t || 'math', ids: ALIAS[q.id] || [q.id] };
 }))).concat((typeof GENMATH === 'undefined' ? [] : GENMATH).map(g => {
   const m = (typeof MATHMETA !== 'undefined' && MATHMETA[g.id]) || {};
   return { ...g, n: g.id.replace('gen:', ''), formLabel: 'Extra', letters: g.kind === 'grid' ? [] : ['A','B','C','D'],
-           d: m.d == null ? 0.9 : m.d, topic: g.topic, kind: g.kind === 'grid' ? 'grid' : 'text' };
+           d: m.d == null ? 0.9 : m.d, topic: g.topic, kind: g.kind === 'grid' ? 'grid' : 'text', ids: [g.id] };
 }));
 let AD = null;   // {theta0, theta, i, right, sid, t0, act, a0, qStart, cur, done:[], answered:{}}
 // active seconds spent on this set: what earlier page loads banked (act) plus this one's share of the clock
@@ -702,7 +712,8 @@ function adAct(){ return (AD.act || 0) + activeNow() - AD.a0; }
 function expected(theta, d){ return 1 / (1 + Math.exp(-(theta - d) * SLOPE)); }
 function nextProblem(afterOk){
   const stat = load('mstat', {}), week = Date.now() - 7*864e5;
-  const fresh = MATHQ.filter(q => !AD.answered[q.id] && !(stat[q.id] && stat[q.id].last > week));
+  const recent = q => q.ids.some(id => stat[id] && stat[id].last > week);
+  const fresh = MATHQ.filter(q => !AD.answered[q.id] && !recent(q));
   const pool = fresh.length ? fresh : MATHQ.filter(q => !AD.answered[q.id]);
   const th = AD.theta;
   let lo = afterOk == null ? th - BAND/2 : afterOk ? th : th - BAND;
