@@ -4,6 +4,31 @@
 // Self-check items follow the test's own shape: a sentence, a question, four choices.
 var CONCEPTS = [
 {
+  id: 'terms', group: 'Building blocks', name: 'The words the explanations use',
+  rule: 'The test never asks you to name a part of speech. But every explanation is written with these words, so you need to read them. Each one, by example:<br><br>' +
+    '<b>Noun</b>: a person, place, thing, or idea. <i>The <u>museum</u> opened.</i> <b>Pronoun</b>: a word standing in for a noun. <i><u>It</u> opened.</i><br>' +
+    '<b>Verb</b>: what the subject does or is. <i>The museum <u>opened</u>. The gloves <u>are</u> on display.</i> <b>Subject</b>: who or what does the verb. <i><u>The museum</u> opened.</i><br>' +
+    '<b>Adjective</b>: describes a noun. <i>a <u>popular</u> site.</i> <b>Adverb</b>: describes a verb or an adjective, often ending in -ly. <i>opened <u>quietly</u>.</i><br>' +
+    '<b>Preposition</b>: a small word that places things: <i><u>in</u> 2016, <u>on</u> display, <u>with</u> gloves, <u>after</u> lunch</i>. The words that follow it make a <b>prepositional phrase</b>.<br>' +
+    '<b>Conjunction</b>: a joining word. <i>and, but, or, so</i> join equals; <i>because, although, when, if, which</i> join a lesser idea to a main one.<br>' +
+    '<b>Phrase</b>: a group of words with no subject-and-verb pair. <i>on display, sewn by Rosa Parks, to welcome visitors.</i><br>' +
+    '<b>Clause</b>: a group of words with a subject and a verb. <b>Independent</b> if it can stand alone (<i>the museum opened</i>); <b>dependent</b>, also called <b>subordinate</b>, if it starts with a word like <i>because</i> or <i>which</i> and leans on another clause (<i>because the museum opened</i>).<br>' +
+    '<b>Modifier</b>: any word, phrase, or clause that describes something else. The explanations say a modifier is <i>misplaced</i> when it sits next to the wrong thing.',
+  pairs: [
+    ['Explanation: &ldquo;The comma incorrectly separates the <b>subject</b> from the <b>verb</b>.&rdquo;', 'Translation: there is a comma between the thing doing the action and the action. <i>The museum, opened in 2016.</i> Delete it.'],
+    ['Explanation: &ldquo;The <b>dependent clause</b> is not set off by commas.&rdquo;', 'Translation: the chunk starting with <i>which</i> or <i>although</i> needs a comma on both sides. <i>The gloves, which belonged to Ali, are on display.</i>'],
+    ['Explanation: &ldquo;Two <b>independent clauses</b> are joined without a <b>conjunction</b>.&rdquo;', 'Translation: two complete sentences are stuck together with only a comma. Add <i>and</i>, or use a period.'],
+    ['Explanation: &ldquo;The <b>prepositional phrase</b> &lsquo;with a torn cover&rsquo; <b>modifies</b> the wrong <b>noun</b>.&rdquo;', 'Translation: <i>with a torn cover</i> is sitting next to <i>boy</i> when it describes the book. Move it.']
+  ],
+  note: 'You will never be asked for any of these words. You will be told the answer in them. When an explanation stumps you, find the subject and the verb of the sentence first; almost every explanation is built around those two.',
+  check: [
+    {q: 'In this sentence, which word is the verb?<blockquote>After the storm, the volunteers quietly cleared the heavy branches from the road.</blockquote>', opts: ['storm', 'quietly', 'cleared', 'heavy'], a: 2, why: '<i>Cleared</i> is what the volunteers did. <i>Quietly</i> is an adverb describing how they did it, <i>heavy</i> is an adjective describing the branches, and <i>storm</i> is a noun inside the prepositional phrase <i>after the storm</i>.'},
+    {q: 'Which of these is a dependent (subordinate) clause?', opts: ['The library closes at nine', 'Because the library closes at nine', 'At nine o’clock', 'Closing at nine'], a: 1, why: 'It has a subject (<i>the library</i>) and a verb (<i>closes</i>), so it is a clause, and <i>because</i> makes it lean on something else, so it is dependent. Choice A is an independent clause. C and D are phrases: no subject-and-verb pair.'},
+    {q: 'An explanation says: “The conjunction joins two independent clauses, so a comma is needed before it.” Which sentence is it describing?', opts: ['The chorus sang and danced at the festival.', 'The chorus sang at the festival and the band played afterward.', 'The chorus, which won last year, sang at the festival.', 'Singing at the festival, the chorus won again.'], a: 1, why: 'Only choice B has two complete sentences (<i>the chorus sang</i> and <i>the band played</i>) joined by <i>and</i>; that is where a comma goes before the conjunction. In A, <i>and</i> joins two verbs sharing one subject, so no comma.'}
+  ],
+  tags: []
+},
+{
   id: 'clauses', group: 'Building blocks', name: 'Clauses: complete and incomplete',
   rule: 'A <b>clause</b> is a group of words with a subject (who or what) and a verb (what it does). An <b>independent clause</b> can stand alone as a sentence. A <b>dependent clause</b> starts with a word like <i>because, although, when, which, that, if</i> and cannot stand alone; it leans on an independent clause.',
   pairs: [

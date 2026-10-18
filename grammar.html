@@ -101,7 +101,7 @@ function home(){
   var missed = ITEMS.filter(function(it){ var s=IT[it.id]; return s && s.wrong > s.right; }).length;
   var seen = Object.keys(IT).length;
   var h = '<div class="card"><div class="row" style="justify-content:space-between">'
-    + '<div><h3>' + (next ? 'Next up: ' + next.name : 'All 13 concepts learned') + '</h3>'
+    + '<div><h3>' + (next ? 'Next up: ' + next.name : 'All ' + CONCEPTS.length + ' concepts learned') + '</h3>'
     + '<div class="sub">' + (next ? 'Rule, examples, three quick checks, then up to ' + REAL_PER_LESSON + ' test questions.' : 'Keep reviewing; the review mixes in every question you have missed.') + '</div></div>'
     + (next ? '<button class="primary" onclick="learn(\'' + next.id + '\')">Learn</button>' : '') + '</div></div>';
   h += '<div class="card"><div class="row" style="justify-content:space-between"><div><h3>Review</h3>'
